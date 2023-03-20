@@ -24,5 +24,9 @@
     <button>Login</button>
 </form>
 
+<form action="/registrarEmpresa" method="post">
+    <button>Registar Empresa</button>
+</form>
+
 </body>
 </html>
