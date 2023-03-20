@@ -26,7 +26,7 @@ public class LoginController {
     @PostMapping("/")
     public String doAutenticar(@RequestParam("usuario") String user,
                                @RequestParam("clave") String clave, Model model, HttpSession session) {
-        String urlTo = "redirect:/customer/";
+        String urlTo = "redirect:/empleado/";
         EmpleadoEntity empleado = this.empleadoRepository.autenticar(user, clave);
         if(empleado == null) {
             model.addAttribute("error", "Credenciales incorrectas");
