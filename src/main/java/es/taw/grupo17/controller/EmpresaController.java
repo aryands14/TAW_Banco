@@ -22,4 +22,9 @@ public class EmpresaController {
     public String doAñadir(){
         return "";
     }
+
+    @PostMapping("/cancelarRegistro")
+    public String doCancelarRegistro(){
+        return "redirect:/";
+    }
 }

@@ -13,23 +13,26 @@
 </head>
 <body>
 <h1>Registro de la empresa</h1>
-<form:form method="post" modelAttribute="empresa" action="empresa/añadir">
+<form:form method="post" modelAttribute="empresa" action="/empresa/añadir">
     <legend>Datos de la empresa</legend>
-    CIF(*) <form:input path="cif" /><br/>
-    Nombre de la empresa(*) <form:input path="nombre"/><br/>
+    CIF(*) <form:input path="cif" required="true"/><br/>
+    Nombre de la empresa(*) <form:input path="nombre" required="true"/><br/>
     <legend>Dirección</legend>
-    Calle(*) <form:input path="calle" required="true" />
-    Número(*) <form:input path="numero"/><br/>
-    Planta/Puerta/Oficina(*) <form:input path="plantaPuertaOficina"/><br/>
-    Ciudad(*) <form:input path="ciudad"/>
-    Región(*) <form:input path="region"/><br/>
-    País(*) <form:input path="pais"/>
-    C.P.(*) <form:input path="cp"/><br/>
-    <form:input path="valida" type=""/>Dirección válida/><br/>
-    Contraseña (*) <form:input path="contraseña"/><br/>
-    Contraseña Repetir(*) <input type="text" name="repetirContraseña"><br/>
-    <form:button>Registra</form:button>
+    Calle(*) <form:input path="calle" required="true"/>
+    Número(*) <form:input path="numero" required="true"/><br/>
+    Planta/Puerta/Oficina(*) <form:input path="plantaPuertaOficina" required="true"/><br/>
+    Ciudad(*) <form:input path="ciudad" required="true"/>
+    Región(*) <form:input path="region" required="true"/><br/>
+    País(*) <form:input path="pais" required="true"/>
+    C.P.(*) <form:input path="cp" required="true"/><br/>
+    <form:checkbox path="valida" value="Válida"/>Dirección válida<br/>
+    Contraseña (*) <form:input path="contraseña" required="true"/><br/>
+    Contraseña Repetir(*) <input type="text" name="repetirContraseña" required="true"><br/>
+    <form:button>Registrar</form:button>
 </form:form>
+<form method="post" action="/empresa/cancelarRegistro">
+    <input type="submit" value="Cancelar">
+</form>
 
 </body>
 </html>
