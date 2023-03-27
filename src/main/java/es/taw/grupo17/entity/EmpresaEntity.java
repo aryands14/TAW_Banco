@@ -12,6 +12,10 @@ public class EmpresaEntity {
     @Id
     @Column(name = "ID", nullable = false)
     private Integer id;
+
+    @Basic
+    @Column(name = "CIF", nullable = false, length = 45)
+    private String cif;
     @Basic
     @Column(name = "NOMBRE", nullable = false, length = 100)
     private String nombre;
@@ -54,6 +58,14 @@ public class EmpresaEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCif() {
+        return cif;
+    }
+
+    public void setCif(String cif) {
+        this.cif = cif;
     }
 
     public String getNombre() {

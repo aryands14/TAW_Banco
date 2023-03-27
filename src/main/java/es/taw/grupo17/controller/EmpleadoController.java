@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/empleado")
 public class EmpleadoController {
     @GetMapping("/")
-    public String inicio(){
-        return "empleado";
+    public String inicio(){return "empleado";
     }
 }
