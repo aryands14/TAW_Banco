@@ -2,6 +2,7 @@ package es.taw.grupo17.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -10,10 +11,7 @@ public class EmpresaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
-    private int id;
-    @Basic
-    @Column(name = "CIF", nullable = false, length = 45)
-    private String cif;
+    private Integer id;
     @Basic
     @Column(name = "NOMBRE", nullable = false, length = 100)
     private String nombre;
@@ -22,7 +20,7 @@ public class EmpresaEntity {
     private String calle;
     @Basic
     @Column(name = "NUMERO", nullable = false)
-    private int numero;
+    private Integer numero;
     @Basic
     @Column(name = "PLANTA_PUERTA_OFICINA", nullable = false, length = 45)
     private String plantaPuertaOficina;
@@ -40,22 +38,22 @@ public class EmpresaEntity {
     private String cp;
     @Basic
     @Column(name = "VALIDA", nullable = false)
-    private byte valida;
+    private Byte valida;
+    @Basic
+    @Column(name = "CONTRASEÑA", nullable = false, length = 45)
+    private String contraseña;
+    @ManyToOne
+    @JoinColumn(name = "CUENTA", referencedColumnName = "ID")
+    private CuentaEntity cuentaByCuenta;
+    @OneToMany(mappedBy = "empresaByEmpresa")
+    private Collection<PersonaEntity> personasById;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCif() {
-        return cif;
-    }
-
-    public void setCif(String cif) {
-        this.cif = cif;
     }
 
     public String getNombre() {
@@ -74,11 +72,11 @@ public class EmpresaEntity {
         this.calle = calle;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
@@ -122,12 +120,20 @@ public class EmpresaEntity {
         this.cp = cp;
     }
 
-    public byte getValida() {
+    public Byte getValida() {
         return valida;
     }
 
-    public void setValida(byte valida) {
+    public void setValida(Byte valida) {
         this.valida = valida;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     @Override
@@ -135,11 +141,27 @@ public class EmpresaEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EmpresaEntity that = (EmpresaEntity) o;
-        return id == that.id && numero == that.numero && valida == that.valida && Objects.equals(cif, that.cif) && Objects.equals(nombre, that.nombre) && Objects.equals(calle, that.calle) && Objects.equals(plantaPuertaOficina, that.plantaPuertaOficina) && Objects.equals(ciudad, that.ciudad) && Objects.equals(region, that.region) && Objects.equals(pais, that.pais) && Objects.equals(cp, that.cp);
+        return Objects.equals(id, that.id) && Objects.equals(nombre, that.nombre) && Objects.equals(calle, that.calle) && Objects.equals(numero, that.numero) && Objects.equals(plantaPuertaOficina, that.plantaPuertaOficina) && Objects.equals(ciudad, that.ciudad) && Objects.equals(region, that.region) && Objects.equals(pais, that.pais) && Objects.equals(cp, that.cp) && Objects.equals(valida, that.valida) && Objects.equals(contraseña, that.contraseña);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cif, nombre, calle, numero, plantaPuertaOficina, ciudad, region, pais, cp, valida);
+        return Objects.hash(id, nombre, calle, numero, plantaPuertaOficina, ciudad, region, pais, cp, valida, contraseña);
+    }
+
+    public CuentaEntity getCuentaByCuenta() {
+        return cuentaByCuenta;
+    }
+
+    public void setCuentaByCuenta(CuentaEntity cuentaByCuenta) {
+        this.cuentaByCuenta = cuentaByCuenta;
+    }
+
+    public Collection<PersonaEntity> getPersonasById() {
+        return personasById;
+    }
+
+    public void setPersonasById(Collection<PersonaEntity> personasById) {
+        this.personasById = personasById;
     }
 }

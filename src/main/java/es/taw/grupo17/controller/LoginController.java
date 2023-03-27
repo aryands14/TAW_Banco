@@ -37,11 +37,6 @@ public class LoginController {
         return urlTo;
     }
 
-    @PostMapping("/registrarEmpresa")
-    public String doRegisterEmpresa(){
-        return "redirect:/empresa/registrar";
-    }
-
 
 
 }

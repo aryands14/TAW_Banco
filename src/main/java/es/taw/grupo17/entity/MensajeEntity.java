@@ -12,7 +12,7 @@ public class MensajeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "CONTENIDO", nullable = false, length = 45)
     private String contenido;
@@ -22,12 +22,18 @@ public class MensajeEntity {
     @Basic
     @Column(name = "HORA", nullable = false)
     private Time hora;
+    @ManyToOne
+    @JoinColumn(name = "CONVERSACION", referencedColumnName = "ID", nullable = false)
+    private ConversacionEntity conversacionByConversacion;
+    @ManyToOne
+    @JoinColumn(name = "USUARIO", referencedColumnName = "ID", nullable = false)
+    private PersonaEntity personaByUsuario;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -60,11 +66,27 @@ public class MensajeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MensajeEntity that = (MensajeEntity) o;
-        return id == that.id && Objects.equals(contenido, that.contenido) && Objects.equals(fecha, that.fecha) && Objects.equals(hora, that.hora);
+        return Objects.equals(id, that.id) && Objects.equals(contenido, that.contenido) && Objects.equals(fecha, that.fecha) && Objects.equals(hora, that.hora);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, contenido, fecha, hora);
+    }
+
+    public ConversacionEntity getConversacionByConversacion() {
+        return conversacionByConversacion;
+    }
+
+    public void setConversacionByConversacion(ConversacionEntity conversacionByConversacion) {
+        this.conversacionByConversacion = conversacionByConversacion;
+    }
+
+    public PersonaEntity getPersonaByUsuario() {
+        return personaByUsuario;
+    }
+
+    public void setPersonaByUsuario(PersonaEntity personaByUsuario) {
+        this.personaByUsuario = personaByUsuario;
     }
 }

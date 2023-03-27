@@ -3,6 +3,7 @@ package es.taw.grupo17.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +12,7 @@ public class PersonaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "NIF", nullable = false, length = 45)
     private String nif;
@@ -35,7 +36,7 @@ public class PersonaEntity {
     private String calle;
     @Basic
     @Column(name = "NUMERO", nullable = false)
-    private int numero;
+    private Integer numero;
     @Basic
     @Column(name = "PLANTA_PUERTA_OFICINA", nullable = false, length = 45)
     private String plantaPuertaOficina;
@@ -53,16 +54,34 @@ public class PersonaEntity {
     private String cp;
     @Basic
     @Column(name = "VALIDA", nullable = false)
-    private byte valida;
+    private Byte valida;
     @Basic
     @Column(name = "CONTRASEÑA", nullable = false, length = 45)
     private String contraseña;
+    @OneToMany(mappedBy = "personaByUsuario")
+    private Collection<ConversacionEntity> conversacionsById;
+    @OneToMany(mappedBy = "personaByUsuario")
+    private Collection<MensajeEntity> mensajesById;
+    @OneToMany(mappedBy = "personaByBeneficiario")
+    private Collection<OperacionEntity> operacionsById;
+    @ManyToOne
+    @JoinColumn(name = "TIPO", referencedColumnName = "ID")
+    private TipopersonaEntity tipopersonaByTipo;
+    @ManyToOne
+    @JoinColumn(name = "CUENTA", referencedColumnName = "ID")
+    private CuentaEntity cuentaByCuenta;
+    @ManyToOne
+    @JoinColumn(name = "EMPRESA", referencedColumnName = "ID")
+    private EmpresaEntity empresaByEmpresa;
+    @ManyToOne
+    @JoinColumn(name = "ESTADO", referencedColumnName = "ID", nullable = false)
+    private EstadopersonaEntity estadopersonaByEstado;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -122,11 +141,11 @@ public class PersonaEntity {
         this.calle = calle;
     }
 
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
@@ -170,11 +189,11 @@ public class PersonaEntity {
         this.cp = cp;
     }
 
-    public byte getValida() {
+    public Byte getValida() {
         return valida;
     }
 
-    public void setValida(byte valida) {
+    public void setValida(Byte valida) {
         this.valida = valida;
     }
 
@@ -191,11 +210,67 @@ public class PersonaEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonaEntity that = (PersonaEntity) o;
-        return id == that.id && numero == that.numero && valida == that.valida && Objects.equals(nif, that.nif) && Objects.equals(primerNombre, that.primerNombre) && Objects.equals(segundoNombre, that.segundoNombre) && Objects.equals(primerApellido, that.primerApellido) && Objects.equals(segundoApellido, that.segundoApellido) && Objects.equals(fechaNacimiento, that.fechaNacimiento) && Objects.equals(calle, that.calle) && Objects.equals(plantaPuertaOficina, that.plantaPuertaOficina) && Objects.equals(ciudad, that.ciudad) && Objects.equals(region, that.region) && Objects.equals(pais, that.pais) && Objects.equals(cp, that.cp) && Objects.equals(contraseña, that.contraseña);
+        return Objects.equals(id, that.id) && Objects.equals(nif, that.nif) && Objects.equals(primerNombre, that.primerNombre) && Objects.equals(segundoNombre, that.segundoNombre) && Objects.equals(primerApellido, that.primerApellido) && Objects.equals(segundoApellido, that.segundoApellido) && Objects.equals(fechaNacimiento, that.fechaNacimiento) && Objects.equals(calle, that.calle) && Objects.equals(numero, that.numero) && Objects.equals(plantaPuertaOficina, that.plantaPuertaOficina) && Objects.equals(ciudad, that.ciudad) && Objects.equals(region, that.region) && Objects.equals(pais, that.pais) && Objects.equals(cp, that.cp) && Objects.equals(valida, that.valida) && Objects.equals(contraseña, that.contraseña);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, nif, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaNacimiento, calle, numero, plantaPuertaOficina, ciudad, region, pais, cp, valida, contraseña);
+    }
+
+    public Collection<ConversacionEntity> getConversacionsById() {
+        return conversacionsById;
+    }
+
+    public void setConversacionsById(Collection<ConversacionEntity> conversacionsById) {
+        this.conversacionsById = conversacionsById;
+    }
+
+    public Collection<MensajeEntity> getMensajesById() {
+        return mensajesById;
+    }
+
+    public void setMensajesById(Collection<MensajeEntity> mensajesById) {
+        this.mensajesById = mensajesById;
+    }
+
+    public Collection<OperacionEntity> getOperacionsById() {
+        return operacionsById;
+    }
+
+    public void setOperacionsById(Collection<OperacionEntity> operacionsById) {
+        this.operacionsById = operacionsById;
+    }
+
+    public TipopersonaEntity getTipopersonaByTipo() {
+        return tipopersonaByTipo;
+    }
+
+    public void setTipopersonaByTipo(TipopersonaEntity tipopersonaByTipo) {
+        this.tipopersonaByTipo = tipopersonaByTipo;
+    }
+
+    public CuentaEntity getCuentaByCuenta() {
+        return cuentaByCuenta;
+    }
+
+    public void setCuentaByCuenta(CuentaEntity cuentaByCuenta) {
+        this.cuentaByCuenta = cuentaByCuenta;
+    }
+
+    public EmpresaEntity getEmpresaByEmpresa() {
+        return empresaByEmpresa;
+    }
+
+    public void setEmpresaByEmpresa(EmpresaEntity empresaByEmpresa) {
+        this.empresaByEmpresa = empresaByEmpresa;
+    }
+
+    public EstadopersonaEntity getEstadopersonaByEstado() {
+        return estadopersonaByEstado;
+    }
+
+    public void setEstadopersonaByEstado(EstadopersonaEntity estadopersonaByEstado) {
+        this.estadopersonaByEstado = estadopersonaByEstado;
     }
 }

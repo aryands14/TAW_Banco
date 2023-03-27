@@ -2,6 +2,7 @@ package es.taw.grupo17.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -10,16 +11,18 @@ public class TipopersonaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "DESCRIPCION", nullable = false, length = 45)
     private String descripcion;
+    @OneToMany(mappedBy = "tipopersonaByTipo")
+    private Collection<PersonaEntity> personasById;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,11 +39,19 @@ public class TipopersonaEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TipopersonaEntity that = (TipopersonaEntity) o;
-        return id == that.id && Objects.equals(descripcion, that.descripcion);
+        return Objects.equals(id, that.id) && Objects.equals(descripcion, that.descripcion);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, descripcion);
+    }
+
+    public Collection<PersonaEntity> getPersonasById() {
+        return personasById;
+    }
+
+    public void setPersonasById(Collection<PersonaEntity> personasById) {
+        this.personasById = personasById;
     }
 }

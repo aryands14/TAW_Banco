@@ -11,7 +11,7 @@ public class OperacionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "FECHA_INSTRUCCION", nullable = false)
     private Date fechaInstruccion;
@@ -29,13 +29,22 @@ public class OperacionEntity {
     private Double cantidadCambio;
     @Basic
     @Column(name = "CANTIDAD", nullable = false, precision = 0)
-    private double cantidad;
+    private Double cantidad;
+    @ManyToOne
+    @JoinColumn(name = "TIPO", referencedColumnName = "ID", nullable = false)
+    private TipooperacionEntity tipooperacionByTipo;
+    @ManyToOne
+    @JoinColumn(name = "BENEFICIARIO", referencedColumnName = "ID")
+    private PersonaEntity personaByBeneficiario;
+    @ManyToOne
+    @JoinColumn(name = "CUENTA", referencedColumnName = "ID", nullable = false)
+    private CuentaEntity cuentaByCuenta;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -79,11 +88,11 @@ public class OperacionEntity {
         this.cantidadCambio = cantidadCambio;
     }
 
-    public double getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(double cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 
@@ -92,11 +101,35 @@ public class OperacionEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OperacionEntity that = (OperacionEntity) o;
-        return id == that.id && Double.compare(that.cantidad, cantidad) == 0 && Objects.equals(fechaInstruccion, that.fechaInstruccion) && Objects.equals(fechaEjecucion, that.fechaEjecucion) && Objects.equals(moneda, that.moneda) && Objects.equals(monedaCambio, that.monedaCambio) && Objects.equals(cantidadCambio, that.cantidadCambio);
+        return Objects.equals(id, that.id) && Objects.equals(fechaInstruccion, that.fechaInstruccion) && Objects.equals(fechaEjecucion, that.fechaEjecucion) && Objects.equals(moneda, that.moneda) && Objects.equals(monedaCambio, that.monedaCambio) && Objects.equals(cantidadCambio, that.cantidadCambio) && Objects.equals(cantidad, that.cantidad);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, fechaInstruccion, fechaEjecucion, moneda, monedaCambio, cantidadCambio, cantidad);
+    }
+
+    public TipooperacionEntity getTipooperacionByTipo() {
+        return tipooperacionByTipo;
+    }
+
+    public void setTipooperacionByTipo(TipooperacionEntity tipooperacionByTipo) {
+        this.tipooperacionByTipo = tipooperacionByTipo;
+    }
+
+    public PersonaEntity getPersonaByBeneficiario() {
+        return personaByBeneficiario;
+    }
+
+    public void setPersonaByBeneficiario(PersonaEntity personaByBeneficiario) {
+        this.personaByBeneficiario = personaByBeneficiario;
+    }
+
+    public CuentaEntity getCuentaByCuenta() {
+        return cuentaByCuenta;
+    }
+
+    public void setCuentaByCuenta(CuentaEntity cuentaByCuenta) {
+        this.cuentaByCuenta = cuentaByCuenta;
     }
 }

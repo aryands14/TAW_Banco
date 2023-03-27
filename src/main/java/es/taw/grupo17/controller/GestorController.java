@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -25,7 +26,8 @@ public class GestorController {
     @GetMapping("/")
     public String doListar(Model model, HttpSession session) {
         String urlTo = "clientes";
-        List<PersonaEntity> lista = this.personaRepository.findAll();
+        List<PersonaEntity> lista = this.personaRepository.getPendientes(5);
+        //List<PersonaEntity> lista = this.personaRepository.findAll();
         model.addAttribute("clientes", lista);
         return urlTo;
     }

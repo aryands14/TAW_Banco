@@ -3,6 +3,7 @@ package es.taw.grupo17.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +12,7 @@ public class CuentaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false)
-    private int id;
+    private Integer id;
     @Basic
     @Column(name = "NUMERO", nullable = true)
     private Integer numero;
@@ -23,13 +24,22 @@ public class CuentaEntity {
     private Date fechaCierre;
     @Basic
     @Column(name = "SALDO", nullable = false, precision = 0)
-    private double saldo;
+    private Double saldo;
+    @ManyToOne
+    @JoinColumn(name = "ESTADO", referencedColumnName = "ID", nullable = false)
+    private EstadocuentaEntity estadocuentaByEstado;
+    @OneToMany(mappedBy = "cuentaByCuenta")
+    private Collection<EmpresaEntity> empresasById;
+    @OneToMany(mappedBy = "cuentaByCuenta")
+    private Collection<OperacionEntity> operacionsById;
+    @OneToMany(mappedBy = "cuentaByCuenta")
+    private Collection<PersonaEntity> personasById;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,11 +67,11 @@ public class CuentaEntity {
         this.fechaCierre = fechaCierre;
     }
 
-    public double getSaldo() {
+    public Double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(Double saldo) {
         this.saldo = saldo;
     }
 
@@ -70,11 +80,43 @@ public class CuentaEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CuentaEntity that = (CuentaEntity) o;
-        return id == that.id && Double.compare(that.saldo, saldo) == 0 && Objects.equals(numero, that.numero) && Objects.equals(fechaApertura, that.fechaApertura) && Objects.equals(fechaCierre, that.fechaCierre);
+        return Objects.equals(id, that.id) && Objects.equals(numero, that.numero) && Objects.equals(fechaApertura, that.fechaApertura) && Objects.equals(fechaCierre, that.fechaCierre) && Objects.equals(saldo, that.saldo);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, numero, fechaApertura, fechaCierre, saldo);
+    }
+
+    public EstadocuentaEntity getEstadocuentaByEstado() {
+        return estadocuentaByEstado;
+    }
+
+    public void setEstadocuentaByEstado(EstadocuentaEntity estadocuentaByEstado) {
+        this.estadocuentaByEstado = estadocuentaByEstado;
+    }
+
+    public Collection<EmpresaEntity> getEmpresasById() {
+        return empresasById;
+    }
+
+    public void setEmpresasById(Collection<EmpresaEntity> empresasById) {
+        this.empresasById = empresasById;
+    }
+
+    public Collection<OperacionEntity> getOperacionsById() {
+        return operacionsById;
+    }
+
+    public void setOperacionsById(Collection<OperacionEntity> operacionsById) {
+        this.operacionsById = operacionsById;
+    }
+
+    public Collection<PersonaEntity> getPersonasById() {
+        return personasById;
+    }
+
+    public void setPersonasById(Collection<PersonaEntity> personasById) {
+        this.personasById = personasById;
     }
 }
