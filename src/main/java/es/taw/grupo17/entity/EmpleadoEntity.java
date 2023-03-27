@@ -10,13 +10,13 @@ import java.util.Objects;
 public class EmpleadoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "USUARIO", nullable = false, length = 45)
+    @Column(name = "USUARIO")
     private String usuario;
     @Basic
-    @Column(name = "CONTRASEÑA", nullable = false, length = 45)
+    @Column(name = "CONTRASEÑA")
     private String contraseña;
     @OneToMany(mappedBy = "empleadoByAsistente")
     private Collection<ConversacionEntity> conversacionsById;
@@ -52,8 +52,8 @@ public class EmpleadoEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EmpleadoEntity empleado = (EmpleadoEntity) o;
-        return Objects.equals(id, empleado.id) && Objects.equals(usuario, empleado.usuario) && Objects.equals(contraseña, empleado.contraseña);
+        EmpleadoEntity that = (EmpleadoEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(usuario, that.usuario) && Objects.equals(contraseña, that.contraseña);
     }
 
     @Override

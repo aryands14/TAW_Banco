@@ -11,52 +11,52 @@ import java.util.Objects;
 public class PersonaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "NIF", nullable = false, length = 45)
+    @Column(name = "NIF")
     private String nif;
     @Basic
-    @Column(name = "PRIMER_NOMBRE", nullable = false, length = 45)
+    @Column(name = "PRIMER_NOMBRE")
     private String primerNombre;
     @Basic
-    @Column(name = "SEGUNDO_NOMBRE", nullable = true, length = 45)
+    @Column(name = "SEGUNDO_NOMBRE")
     private String segundoNombre;
     @Basic
-    @Column(name = "PRIMER_APELLIDO", nullable = false, length = 45)
+    @Column(name = "PRIMER_APELLIDO")
     private String primerApellido;
     @Basic
-    @Column(name = "SEGUNDO_APELLIDO", nullable = true, length = 45)
+    @Column(name = "SEGUNDO_APELLIDO")
     private String segundoApellido;
     @Basic
-    @Column(name = "FECHA_NACIMIENTO", nullable = false)
+    @Column(name = "FECHA_NACIMIENTO")
     private Date fechaNacimiento;
     @Basic
-    @Column(name = "CALLE", nullable = false, length = 45)
+    @Column(name = "CALLE")
     private String calle;
     @Basic
-    @Column(name = "NUMERO", nullable = false)
+    @Column(name = "NUMERO")
     private Integer numero;
     @Basic
-    @Column(name = "PLANTA_PUERTA_OFICINA", nullable = false, length = 45)
+    @Column(name = "PLANTA_PUERTA_OFICINA")
     private String plantaPuertaOficina;
     @Basic
-    @Column(name = "CIUDAD", nullable = false, length = 45)
+    @Column(name = "CIUDAD")
     private String ciudad;
     @Basic
-    @Column(name = "REGION", nullable = true, length = 45)
+    @Column(name = "REGION")
     private String region;
     @Basic
-    @Column(name = "PAIS", nullable = false, length = 45)
+    @Column(name = "PAIS")
     private String pais;
     @Basic
-    @Column(name = "CP", nullable = false, length = 45)
+    @Column(name = "CP")
     private String cp;
     @Basic
-    @Column(name = "VALIDA", nullable = false)
+    @Column(name = "VALIDA")
     private Byte valida;
     @Basic
-    @Column(name = "CONTRASEÑA", nullable = false, length = 45)
+    @Column(name = "CONTRASEÑA")
     private String contraseña;
     @OneToMany(mappedBy = "personaByUsuario")
     private Collection<ConversacionEntity> conversacionsById;

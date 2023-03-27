@@ -10,11 +10,13 @@ import java.util.Objects;
 public class EstadopersonaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "DESCRIPCION", nullable = false, length = 45)
+    @Column(name = "DESCRIPCION")
     private String descripcion;
+    @OneToMany(mappedBy = "estadopersonaByEstado")
+    private Collection<EmpresaEntity> empresasById;
     @OneToMany(mappedBy = "estadopersonaByEstado")
     private Collection<PersonaEntity> personasById;
 
@@ -45,6 +47,14 @@ public class EstadopersonaEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, descripcion);
+    }
+
+    public Collection<EmpresaEntity> getEmpresasById() {
+        return empresasById;
+    }
+
+    public void setEmpresasById(Collection<EmpresaEntity> empresasById) {
+        this.empresasById = empresasById;
     }
 
     public Collection<PersonaEntity> getPersonasById() {

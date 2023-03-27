@@ -10,10 +10,10 @@ import java.util.Objects;
 public class ConversacionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "CERRADA", nullable = false)
+    @Column(name = "CERRADA")
     private Byte cerrada;
     @ManyToOne
     @JoinColumn(name = "USUARIO", referencedColumnName = "ID", nullable = false)
