@@ -1,6 +1,7 @@
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.taw.grupo17.entity.OperacionEntity" %><%--
+<%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
+<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %><%--
   Created by IntelliJ IDEA.
   User: aryan
   Date: 27/03/2023
@@ -19,6 +20,10 @@
 <body>
 <h1>Visualizando Cliente </h1>
 
+<%
+  if(c != null) {
+%>
+
 <table border="2">
   <tr>
     <th>ID</th>
@@ -35,9 +40,32 @@
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
   </tr>
-
-
 </table>
+
+<%
+  } else {
+    EmpresaEntity e = (EmpresaEntity) request.getAttribute("cliente");
+%>
+
+<tr>
+  <th>ID</th>
+  <th>Nombre</th>
+  <th>CP</th>
+  <th>Numero </th>
+  <th>Ciudad </th>
+</tr>
+
+<tr>
+  <td><%=e.getId()%></td>
+  <td><%=e.getNombre()%></td>
+  <td><%=e.getCp()%></td>
+  <td><%=e.getNumero()%></td>
+  <td><%=e.getCiudad()%></td>
+</tr>
+
+<%
+  }
+%>
 
 <h1>Operaciones del Cliente:</h1>
 
@@ -50,6 +78,8 @@
     <th>Tipo Operacion</th>
     <th>Moneda</th>
   </tr>
+</table>
+
 
 <%
   for(OperacionEntity op : operaciones) {

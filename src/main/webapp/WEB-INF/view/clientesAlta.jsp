@@ -1,5 +1,6 @@
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %><%--
   Created by IntelliJ IDEA.
   User: aryan
   Date: 27/03/2023
@@ -9,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   List<PersonaEntity> listaClientes = (List<PersonaEntity>) request.getAttribute("clientes");
-  List<PersonaEntity> listaEmpresas = (List<PersonaEntity>) request.getAttribute("empresas");
+  List<EmpresaEntity> listaEmpresas = (List<EmpresaEntity>) request.getAttribute("empresas");
 %>
 <html>
 <head>
@@ -49,25 +50,26 @@
   <tr>
     <th>ID</th>
     <th>Nombre</th>
-    <th>Apellido</th>
-    <th>Fecha Nacimiento </th>
-    <th>CP </th>
+    <th>CP</th>
+    <th>Numero </th>
+    <th>Ciudad </th>
   </tr>
   <%
-    for(PersonaEntity c : listaEmpresas) {
+    for(EmpresaEntity e : listaEmpresas) {
   %>
   <tr>
-    <td><%=c.getId()%></td>
-    <td><%=c.getPrimerNombre()%></td>
-    <td><%=c.getPrimerApellido()%></td>
-    <td><%=c.getFechaNacimiento()%></td>
-    <td><%=c.getCp()%></td>
-    <td><a href="/gestor/visualizar?id=<%=c.getId()%>"/>Ver Detalles</td>
+    <td><%=e.getId()%></td>
+    <td><%=e.getNombre()%></td>
+    <td><%=e.getCp()%></td>
+    <td><%=e.getNumero()%></td>
+    <td><%=e.getCiudad()%></td>
+    <td><a href="/gestor/visualizar?id=<%=e.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
     }
   %>
 </table>
+
 
 </body>
 </html>

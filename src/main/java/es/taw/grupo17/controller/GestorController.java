@@ -42,7 +42,7 @@ public class GestorController {
 
     @GetMapping("/solicitados")
     public String doListarSolicitados(Model model, HttpSession session) {
-        String urlTo = "clientes";
+        String urlTo = "clientesAlta";
         List<PersonaEntity> listaClientes = this.personaRepository.getPendientes(5);
         List<PersonaEntity> listaEmpresas = this.empresaRepository.getPendientes(5);
         model.addAttribute("clientes", listaClientes);
@@ -57,11 +57,18 @@ public class GestorController {
     }
 
     @GetMapping("/visualizar")
-    public String doVisualizar(@RequestParam("id") Integer idCustomer, Model model) {
-        PersonaEntity persona = this.personaRepository.findById(idCustomer).orElse(null);
-        model.addAttribute("cliente", persona);
-        List<OperacionEntity> operaciones = (List<OperacionEntity>) persona.getOperacionsById();
-        model.addAttribute("operaciones", operaciones);
+    public String doVisualizar(@RequestParam("id") Integer id, Model model) {
+        PersonaEntity persona = this.personaRepository.findById(id).orElse(null);
+        if(persona != null) {
+            model.addAttribute("cliente", persona);
+            List<OperacionEntity> operaciones = (List<OperacionEntity>) persona.getOperacionsById();
+            model.addAttribute("operaciones", operaciones);
+        } else {
+            EmpresaEntity empresa = this.empresaRepository.findById(id).orElse(null);
+            model.addAttribute("cliente", empresa);
+            List<OperacionEntity> operaciones = (List<OperacionEntity>) persona.getOperacionsById();
+            model.addAttribute("operaciones", operaciones);
+        }
         return "detallesCliente";
     }
 }

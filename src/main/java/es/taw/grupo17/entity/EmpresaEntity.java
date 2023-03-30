@@ -54,10 +54,6 @@ public class EmpresaEntity {
     @OneToMany(mappedBy = "empresaByEmpresa")
     private Collection<PersonaEntity> personasById;
 
-    @ManyToOne
-    @JoinColumn(name = "ESTADO", referencedColumnName = "ID", nullable = false)
-    private EstadopersonaEntity estadopersonaByEstado;
-
 
     public Integer getId() {
         return id;
