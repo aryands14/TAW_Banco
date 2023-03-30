@@ -41,7 +41,18 @@
   <%
     }
   %>
+</table>
 
+<h1>Listado de empresas que han solicitado la alta</h1>
+
+<table border="2">
+  <tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Fecha Nacimiento </th>
+    <th>CP </th>
+  </tr>
   <%
     for(PersonaEntity c : listaEmpresas) {
   %>
@@ -56,7 +67,7 @@
   <%
     }
   %>
-
 </table>
+
 </body>
 </html>

@@ -4,6 +4,7 @@ import es.taw.grupo17.dao.CuentaRepository;
 import es.taw.grupo17.dao.EmpresaRepository;
 import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.entity.EmpresaEntity;
+import es.taw.grupo17.entity.OperacionEntity;
 import es.taw.grupo17.entity.PersonaEntity;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,8 @@ public class GestorController {
     public String doVisualizar(@RequestParam("id") Integer idCustomer, Model model) {
         PersonaEntity persona = this.personaRepository.findById(idCustomer).orElse(null);
         model.addAttribute("cliente", persona);
+        List<OperacionEntity> operaciones = (List<OperacionEntity>) persona.getOperacionsById();
+        model.addAttribute("operaciones", operaciones);
         return "detallesCliente";
     }
 }

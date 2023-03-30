@@ -1,4 +1,6 @@
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %><%--
+<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.taw.grupo17.entity.OperacionEntity" %><%--
   Created by IntelliJ IDEA.
   User: aryan
   Date: 27/03/2023
@@ -8,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   PersonaEntity c = (PersonaEntity) request.getAttribute("cliente");
+  List<OperacionEntity> operaciones = (List<OperacionEntity>) request.getAttribute("operaciones");
 %>
 <html>
 <head>
@@ -25,7 +28,6 @@
     <th>CP </th>
   </tr>
 
-
   <tr>
     <td><%=c.getId()%></td>
     <td><%=c.getPrimerNombre()%></td>
@@ -36,5 +38,38 @@
 
 
 </table>
+
+<h1>Operaciones del Cliente:</h1>
+
+<table border="2">
+  <tr>
+    <th>ID</th>
+    <th>Cuenta</th>
+    <th>Cantidad</th>
+    <th>Cantidad Cambio </th>
+    <th>Tipo Operacion</th>
+    <th>Moneda</th>
+  </tr>
+
+<%
+  for(OperacionEntity op : operaciones) {
+%>
+
+  <tr>
+    <td><%=op.getId()%></td>
+    <td><%=op.getCuentaByCuenta()%></td>
+    <td><%=op.getCantidad()%></td>
+    <td><%=op.getCantidadCambio()%></td>
+    <td><%=op.getTipooperacionByTipo()%></td>
+    <td><%=op.getMoneda()%></td>
+  </tr>
+
+<%
+  }
+%>
+
+</table>
+
+
 </body>
 </html>
