@@ -11,16 +11,16 @@ import java.util.Objects;
 public class MensajeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "CONTENIDO", nullable = false, length = 45)
+    @Column(name = "CONTENIDO")
     private String contenido;
     @Basic
-    @Column(name = "FECHA", nullable = false)
+    @Column(name = "FECHA")
     private Date fecha;
     @Basic
-    @Column(name = "HORA", nullable = false)
+    @Column(name = "HORA")
     private Time hora;
     @ManyToOne
     @JoinColumn(name = "CONVERSACION", referencedColumnName = "ID", nullable = false)

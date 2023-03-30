@@ -11,19 +11,19 @@ import java.util.Objects;
 public class CuentaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "NUMERO", nullable = true)
+    @Column(name = "NUMERO")
     private Integer numero;
     @Basic
-    @Column(name = "FECHA_APERTURA", nullable = false)
+    @Column(name = "FECHA_APERTURA")
     private Date fechaApertura;
     @Basic
-    @Column(name = "FECHA_CIERRE", nullable = true)
+    @Column(name = "FECHA_CIERRE")
     private Date fechaCierre;
     @Basic
-    @Column(name = "SALDO", nullable = false, precision = 0)
+    @Column(name = "SALDO")
     private Double saldo;
     @ManyToOne
     @JoinColumn(name = "ESTADO", referencedColumnName = "ID", nullable = false)

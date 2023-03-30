@@ -10,25 +10,25 @@ import java.util.Objects;
 public class OperacionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "FECHA_INSTRUCCION", nullable = false)
+    @Column(name = "FECHA_INSTRUCCION")
     private Date fechaInstruccion;
     @Basic
-    @Column(name = "FECHA_EJECUCION", nullable = true)
+    @Column(name = "FECHA_EJECUCION")
     private Date fechaEjecucion;
     @Basic
-    @Column(name = "MONEDA", nullable = false, length = 45)
+    @Column(name = "MONEDA")
     private String moneda;
     @Basic
-    @Column(name = "MONEDA_CAMBIO", nullable = true, length = 45)
+    @Column(name = "MONEDA_CAMBIO")
     private String monedaCambio;
     @Basic
-    @Column(name = "CANTIDAD_CAMBIO", nullable = true, precision = 0)
+    @Column(name = "CANTIDAD_CAMBIO")
     private Double cantidadCambio;
     @Basic
-    @Column(name = "CANTIDAD", nullable = false, precision = 0)
+    @Column(name = "CANTIDAD")
     private Double cantidad;
     @ManyToOne
     @JoinColumn(name = "TIPO", referencedColumnName = "ID", nullable = false)

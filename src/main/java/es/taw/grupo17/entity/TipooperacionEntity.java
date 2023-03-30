@@ -10,10 +10,10 @@ import java.util.Objects;
 public class TipooperacionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private Integer id;
     @Basic
-    @Column(name = "DESCRIPCION", nullable = false, length = 45)
+    @Column(name = "DESCRIPCION")
     private String descripcion;
     @OneToMany(mappedBy = "tipooperacionByTipo")
     private Collection<OperacionEntity> operacionsById;
