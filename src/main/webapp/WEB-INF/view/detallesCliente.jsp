@@ -77,24 +77,27 @@
     <th>Cantidad Cambio </th>
     <th>Tipo Operacion</th>
     <th>Moneda</th>
+    <th>Fecha</th>
   </tr>
-</table>
 
 
 <%
+  if(operaciones != null) {
   for(OperacionEntity op : operaciones) {
 %>
 
   <tr>
     <td><%=op.getId()%></td>
-    <td><%=op.getCuentaByCuenta()%></td>
+    <td><%=op.getCuentaByCuenta().getId()%></td>
     <td><%=op.getCantidad()%></td>
     <td><%=op.getCantidadCambio()%></td>
-    <td><%=op.getTipooperacionByTipo()%></td>
+    <td><%=op.getTipooperacionByTipo().getDescripcion()%></td>
     <td><%=op.getMoneda()%></td>
+    <td><%=op.getFechaInstruccion()%></td>
   </tr>
 
 <%
+   }
   }
 %>
 

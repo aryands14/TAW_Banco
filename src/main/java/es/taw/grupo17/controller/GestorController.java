@@ -2,6 +2,7 @@ package es.taw.grupo17.controller;
 
 import es.taw.grupo17.dao.CuentaRepository;
 import es.taw.grupo17.dao.EmpresaRepository;
+import es.taw.grupo17.dao.OperacionRepository;
 import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.OperacionEntity;
@@ -29,6 +30,9 @@ public class GestorController {
 
     @Autowired
     protected EmpresaRepository empresaRepository;
+
+    @Autowired
+    protected OperacionRepository operacionRepository;
 
     @GetMapping("/")
     public String doListarTodos(Model model, HttpSession session) {
@@ -59,15 +63,23 @@ public class GestorController {
     @GetMapping("/visualizar")
     public String doVisualizar(@RequestParam("id") Integer id, Model model) {
         PersonaEntity persona = this.personaRepository.findById(id).orElse(null);
-        if(persona != null) {
+        if (persona != null) {
             model.addAttribute("cliente", persona);
-            List<OperacionEntity> operaciones = (List<OperacionEntity>) persona.getOperacionsById();
+            List<OperacionEntity> operaciones = null;
+            if (persona.getCuentaByCuenta() != null) {
+                operaciones = this.operacionRepository.getOperaciones(persona.getCuentaByCuenta().getId());
+            }
             model.addAttribute("operaciones", operaciones);
         } else {
             EmpresaEntity empresa = this.empresaRepository.findById(id).orElse(null);
-            model.addAttribute("cliente", empresa);
-            List<OperacionEntity> operaciones = (List<OperacionEntity>) persona.getOperacionsById();
-            model.addAttribute("operaciones", operaciones);
+            if (persona != null) {
+                model.addAttribute("cliente", empresa);
+                List<OperacionEntity> operaciones = null;
+                if (empresa.getCuentaByCuenta() != null) {
+                    operaciones = this.operacionRepository.getOperaciones(empresa.getCuentaByCuenta().getId());
+                }
+                model.addAttribute("operaciones", operaciones);
+            }
         }
         return "detallesCliente";
     }
