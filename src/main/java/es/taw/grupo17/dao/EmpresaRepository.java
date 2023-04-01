@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface EmpresaRepository  extends JpaRepository<EmpresaEntity, Integer> {
     @Query("select e from EmpresaEntity e where e.estadopersonaByEstado.id = :id")
-    public List<PersonaEntity> getPendientes(@Param("id") Integer id);
+    public List<EmpresaEntity> getPendientes(@Param("id") Integer id);
 
-    @Query("select c from PersonaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id) where o.fechaInstruccion - sysdate()  > 30")
-    public List<PersonaEntity> getInactivos();
+    @Query("select p from EmpresaEntity p left join OperacionEntity o on (o.cuentaByCuenta.id = p.cuentaByCuenta.id) group by p.id  HAVING MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30")
+    public List<EmpresaEntity> getInactivos();
 
 }

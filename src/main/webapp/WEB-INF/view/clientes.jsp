@@ -38,7 +38,7 @@
     <td><%=c.getPrimerApellido()%></td>
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
-    <td><a href="/gestor/visualizar?id=<%=c.getId()%>"/>Ver Detalles</td>
+    <td><a href="/gestor/visualizarcliente?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
     }
@@ -64,12 +64,13 @@
     <td><%=c.getCp()%></td>
     <td><%=c.getNumero()%></td>
     <td><%=c.getCiudad()%></td>
-    <td><a href="/gestor/visualizar?id=<%=c.getId()%>"/>Ver Detalles</td>
+    <td><a href="/gestor/visualizarempresa?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
     }
   %>
-</table>
-
+</table><br>
+<a href="/gestor/solicitados"/>Ver Clientes que han solicitado la alta.<br>
+<a href="/gestor/inactivos"/>Ver Clientes inactivos.
 </body>
 </html>

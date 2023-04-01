@@ -43,29 +43,9 @@
 </table>
 
 <%
-  } else {
-    EmpresaEntity e = (EmpresaEntity) request.getAttribute("cliente");
-%>
-
-<tr>
-  <th>ID</th>
-  <th>Nombre</th>
-  <th>CP</th>
-  <th>Numero </th>
-  <th>Ciudad </th>
-</tr>
-
-<tr>
-  <td><%=e.getId()%></td>
-  <td><%=e.getNombre()%></td>
-  <td><%=e.getCp()%></td>
-  <td><%=e.getNumero()%></td>
-  <td><%=e.getCiudad()%></td>
-</tr>
-
-<%
   }
 %>
+
 
 <h1>Operaciones del Cliente:</h1>
 
@@ -102,7 +82,5 @@
 %>
 
 </table>
-
-
 </body>
 </html>

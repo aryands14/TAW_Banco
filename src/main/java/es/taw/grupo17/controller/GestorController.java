@@ -48,7 +48,7 @@ public class GestorController {
     public String doListarSolicitados(Model model, HttpSession session) {
         String urlTo = "clientesAlta";
         List<PersonaEntity> listaClientes = this.personaRepository.getPendientes(5);
-        List<PersonaEntity> listaEmpresas = this.empresaRepository.getPendientes(5);
+        List<EmpresaEntity> listaEmpresas = this.empresaRepository.getPendientes(5);
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
         return urlTo;
@@ -57,11 +57,11 @@ public class GestorController {
 
     @GetMapping("/alta")
     public String doAlta(Model model) {
-        return "detallesCliente";
+        return "";
     }
 
-    @GetMapping("/visualizar")
-    public String doVisualizar(@RequestParam("id") Integer id, Model model) {
+    @GetMapping("/visualizarcliente")
+    public String doVisualizarCliente(@RequestParam("id") Integer id, Model model) {
         PersonaEntity persona = this.personaRepository.findById(id).orElse(null);
         if (persona != null) {
             model.addAttribute("cliente", persona);
@@ -70,26 +70,31 @@ public class GestorController {
                 operaciones = this.operacionRepository.getOperaciones(persona.getCuentaByCuenta().getId());
             }
             model.addAttribute("operaciones", operaciones);
-        } else {
-            EmpresaEntity empresa = this.empresaRepository.findById(id).orElse(null);
-            if (persona != null) {
-                model.addAttribute("cliente", empresa);
-                List<OperacionEntity> operaciones = null;
-                if (empresa.getCuentaByCuenta() != null) {
-                    operaciones = this.operacionRepository.getOperaciones(empresa.getCuentaByCuenta().getId());
-                }
-                model.addAttribute("operaciones", operaciones);
-            }
         }
         return "detallesCliente";
     }
+
+    @GetMapping("/visualizarempresa")
+    public String doVisualizarEmpresa(@RequestParam("id") Integer id, Model model) {
+        EmpresaEntity empresa = this.empresaRepository.findById(id).orElse(null);
+        if (empresa != null) {
+            model.addAttribute("empresa", empresa);
+            List<OperacionEntity> operaciones = null;
+            if (empresa.getCuentaByCuenta() != null) {
+                operaciones = this.operacionRepository.getOperaciones(empresa.getCuentaByCuenta().getId());
+            }
+            model.addAttribute("operaciones", operaciones);
+        }
+        return "detallesEmpresa";
+    }
+
 
     @GetMapping("/inactivos")
     public String doListarInactivos(Model model, HttpSession session) {
         String urlTo = "clientes";
         List<PersonaEntity> inactivos = this.personaRepository.getInactivos();
         model.addAttribute("clientes", inactivos);
-        List<PersonaEntity> inactivos2 = this.empresaRepository.getInactivos();
+        List<EmpresaEntity> inactivos2 = this.empresaRepository.getInactivos();
         model.addAttribute("empresas", inactivos2);
         return urlTo;
     }

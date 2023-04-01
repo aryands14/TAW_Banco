@@ -37,7 +37,7 @@
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
     <td><a href="/gestor/alta?id=<%=c.getId()%>"/>Dar Alta</td>
-    <td><a href="/gestor/visualizar?id=<%=c.getId()%>"/>Ver Detalles</td>
+    <td><a href="/gestor/visualizarempresa?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
     }
@@ -63,7 +63,8 @@
     <td><%=e.getCp()%></td>
     <td><%=e.getNumero()%></td>
     <td><%=e.getCiudad()%></td>
-    <td><a href="/gestor/visualizar?id=<%=e.getId()%>"/>Ver Detalles</td>
+    <td><a href="/gestor/alta?id=<%=e.getId()%>"/>Dar Alta</td>
+    <td><a href="/gestor/visualizarempresa?id=<%=e.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
     }
