@@ -47,7 +47,7 @@
 %>
 
 
-<h1>Operaciones del Cliente:</h1>
+<h1>Operaciones de la Empresa:</h1>
 
 <table border="2">
     <tr>

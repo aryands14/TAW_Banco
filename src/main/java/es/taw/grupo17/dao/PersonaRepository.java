@@ -16,7 +16,7 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
     @Query("select c from PersonaEntity c where c.estadopersonaByEstado.id = :id")
     public List<PersonaEntity> getPendientes(@Param("id") Integer id);
 
-    @Query("select p from PersonaEntity p left join OperacionEntity o on (o.cuentaByCuenta.id = p.cuentaByCuenta.id) group by p.id  HAVING MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30")
+    @Query("select p from PersonaEntity p left join OperacionEntity o on (o.cuentaByCuenta.id = p.cuentaByCuenta.id) group by p.id  HAVING (MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30) and (p.cuentaByCuenta.id != null)")
     public List<PersonaEntity> getInactivos();
     //   @Query("select c from PersonaEntity c where c.cuentaByCuenta.id in sospechosos")
  //   public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);

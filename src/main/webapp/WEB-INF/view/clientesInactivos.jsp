@@ -3,8 +3,8 @@
 <%@ page import="es.taw.grupo17.entity.EmpresaEntity" %><%--
   Created by IntelliJ IDEA.
   User: aryan
-  Date: 27/03/2023
-  Time: 14:08
+  Date: 03/04/2023
+  Time: 13:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -14,10 +14,10 @@
 %>
 <html>
 <head>
-  <title>Title</title>
+    <title>Title</title>
 </head>
 <body>
-<h1>Listado de clientes que han solicitado la alta</h1>
+<h1>Listado de clientes inactivos</h1>
 
 <table border="2">
   <tr>
@@ -36,15 +36,15 @@
     <td><%=c.getPrimerApellido()%></td>
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
-    <td><a href="/gestor/alta?id=<%=c.getId()%>"/>Dar Alta</td>
     <td><a href="/gestor/visualizarcliente?id=<%=c.getId()%>"/>Ver Detalles</td>
+    <td><a href="/gestor/desactivar?id=<%=c.getId()%>"/>Desactivar Cuenta</td>
   </tr>
   <%
     }
   %>
 </table>
 
-<h1>Listado de empresas que han solicitado la alta</h1>
+<h1>Listado de empresas inactivos</h1>
 
 <table border="2">
   <tr>
@@ -63,14 +63,16 @@
     <td><%=e.getCp()%></td>
     <td><%=e.getNumero()%></td>
     <td><%=e.getCiudad()%></td>
-    <td><a href="/gestor/alta?id=<%=e.getId()%>"/>Dar Alta</td>
     <td><a href="/gestor/visualizarempresa?id=<%=e.getId()%>"/>Ver Detalles</td>
+    <td><a href="/gestor/desactivar?id=<%=e.getId()%>"/>Desactivar Cuenta</td>
   </tr>
   <%
     }
   %>
 </table>
 
+
+</body>
 
 </body>
 </html>

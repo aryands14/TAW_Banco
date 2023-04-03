@@ -1,17 +1,13 @@
 package es.taw.grupo17.controller;
 
-import es.taw.grupo17.dao.CuentaRepository;
-import es.taw.grupo17.dao.EmpresaRepository;
-import es.taw.grupo17.dao.OperacionRepository;
-import es.taw.grupo17.dao.PersonaRepository;
-import es.taw.grupo17.entity.EmpresaEntity;
-import es.taw.grupo17.entity.OperacionEntity;
-import es.taw.grupo17.entity.PersonaEntity;
+import es.taw.grupo17.dao.*;
+import es.taw.grupo17.entity.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,15 +20,16 @@ public class GestorController {
 
     @Autowired
     protected CuentaRepository cuentaRepository;
-
     @Autowired
     protected PersonaRepository personaRepository;
-
     @Autowired
     protected EmpresaRepository empresaRepository;
-
     @Autowired
     protected OperacionRepository operacionRepository;
+
+    @Autowired
+    protected EstadoCuentaRepository estadoCuentaRepository;
+
 
     @GetMapping("/")
     public String doListarTodos(Model model, HttpSession session) {
@@ -54,10 +51,13 @@ public class GestorController {
         return urlTo;
     }
 
-
     @GetMapping("/alta")
-    public String doAlta(Model model) {
-        return "";
+    public String doAlta(@RequestParam("id") Integer id, Model model) {
+        PersonaEntity p = this.personaRepository.findById(id).orElse(null);
+        CuentaEntity cuenta = new CuentaEntity();
+        p.setCuentaByCuenta(cuenta);
+        //p.setEstadopersonaByEstado(new EstadopersonaEntity());
+        return "redirect:/gestor/solicitados";
     }
 
     @GetMapping("/visualizarcliente")
@@ -91,12 +91,23 @@ public class GestorController {
 
     @GetMapping("/inactivos")
     public String doListarInactivos(Model model, HttpSession session) {
-        String urlTo = "clientes";
+        String urlTo = "clientesInactivos";
         List<PersonaEntity> inactivos = this.personaRepository.getInactivos();
         model.addAttribute("clientes", inactivos);
         List<EmpresaEntity> inactivos2 = this.empresaRepository.getInactivos();
         model.addAttribute("empresas", inactivos2);
         return urlTo;
     }
+
+    @GetMapping ("/desactivar")
+    public String doDesactivarCuenta(@RequestParam("id") Integer id, Model model, HttpSession session) {
+        PersonaEntity p = this.personaRepository.findById(id).orElse(null);
+        CuentaEntity c = p.getCuentaByCuenta();
+        EstadocuentaEntity estado = this.estadoCuentaRepository.findById(2).orElse(null);
+        c.setEstadocuentaByEstado(estado);
+        p.setCuentaByCuenta(c);
+        return "redirect:/gestor/inactivos";
+    }
+
 
 }
