@@ -3,6 +3,7 @@ package es.taw.grupo17.entity;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -52,7 +53,7 @@ public class EmpresaEntity {
     @JoinColumn(name = "ESTADO", referencedColumnName = "ID", nullable = false)
     private EstadopersonaEntity estadopersonaByEstado;
     @OneToMany(mappedBy = "empresaByEmpresa")
-    private Collection<PersonaEntity> personasById;
+    private List<PersonaEntity> personasById;
 
 
     public Integer getId() {
@@ -180,11 +181,11 @@ public class EmpresaEntity {
         this.estadopersonaByEstado = estadopersonaByEstado;
     }
 
-    public Collection<PersonaEntity> getPersonasById() {
+    public List<PersonaEntity> getPersonasById() {
         return personasById;
     }
 
-    public void setPersonasById(Collection<PersonaEntity> personasById) {
+    public void setPersonasById(List<PersonaEntity> personasById) {
         this.personasById = personasById;
     }
 }

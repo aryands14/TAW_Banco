@@ -1,3 +1,6 @@
+<%@ page import="es.taw.grupo17.entity.TipopersonaEntity" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -7,6 +10,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    EmpresaEntity empresa = (EmpresaEntity) request.getAttribute("empresa");
+    String repContraseña = (String) request.getAttribute("repContraseña");
+    List<TipopersonaEntity> listaTipos = (List<TipopersonaEntity>) request.getAttribute("listaTipos");
+    String url = "/empresa/anadirPersona?idEmpresa=" + empresa.getId();
+%>
 <html>
 <head>
     <title>PersonaEmpresa</title>
@@ -14,29 +23,40 @@
 <body>
 <h1>Gestión de personas relacionadas con la empresa</h1>
 
-<form action="empresa/añadir" method="post" >
-    <legend>Datos personales</legend>
-    NIF(*): <input type="text" name="NIF" required><br/>
-    Primer Nombre(*): <input type="text" name="primerNombre" required><br/>
-    Primer Apellido(*): <input type="text" name="segundoNombre" required><br/>
-    Segundo Nombre: <input type="text" name="segundoNombre"><br/>
-    Segundo Apellido: <input type="text" name="segundoApellido"><br/>
-    Fecha nacimiento(*): <input type="date" name="fechaNacimiento" required><br/>
-    Tipo(*):
-    <select name="tipo" required>
-        <option value="Socio">Socio</option>
-        <option value="Representante">Representante</option>
-    </select><br/>
+<form:form action="<%=url%>" method="post" modelAttribute="persona" >
+    <legend>Datos de la empresa</legend>
+    NIF(*) <form:input path="nif" required="true"/><br/>
+    Primer Nombre(*) <form:input path="primerNombre" required="true"/><br/>
+    Primer Apellido(*) <form:input path="primerApellido" required="true"/><br/>
+    Segundo Nombre <form:input path="segundoNombre"/><br/>
+    Segundo Apellido <form:input path="segundoApellido"/><br/>
+    Fecha nacimiento(*) <form:input path="fechaNacimiento" type="date"/><br/>
+    Tipo(*) <form:select path="tipopersonaByTipo" items="${listaTipos}" itemLabel="descripcion" itemValue="id"/><br/>
     <legend>Dirección</legend>
-    Calle(*): <input type="text" name="calle" required><br/>
-    Número(*): <input type="text" name="numero" required><br/>
-    Planta/Puerta/Oficina(*): <input type="text" name="planta/puerta/oficina" required><br/>
-    Ciudad(*): <input type="text" name="ciudad" required><br/>
-    País(*): <input type="text" name="pais" required><br/>
-    Región: <input type="text" name="region"><br/>
-    C.P.(*): <input type="text" name="CP" required><br/>
-    <input type="radio" name="valida">Dirección válida<br/>
-    <button>Añadir</button>
+    Calle(*) <form:input path="calle" required="true"/>
+    Número(*) <form:input path="numero" required="true"/><br/>
+    Planta/Puerta/Oficina(*) <form:input path="plantaPuertaOficina" required="true"/><br/>
+    Ciudad(*) <form:input path="ciudad" required="true"/>
+    Región(*) <form:input path="region" required="true"/><br/>
+    País(*) <form:input path="pais" required="true"/>
+    C.P.(*) <form:input path="cp" required="true"/><br/>
+    <form:checkbox path="valida" value="1" required="true"/>Dirección válida<br/>
+    Contraseña(*) <form:password path="contraseña" required="true"/><br/>
+    Contraseña Repetir(*) <input type="password" name="repetirContraseña" required="true">
+    <%
+        if(repContraseña!=null){
+
+
+    %>
+    Las contraseñas no coincidían
+    <%
+        }
+    %>
+    <br/>
+    <form:button>Registrar</form:button>
+</form:form>
+<form method="post" action="/empresa/cancelarRegistro">
+    <input type="submit" value="Cancelar">
 </form>
 </body>
 </html>
