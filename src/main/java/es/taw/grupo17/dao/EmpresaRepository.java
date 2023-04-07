@@ -1,5 +1,6 @@
 package es.taw.grupo17.dao;
 
+import es.taw.grupo17.entity.EmpleadoEntity;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,8 @@ public interface EmpresaRepository  extends JpaRepository<EmpresaEntity, Integer
 
     @Query("select p from EmpresaEntity p left join OperacionEntity o on (o.cuentaByCuenta.id = p.cuentaByCuenta.id) group by p.id  HAVING MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30")
     public List<EmpresaEntity> getInactivos();
+
+    @Query("select e from EmpresaEntity e where e.cif = :username and e.contraseña = :password")
+    public EmpresaEntity autenticar(@Param("username")String user, @Param("password") String password);
 
 }

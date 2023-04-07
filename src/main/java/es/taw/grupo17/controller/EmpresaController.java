@@ -8,6 +8,7 @@ import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.EstadopersonaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
 import es.taw.grupo17.entity.TipopersonaEntity;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,21 @@ public class EmpresaController {
     @Autowired
     PersonaRepository personaRepository;
 
+    @GetMapping("/")
+    public String empresaHome(Model model, HttpSession session){
+        EmpresaEntity sessionAttribute = (EmpresaEntity) session.getAttribute("empresa");
+        if (sessionAttribute==null){
+            return "login";
+        }else {
+            EmpresaEntity empresa = this.empresaRepository.findById(sessionAttribute.getId()).orElse(null);
+            model.addAttribute("empresa",empresa);
+            List<PersonaEntity> listaPersonas = empresa.getPersonasById();
+            model.addAttribute("listaPersonas",listaPersonas);
+            return "empresaHome";
+        }
+
+    }
+
     @GetMapping("/registrar")
     public String listarRegistrar(Model model) {
         EmpresaEntity empresa = new EmpresaEntity();
@@ -38,6 +54,25 @@ public class EmpresaController {
         String repContraseña = null;
         model.addAttribute("repContraseña" ,repContraseña);
         return "empresa";
+    }
+
+    protected String mostrarEditaroNuevoPersona(PersonaEntity persona, Model model,EmpresaEntity empresa){
+        String repContraseña = null;
+        model.addAttribute("repContraseña" ,repContraseña);
+
+        List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
+        model.addAttribute("listaTipos",listaTipos);
+
+        model.addAttribute("persona",persona);
+        model.addAttribute("empresa",empresa);
+        return "personaEmpresa";
+    }
+
+    @GetMapping("/nuevo")
+    public String doNuevo(@RequestParam("id") Integer idEmpresa,Model model){
+        EmpresaEntity empresa = this.empresaRepository.findById(idEmpresa).orElse(null);
+        PersonaEntity persona = new PersonaEntity();
+        return mostrarEditaroNuevoPersona(persona,model,empresa);
     }
 
     @PostMapping("/añadir")
@@ -48,17 +83,8 @@ public class EmpresaController {
             EstadopersonaEntity estado = this.estadoPersonaRepository.findById(5).orElse(null);
             empresa.setEstadopersonaByEstado(estado);
             this.empresaRepository.save(empresa);
-
-            String repContraseña = null;
-            model.addAttribute("repContraseña" ,repContraseña);
-
-            List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
-            model.addAttribute("listaTipos",listaTipos);
-
             PersonaEntity persona = new PersonaEntity();
-            model.addAttribute("persona",persona);
-            model.addAttribute("empresa",empresa);
-            return "personaEmpresa";
+            return mostrarEditaroNuevoPersona(persona,model,empresa);
         }else {
             model.addAttribute("repContraseña",repetirContraseña);
             return "empresa";
@@ -90,7 +116,12 @@ public class EmpresaController {
             empresa.setPersonasById(listaPersonas);
             this.personaRepository.save(persona);
             this.empresaRepository.save(empresa);
-            return "redirect:/";
+            if(empresa.getEstadopersonaByEstado().getId()==5){
+                return "redirect:/";
+            }else{
+                return "redirect:/empresa/";
+            }
+
         }else {
             List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
             model.addAttribute("listaTipos",listaTipos);
