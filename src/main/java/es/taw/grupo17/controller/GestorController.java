@@ -2,14 +2,12 @@ package es.taw.grupo17.controller;
 
 import es.taw.grupo17.dao.*;
 import es.taw.grupo17.entity.*;
+import es.taw.grupo17.ui.FiltroClientes;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,9 +24,10 @@ public class GestorController {
     protected EmpresaRepository empresaRepository;
     @Autowired
     protected OperacionRepository operacionRepository;
-
     @Autowired
     protected EstadoCuentaRepository estadoCuentaRepository;
+    @Autowired
+    protected EstadoPersonaRepository estadoPersonaRepository;
 
 
     @GetMapping("/")
@@ -38,6 +37,9 @@ public class GestorController {
         List<EmpresaEntity> listaEmpresas = this.empresaRepository.findAll();
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
+        List<EstadopersonaEntity> estadosPersona = this.estadoPersonaRepository.findAll();
+        model.addAttribute("estadosPersona", estadosPersona);
+        model.addAttribute("filtro", new FiltroClientes());
         return urlTo;
     }
 
@@ -52,11 +54,17 @@ public class GestorController {
     }
 
     @GetMapping("/alta")
-    public String doAlta(@RequestParam("id") Integer id, Model model) {
-        PersonaEntity p = this.personaRepository.findById(id).orElse(null);
-        CuentaEntity cuenta = new CuentaEntity();
-        p.setCuentaByCuenta(cuenta);
-        //p.setEstadopersonaByEstado(new EstadopersonaEntity());
+    public String doAlta(@RequestParam("id") Integer cid, Model model) {
+        PersonaEntity p = this.personaRepository.findById(cid).orElse(null);
+        CuentaEntity c = new CuentaEntity();
+        EstadopersonaEntity estadoPersona = this.estadoPersonaRepository.findById(1).orElse(null);
+        EstadocuentaEntity estadoCuenta = this.estadoCuentaRepository.findById(1).orElse(null);
+        p.setEstadopersonaByEstado(estadoPersona);
+        c.setEstadocuentaByEstado(estadoCuenta);
+        c.setNumero(2222);
+        p.setCuentaByCuenta(c);
+        this.cuentaRepository.save(c);
+        this.personaRepository.save(p);
         return "redirect:/gestor/solicitados";
     }
 
@@ -106,8 +114,20 @@ public class GestorController {
         EstadocuentaEntity estado = this.estadoCuentaRepository.findById(2).orElse(null);
         c.setEstadocuentaByEstado(estado);
         p.setCuentaByCuenta(c);
+        this.cuentaRepository.save(c);
+        this.personaRepository.save(p);
         return "redirect:/gestor/inactivos";
     }
 
-
+    @PostMapping("/filtrar")
+    public String doFiltrar(Model model, @ModelAttribute("filtro") FiltroClientes filtro) {
+        List<PersonaEntity> lista = this.personaRepository.buscarPorNombreYEstado(filtro.getTexto(),filtro.getEstados());
+        model.addAttribute("clientes", lista);
+        model.addAttribute("filtro", filtro);
+        List<EstadopersonaEntity> estadosPersona = this.estadoPersonaRepository.findAll();
+        model.addAttribute("estadosPersona", estadosPersona);
+        List<EmpresaEntity> lista2 = this.empresaRepository.buscarPorNombreYEstado(filtro.getTexto(), filtro.getEstados());
+        model.addAttribute("empresas", lista2);
+        return "clientes";
+    }
 }
