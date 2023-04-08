@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer> {
@@ -21,6 +20,16 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
             "HAVING (MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30) " +
             "and (p.cuentaByCuenta.id != null)")
     public List<PersonaEntity> getInactivos();
+
+
+    @Query("select p from PersonaEntity p where p.primerNombre like " +
+            "CONCAT('%', :texto, '%' ) or p.primerApellido like " +
+            "CONCAT('%', :texto, '%')")
+    public List<PersonaEntity> buscarPorNombre(@Param("texto") String texto);
+
+
+    @Query("select p from PersonaEntity p where p.estadopersonaByEstado.descripcion in :estados")
+    public List<PersonaEntity> buscarPorEstado(@Param("estados") List<String> estados);
 
     @Query("select p from PersonaEntity p where (p.primerNombre like " +
             "CONCAT('%', :texto, '%' ) or p.primerApellido like " +

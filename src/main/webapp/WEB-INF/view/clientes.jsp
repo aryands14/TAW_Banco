@@ -20,7 +20,6 @@
   <title>Title</title>
 </head>
 <body>
-<h1>Listado de clientes </h1>
 
 <form:form action="/gestor/filtrar" modelAttribute="filtro" method="post">
   Buscar por: <form:input path="texto"></form:input><br/>
@@ -28,6 +27,8 @@
                items="${estadosPersona}" itemValue="descripcion" itemLabel="descripcion"></form:select>
   <form:button>Filtrar</form:button>
 </form:form>
+
+<h1>Listado de clientes </h1>
 
 <table border="2">
   <tr>

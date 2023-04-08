@@ -49,6 +49,13 @@
 
 <h1>Operaciones del Cliente:</h1>
 
+<form:form action="/gestor/filtrar" modelAttribute="filtro" method="post">
+  Buscar por: <form:input path="texto"></form:input><br/>
+  <form:select multiple="true" path="estados"
+               items="${estadosPersona}" itemValue="descripcion" itemLabel="descripcion"></form:select>
+  <form:button>Filtrar</form:button>
+</form:form>
+
 <table border="2">
   <tr>
     <th>ID</th>

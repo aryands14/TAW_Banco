@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -63,6 +65,8 @@ public class GestorController {
         c.setEstadocuentaByEstado(estadoCuenta);
         c.setNumero(2222);
         p.setCuentaByCuenta(c);
+        c.setFechaApertura(java.sql.Date.valueOf(LocalDate.now()));
+        c.setSaldo(0.0);
         this.cuentaRepository.save(c);
         this.personaRepository.save(p);
         return "redirect:/gestor/solicitados";
@@ -113,20 +117,28 @@ public class GestorController {
         CuentaEntity c = p.getCuentaByCuenta();
         EstadocuentaEntity estado = this.estadoCuentaRepository.findById(2).orElse(null);
         c.setEstadocuentaByEstado(estado);
-        p.setCuentaByCuenta(c);
         this.cuentaRepository.save(c);
-        this.personaRepository.save(p);
         return "redirect:/gestor/inactivos";
     }
 
     @PostMapping("/filtrar")
     public String doFiltrar(Model model, @ModelAttribute("filtro") FiltroClientes filtro) {
-        List<PersonaEntity> lista = this.personaRepository.buscarPorNombreYEstado(filtro.getTexto(),filtro.getEstados());
+        List<PersonaEntity> lista = new ArrayList<>();
+        List<EmpresaEntity> lista2 = new ArrayList<>();
+        if(!filtro.getTexto().isEmpty() && !filtro.getEstados().isEmpty()) {
+            lista = this.personaRepository.buscarPorNombreYEstado(filtro.getTexto(),filtro.getEstados());
+            lista2 = this.empresaRepository.buscarPorNombreYEstado(filtro.getTexto(), filtro.getEstados());
+        } else if(filtro.getEstados().isEmpty()) {
+            lista = this.personaRepository.buscarPorNombre(filtro.getTexto());
+            lista2 = this.empresaRepository.buscarPorNombre(filtro.getTexto());
+        } else {
+            lista = this.personaRepository.buscarPorEstado(filtro.getEstados());
+            lista2 = this.empresaRepository.buscarPorEstado(filtro.getEstados());
+        }
         model.addAttribute("clientes", lista);
         model.addAttribute("filtro", filtro);
         List<EstadopersonaEntity> estadosPersona = this.estadoPersonaRepository.findAll();
         model.addAttribute("estadosPersona", estadosPersona);
-        List<EmpresaEntity> lista2 = this.empresaRepository.buscarPorNombreYEstado(filtro.getTexto(), filtro.getEstados());
         model.addAttribute("empresas", lista2);
         return "clientes";
     }

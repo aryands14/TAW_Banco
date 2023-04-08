@@ -19,6 +19,12 @@ public interface EmpresaRepository  extends JpaRepository<EmpresaEntity, Integer
     @Query("select e from EmpresaEntity e where e.cif = :username and e.contraseña = :password")
     public EmpresaEntity autenticar(@Param("username")String user, @Param("password") String password);
 
+    @Query("select e from EmpresaEntity e where e.nombre like CONCAT('%', :texto, '%' )")
+    public List<EmpresaEntity> buscarPorNombre(@Param("texto") String texto);
+
+
+    @Query("select e from EmpresaEntity e where e.estadopersonaByEstado.descripcion in :estados")
+    public List<EmpresaEntity> buscarPorEstado(@Param("estados") List<String> estados);
 
     @Query("select e from EmpresaEntity e where (e.nombre like " +
             "CONCAT('%', :texto, '%' )) and e.estadopersonaByEstado.descripcion in :estados")
