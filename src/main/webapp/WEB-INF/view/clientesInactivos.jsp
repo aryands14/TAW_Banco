@@ -37,7 +37,7 @@
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
     <td><a href="/gestor/visualizarcliente?id=<%=c.getId()%>"/>Ver Detalles</td>
-    <td><a href="/gestor/desactivar?id=<%=c.getId()%>"/>Desactivar Cuenta</td>
+    <td><a href="/gestor/desactivarPersona?id=<%=c.getId()%>"/>Desactivar Cuenta</td>
   </tr>
   <%
     }
@@ -64,7 +64,7 @@
     <td><%=e.getNumero()%></td>
     <td><%=e.getCiudad()%></td>
     <td><a href="/gestor/visualizarempresa?id=<%=e.getId()%>"/>Ver Detalles</td>
-    <td><a href="/gestor/desactivar?id=<%=e.getId()%>"/>Desactivar Cuenta</td>
+    <td><a href="/gestor/desactivarEmpresa?id=<%=e.getId()%>"/>Desactivar Cuenta</td>
   </tr>
   <%
     }

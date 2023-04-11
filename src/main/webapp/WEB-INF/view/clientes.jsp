@@ -37,6 +37,7 @@
     <th>Apellido</th>
     <th>Fecha Nacimiento </th>
     <th>CP </th>
+    <th>Estado cuenta </th>
   </tr>
   <%
     for(PersonaEntity c : listaClientes) {
@@ -47,6 +48,7 @@
     <td><%=c.getPrimerApellido()%></td>
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
+    <td><%=c.getCuentaByCuenta()==null?"null":c.getCuentaByCuenta().getEstadocuentaByEstado().getDescripcion()%></td>
     <td><a href="/gestor/visualizarcliente?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
@@ -63,6 +65,7 @@
     <th>CP</th>
     <th>Numero </th>
     <th>Ciudad </th>
+    <th>Estado Cuenta </th>
   </tr>
   <%
     for(EmpresaEntity c : listaEmpresas) {
@@ -73,6 +76,7 @@
     <td><%=c.getCp()%></td>
     <td><%=c.getNumero()%></td>
     <td><%=c.getCiudad()%></td>
+    <td><%=c.getCuentaByCuenta()==null?"null":c.getCuentaByCuenta().getEstadocuentaByEstado().getDescripcion()%></td>
     <td><a href="/gestor/visualizarempresa?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%

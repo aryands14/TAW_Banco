@@ -15,17 +15,21 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
     @Query("select c from PersonaEntity c where c.estadopersonaByEstado.id = :id")
     public List<PersonaEntity> getPendientes(@Param("id") Integer id);
 
-    @Query("select p from PersonaEntity p left join " +
-            "OperacionEntity o on (o.cuentaByCuenta.id = p.cuentaByCuenta.id) group by p.id  " +
-            "HAVING (MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30) " +
-            "and (p.cuentaByCuenta.id != null)")
-    public List<PersonaEntity> getInactivos();
-
+    @Query("SELECT p FROM PersonaEntity p LEFT JOIN " +
+            "OperacionEntity o ON (o.cuentaByCuenta.id = p.cuentaByCuenta.id) " +
+            "LEFT JOIN p.cuentaByCuenta.estadocuentaByEstado e " +
+            "WHERE (p.cuentaByCuenta.id IS NOT NULL) " +
+            "AND (e.descripcion LIKE :desc) " +
+            "GROUP BY p.id, e.descripcion " +
+            "HAVING MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30")
+    public List<PersonaEntity> getInactivos(@Param("desc") String desc);
 
     @Query("select p from PersonaEntity p where p.primerNombre like " +
             "CONCAT('%', :texto, '%' ) or p.primerApellido like " +
             "CONCAT('%', :texto, '%')")
     public List<PersonaEntity> buscarPorNombre(@Param("texto") String texto);
+
+
 
 
     @Query("select p from PersonaEntity p where p.estadopersonaByEstado.descripcion in :estados")

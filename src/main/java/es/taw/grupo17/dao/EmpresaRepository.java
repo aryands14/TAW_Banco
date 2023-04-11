@@ -13,8 +13,14 @@ public interface EmpresaRepository  extends JpaRepository<EmpresaEntity, Integer
     @Query("select e from EmpresaEntity e where e.estadopersonaByEstado.id = :id")
     public List<EmpresaEntity> getPendientes(@Param("id") Integer id);
 
-    @Query("select p from EmpresaEntity p left join OperacionEntity o on (o.cuentaByCuenta.id = p.cuentaByCuenta.id) group by p.id  HAVING MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30")
-    public List<EmpresaEntity> getInactivos();
+    @Query("SELECT p FROM EmpresaEntity p LEFT JOIN " +
+            "OperacionEntity o ON (o.cuentaByCuenta.id = p.cuentaByCuenta.id) " +
+            "LEFT JOIN p.cuentaByCuenta.estadocuentaByEstado e " +
+            "WHERE (p.cuentaByCuenta.id IS NOT NULL) " +
+            "AND (e.descripcion LIKE :desc) " +
+            "GROUP BY p.id, e.descripcion " +
+            "HAVING MAX(o.fechaInstruccion) IS NULL OR DATEDIFF(CURDATE(), MAX(o.fechaInstruccion)) > 30")
+    public List<EmpresaEntity> getInactivos(@Param("desc") String desc);
 
     @Query("select e from EmpresaEntity e where e.cif = :username and e.contraseña = :password")
     public EmpresaEntity autenticar(@Param("username")String user, @Param("password") String password);
