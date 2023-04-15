@@ -8,6 +8,7 @@ import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.EstadopersonaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
 import es.taw.grupo17.entity.TipopersonaEntity;
+import es.taw.grupo17.ui.FiltroClientes;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,10 @@ public class EmpresaController {
         if (sessionAttribute==null){
             return "login";
         }else {
+            FiltroClientes filtro = new FiltroClientes();
+            List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
+            model.addAttribute("listaTipos",listaTipos);
+            model.addAttribute("filtro",filtro);
             EmpresaEntity empresa = this.empresaRepository.findById(sessionAttribute.getId()).orElse(null);
             model.addAttribute("empresa",empresa);
             List<PersonaEntity> listaPersonas = empresa.getPersonasById();
@@ -75,11 +80,33 @@ public class EmpresaController {
         return mostrarEditaroNuevoPersona(persona,model,empresa);
     }
 
+    @GetMapping("/editarEmpresa")
+    public String doEditarEmpresa(Model model, @RequestParam("id") Integer idEmpresa){
+        EmpresaEntity empresa = this.empresaRepository.findById(idEmpresa).orElse(null);
+        model.addAttribute("empresa",empresa);
+        String repContraseña = null;
+        model.addAttribute("repContraseña" ,repContraseña);
+        return "empresa";
+    }
+
+    @GetMapping("/editarPersonaEmpresa")
+    public String doEditarPersona(Model model, @RequestParam("id") Integer idPersona){
+        PersonaEntity persona = this.personaRepository.findById(idPersona).orElse(null);
+        EmpresaEntity empresa = persona.getEmpresaByEmpresa();
+
+        return mostrarEditaroNuevoPersona(persona,model,empresa);
+    }
+
+
+
     @PostMapping("/añadir")
     public String doAñadir(@ModelAttribute("empresa") EmpresaEntity empresa,
                            @RequestParam("repetirContraseña") String repetirContraseña,Model model){
         model.addAttribute("empresa",empresa);
-        if (empresa.getContraseña().equals(repetirContraseña)){
+        if(empresa.getPersonasById()!=null){
+            this.empresaRepository.save(empresa);
+            return "redirect:/empresa/";
+        }else if (empresa.getContraseña().equals(repetirContraseña)){
             EstadopersonaEntity estado = this.estadoPersonaRepository.findById(5).orElse(null);
             empresa.setEstadopersonaByEstado(estado);
             this.empresaRepository.save(empresa);
@@ -130,5 +157,38 @@ public class EmpresaController {
             model.addAttribute("persona",persona);
             return "personaEmpresa";
         }
+    }
+
+    @GetMapping("/bloquearPersona")
+    public String doBloquearPersona(@RequestParam("id") Integer idPersona){
+        PersonaEntity persona = this.personaRepository.findById(idPersona).orElse(null);
+        EstadopersonaEntity estadopersona = this.estadoPersonaRepository.findById(3).orElse(null);
+        persona.setEstadopersonaByEstado(estadopersona);
+        this.personaRepository.save(persona);
+        return "redirect:/empresa/";
+    }
+
+    @PostMapping("/filtrarPersonas")
+    public String doFiltrar(@RequestParam("id")Integer idEmpresa,@ModelAttribute("filtro") FiltroClientes filtro, Model model){
+        List<PersonaEntity> lista;
+        EmpresaEntity empresa = this.empresaRepository.findById(idEmpresa).orElse(null);
+        if (filtro==null || filtro.getTexto().isEmpty() && filtro.getEstados().isEmpty()){
+            lista = empresa.getPersonasById();
+            filtro = new FiltroClientes();
+        }else if (filtro.getTexto().isEmpty()){
+            lista = this.personaRepository.buscarPorEstadoYEmpresa(filtro.getEstados(),idEmpresa);
+        }else if (filtro.getEstados().isEmpty()){
+            lista = this.personaRepository.buscarPorNombreYEmpresa(filtro.getTexto(),idEmpresa);
+        }else {
+            lista = this.personaRepository.buscarPorNombreYEstadoYEmpresa(filtro.getTexto(),filtro.getEstados(),idEmpresa);
+        }
+
+        List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
+        model.addAttribute("listaTipos",listaTipos);
+        model.addAttribute("filtro",filtro);
+
+        model.addAttribute("empresa",empresa);
+        model.addAttribute("listaPersonas",lista);
+        return "empresaHome";
     }
 }

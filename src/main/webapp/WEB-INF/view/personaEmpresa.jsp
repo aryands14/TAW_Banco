@@ -24,6 +24,7 @@
 <h1>Gestión de personas relacionadas con la empresa</h1>
 
 <form:form action="<%=url%>" method="post" modelAttribute="persona" >
+    <form:hidden path="id"/>
     <legend>Datos de la persona</legend>
     NIF(*) <form:input path="nif" required="true"/><br/>
     Primer Nombre(*) <form:input path="primerNombre" required="true"/><br/>

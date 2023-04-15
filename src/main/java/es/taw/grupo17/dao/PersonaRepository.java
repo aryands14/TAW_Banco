@@ -40,6 +40,19 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
             "CONCAT('%', :texto, '%')) and p.estadopersonaByEstado.descripcion in :estados")
     public List<PersonaEntity> buscarPorNombreYEstado(@Param("texto") String texto, @Param("estados") List<String> estados);
 
+    @Query("select p from PersonaEntity p where (p.primerNombre like " +
+            "CONCAT('%', :texto, '%' ) or p.primerApellido like " +
+            "CONCAT('%', :texto, '%')) and p.empresaByEmpresa.id = :empresa")
+    public List<PersonaEntity> buscarPorNombreYEmpresa(@Param("texto") String texto, @Param("empresa") Integer empresa);
+
+    @Query("select p from PersonaEntity p where p.estadopersonaByEstado.descripcion in (:estados) and p.empresaByEmpresa.id = :empresa")
+    public List<PersonaEntity> buscarPorEstadoYEmpresa(@Param("estados") List<String> estados, @Param("empresa") Integer empresa);
+
+    @Query("select p from PersonaEntity p where (p.primerNombre like " +
+            "CONCAT('%', :texto, '%' ) or p.primerApellido like " +
+            "CONCAT('%', :texto, '%')) and p.estadopersonaByEstado.descripcion in :estados and p.empresaByEmpresa.id = :empresa")
+    public List<PersonaEntity> buscarPorNombreYEstadoYEmpresa(@Param("texto") String texto, @Param("estados") List<String> estados, @Param("empresa") Integer empresa);
+
     //   @Query("select c from PersonaEntity c where c.cuentaByCuenta.id in sospechosos")
     //   public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);
 
