@@ -7,6 +7,8 @@ public class FiltroClientes {
     private String texto;
     private List<String> estados;
 
+    private List<Integer> tipos;
+
     public FiltroClientes() {
 
     }
@@ -17,6 +19,14 @@ public class FiltroClientes {
 
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+
+    public List<Integer> getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(List<Integer> tipos) {
+        this.tipos = tipos;
     }
 
     public List<String> getEstados() {

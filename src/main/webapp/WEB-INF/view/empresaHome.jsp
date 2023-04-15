@@ -43,13 +43,18 @@
         <td><%=empresa.getEstadopersonaByEstado().getDescripcion()%></td>
     </tr>
 </table>
-
+<%
+    if (personaEmpresa==null || personaEmpresa.getTipopersonaByTipo().getId()!=3){
+%>
 <a href="</empresa/editarEmpresa?id=<%=empresa.getId()%>>" >Editar datos de la empresa</a>
+<%
+    }
+%>
 
 <form:form action="<%=url%>" modelAttribute="filtro" method="post">
     Buscar por: <br/>
         Contiene: <form:input path="texto"/>
-        Estado: <form:select multiple="true" path="estados">
+        Estado: <form:select multiple="true" path="tipos">
                     <form:option value="" label="------"/>
                     <form:options items="${listaTipos}" itemLabel="descripcion" itemValue="id"/>
                 </form:select>
@@ -79,14 +84,34 @@
         <td><%=persona.getFechaNacimiento()%></td>
         <td><%=persona.getTipopersonaByTipo().getDescripcion()%></td>
         <td><%=persona.getEstadopersonaByEstado().getDescripcion()%></td>
+        <%
+            if (personaEmpresa!=null && personaEmpresa.getId()==persona.getId()){
+        %>
         <td><a href="/empresa/editarPersonaEmpresa?id=<%=persona.getId()%>" >Editar</a></td>
-        <td><a href="/empresa/bloquearPersona?id=<%=persona.getId()%>" >Bloquear</a></td>
+
+        <%
+                if(personaEmpresa.getTipopersonaByTipo().getId()!=3){
+        %>
+                    <td><a href="/empresa/bloquearPersona?id=<%=persona.getId()%>" >Bloquear</a></td>
+        <%
+                }
+            }
+        %>
+
+
+
         <td><a href="/gestor/visualizarcliente?id=<%=persona.getId()%>" >Ver operaciones</a></td>
     </tr>
     <%
         }
     %>
 </table>
+<%
+    if(personaEmpresa==null){
+%>
 <a href="/empresa/nuevo?id=<%=empresa.getId()%>" >Dar de alta</a>
+<%
+    }
+%>
 </body>
 </html>

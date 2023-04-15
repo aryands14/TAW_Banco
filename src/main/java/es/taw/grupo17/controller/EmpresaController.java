@@ -35,21 +35,33 @@ public class EmpresaController {
 
     @GetMapping("/")
     public String empresaHome(Model model, HttpSession session){
-        EmpresaEntity sessionAttribute = (EmpresaEntity) session.getAttribute("empresa");
-        if (sessionAttribute==null){
+        EmpresaEntity empresaSessionAttribute = (EmpresaEntity) session.getAttribute("empresa");
+        PersonaEntity personaSessionAttribute = (PersonaEntity) session.getAttribute("personaEmpresa");
+        if (empresaSessionAttribute==null && personaSessionAttribute==null){
             return "login";
-        }else {
+        }else if (empresaSessionAttribute!=null){
             FiltroClientes filtro = new FiltroClientes();
             List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
             model.addAttribute("listaTipos",listaTipos);
             model.addAttribute("filtro",filtro);
-            EmpresaEntity empresa = this.empresaRepository.findById(sessionAttribute.getId()).orElse(null);
+            EmpresaEntity empresa = this.empresaRepository.findById(empresaSessionAttribute.getId()).orElse(null);
             model.addAttribute("empresa",empresa);
             List<PersonaEntity> listaPersonas = empresa.getPersonasById();
             model.addAttribute("listaPersonas",listaPersonas);
             return "empresaHome";
+        } else{
+            FiltroClientes filtro = new FiltroClientes();
+            List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
+            model.addAttribute("listaTipos",listaTipos);
+            model.addAttribute("filtro",filtro);
+            PersonaEntity persona = this.personaRepository.findById(personaSessionAttribute.getId()).orElse(null);
+            EmpresaEntity empresa = this.empresaRepository.findById(persona.getEmpresaByEmpresa().getId()).orElse(null);
+            model.addAttribute("empresa",empresa);
+            model.addAttribute("persona",persona);
+            List<PersonaEntity> listaPersonas = empresa.getPersonasById();
+            model.addAttribute("listaPersonas",listaPersonas);
+            return "empresaHome";
         }
-
     }
 
     @GetMapping("/registrar")
@@ -172,15 +184,15 @@ public class EmpresaController {
     public String doFiltrar(@RequestParam("id")Integer idEmpresa,@ModelAttribute("filtro") FiltroClientes filtro, Model model){
         List<PersonaEntity> lista;
         EmpresaEntity empresa = this.empresaRepository.findById(idEmpresa).orElse(null);
-        if (filtro==null || filtro.getTexto().isEmpty() && filtro.getEstados().isEmpty()){
+        if (filtro==null || filtro.getTexto().isEmpty() && filtro.getTipos().isEmpty()){
             lista = empresa.getPersonasById();
             filtro = new FiltroClientes();
         }else if (filtro.getTexto().isEmpty()){
-            lista = this.personaRepository.buscarPorEstadoYEmpresa(filtro.getEstados(),idEmpresa);
-        }else if (filtro.getEstados().isEmpty()){
+            lista = this.personaRepository.buscarPorTipoYEmpresa(filtro.getTipos(),idEmpresa);
+        }else if (filtro.getTipos().isEmpty()){
             lista = this.personaRepository.buscarPorNombreYEmpresa(filtro.getTexto(),idEmpresa);
         }else {
-            lista = this.personaRepository.buscarPorNombreYEstadoYEmpresa(filtro.getTexto(),filtro.getEstados(),idEmpresa);
+            lista = this.personaRepository.buscarPorNombreYTipoYEmpresa(filtro.getTexto(),filtro.getTipos(),idEmpresa);
         }
 
         List<TipopersonaEntity> listaTipos = this.tipoPersonaRepository.findAll();
