@@ -1,5 +1,9 @@
 package es.taw.grupo17.entity;
 
+import es.taw.grupo17.dto.Conversacion;
+import es.taw.grupo17.dto.DTO;
+import es.taw.grupo17.dto.Mensaje;
+import es.taw.grupo17.dto.Persona;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -8,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "mensaje", schema = "grupo17", catalog = "")
-public class MensajeEntity {
+public class MensajeEntity implements DTO<Mensaje> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -88,5 +92,18 @@ public class MensajeEntity {
 
     public void setPersonaByUsuario(PersonaEntity personaByUsuario) {
         this.personaByUsuario = personaByUsuario;
+    }
+
+    public Mensaje toDTO() {
+        Mensaje dto = new Mensaje();
+
+        dto.setId(this.getId());
+        dto.setContenido(this.getContenido());
+        dto.setFecha(this.getFecha());
+        dto.setHora(this.getHora());
+        dto.setConversacionByConversacion(this.getConversacionByConversacion().toDTO());
+        dto.setPersonaByUsuario(this.getPersonaByUsuario().toDTO());
+
+        return dto;
     }
 }

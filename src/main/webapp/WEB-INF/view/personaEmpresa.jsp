@@ -1,6 +1,8 @@
 <%@ page import="es.taw.grupo17.entity.TipopersonaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
+<%@ page import="es.taw.grupo17.dto.Empresa" %>
+<%@ page import="es.taw.grupo17.dto.Tipopersona" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -11,9 +13,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    EmpresaEntity empresa = (EmpresaEntity) request.getAttribute("empresa");
+    Empresa empresa = (Empresa) request.getAttribute("empresa");
     String repContraseña = (String) request.getAttribute("repContraseña");
-    List<TipopersonaEntity> listaTipos = (List<TipopersonaEntity>) request.getAttribute("listaTipos");
+    List<Tipopersona> listaTipos = (List<Tipopersona>) request.getAttribute("listaTipos");
     String url = "/empresa/anadirPersona?idEmpresa=" + empresa.getId();
 %>
 <html>

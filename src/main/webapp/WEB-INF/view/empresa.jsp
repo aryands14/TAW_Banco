@@ -21,8 +21,8 @@
     <legend>Datos de la empresa</legend>
     <form:hidden path="id"/>
     <form:hidden path="personasById"/>
-    <form:hidden path="estadopersonaByEstado"/>
-    <form:hidden path="cuentaByCuenta"/>
+    <form:hidden path="estadopersonaByEstado.id"/>
+    <form:hidden path="cuentaByCuenta.id"/>
     CIF(*) <form:input path="cif" required="true"/><br/>
     Nombre de la empresa(*) <form:input path="nombre" required="true"/><br/>
     <legend>Dirección</legend>

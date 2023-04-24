@@ -4,10 +4,15 @@ import es.taw.grupo17.dao.EmpresaRepository;
 import es.taw.grupo17.dao.EstadoPersonaRepository;
 import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.dao.TipoPersonaRepository;
+import es.taw.grupo17.dto.Empresa;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.EstadopersonaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
 import es.taw.grupo17.entity.TipopersonaEntity;
+import es.taw.grupo17.service.EmpresaService;
+import es.taw.grupo17.service.EstadopersonaService;
+import es.taw.grupo17.service.PersonaService;
+import es.taw.grupo17.service.TipopersonaService;
 import es.taw.grupo17.ui.FiltroClientes;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +37,19 @@ public class EmpresaController {
 
     @Autowired
     PersonaRepository personaRepository;
+
+    @Autowired
+    protected EmpresaService empresaService;
+
+    @Autowired
+    protected EstadopersonaService estadopersonaService;
+
+    @Autowired
+    protected TipopersonaService tipopersonaService;
+
+    @Autowired
+    protected PersonaService personaService;
+
 
     @GetMapping("/")
     public String empresaHome(Model model, HttpSession session){
@@ -66,11 +84,40 @@ public class EmpresaController {
 
     @GetMapping("/registrar")
     public String listarRegistrar(Model model) {
-        EmpresaEntity empresa = new EmpresaEntity();
+        Empresa empresa = new Empresa();
         model.addAttribute("empresa",empresa);
         String repContraseña = null;
         model.addAttribute("repContraseña" ,repContraseña);
         return "empresa";
+    }
+
+
+    @PostMapping("/cancelarRegistro")
+    public String doCancelarRegistro(){
+        return "redirect:/";
+    }
+
+    @PostMapping("/añadir")
+    public String doAñadir(@ModelAttribute("empresa") Empresa empresa,
+                           @RequestParam("repetirContraseña") String repetirContraseña,Model model){
+/*
+ model.addAttribute("empresa",empresa);
+        if(!empresa.getPersonasById().isEmpty()){
+            this.empresaRepository.save(empresa);
+            return "redirect:/empresa/";
+        }else if (empresa.getContraseña().equals(repetirContraseña)){
+            EstadopersonaEntity estado = this.estadoPersonaRepository.findById(5).orElse(null);
+            empresa.setEstadopersonaByEstado(estado);
+            this.empresaRepository.save(empresa);
+            PersonaEntity persona = new PersonaEntity();
+            return mostrarEditaroNuevoPersona(persona,model,empresa);
+        }else {
+            model.addAttribute("repContraseña",repetirContraseña);
+            return "empresa";
+        }
+ */
+        return "redirect:/";
+
     }
 
     protected String mostrarEditaroNuevoPersona(PersonaEntity persona, Model model,EmpresaEntity empresa){
@@ -111,30 +158,7 @@ public class EmpresaController {
 
 
 
-    @PostMapping("/añadir")
-    public String doAñadir(@ModelAttribute("empresa") EmpresaEntity empresa,
-                           @RequestParam("repetirContraseña") String repetirContraseña,Model model){
-        model.addAttribute("empresa",empresa);
-        if(empresa.getPersonasById()!=null){
-            this.empresaRepository.save(empresa);
-            return "redirect:/empresa/";
-        }else if (empresa.getContraseña().equals(repetirContraseña)){
-            EstadopersonaEntity estado = this.estadoPersonaRepository.findById(5).orElse(null);
-            empresa.setEstadopersonaByEstado(estado);
-            this.empresaRepository.save(empresa);
-            PersonaEntity persona = new PersonaEntity();
-            return mostrarEditaroNuevoPersona(persona,model,empresa);
-        }else {
-            model.addAttribute("repContraseña",repetirContraseña);
-            return "empresa";
-        }
 
-    }
-
-    @PostMapping("/cancelarRegistro")
-    public String doCancelarRegistro(){
-        return "redirect:/";
-    }
 
     @PostMapping("/anadirPersona")
     public String doAñadirPersona(@ModelAttribute("persona") PersonaEntity persona,

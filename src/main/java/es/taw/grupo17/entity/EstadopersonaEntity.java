@@ -1,13 +1,19 @@
 package es.taw.grupo17.entity;
 
+import es.taw.grupo17.dto.DTO;
+import es.taw.grupo17.dto.Empresa;
+import es.taw.grupo17.dto.Estadopersona;
+import es.taw.grupo17.dto.Persona;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "estadopersona", schema = "grupo17", catalog = "")
-public class EstadopersonaEntity {
+public class EstadopersonaEntity implements DTO<Estadopersona> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -63,5 +69,25 @@ public class EstadopersonaEntity {
 
     public void setPersonasById(Collection<PersonaEntity> personasById) {
         this.personasById = personasById;
+    }
+
+    public Estadopersona toDTO() {
+        Estadopersona dto = new Estadopersona();
+        dto.setId(this.getId());
+        dto.setDescripcion(this.getDescripcion());
+
+        List<Empresa> empresas = new ArrayList<>();
+        for (EmpresaEntity empresa : this.getEmpresasById()){
+            empresas.add(empresa.toDTO());
+        }
+        dto.setEmpresasById(empresas);
+
+        List<Persona> personas = new ArrayList<>();
+        for (PersonaEntity persona : this.getPersonasById()){
+            personas.add(persona.toDTO());
+        }
+
+        dto.setPersonasById(personas);
+        return dto;
     }
 }
