@@ -3,6 +3,7 @@ package es.taw.grupo17.controller;
 import es.taw.grupo17.dao.*;
 import es.taw.grupo17.entity.*;
 import es.taw.grupo17.ui.FiltroClientes;
+import es.taw.grupo17.ui.FiltroOperacion;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,9 @@ public class GestorController {
     protected EstadoCuentaRepository estadoCuentaRepository;
     @Autowired
     protected EstadoPersonaRepository estadoPersonaRepository;
+
+    @Autowired
+    protected TipoOperacionRepository tipoOperacionRepository;
 
 
     @GetMapping("/")
@@ -96,6 +100,10 @@ public class GestorController {
             if (persona.getCuentaByCuenta() != null) {
                 operaciones = this.operacionRepository.getOperaciones(persona.getCuentaByCuenta().getId());
             }
+            List<TipooperacionEntity> tiposOperacion = this.tipoOperacionRepository.findAll();
+            model.addAttribute("tiposOperacion", tiposOperacion);
+            model.addAttribute("filtro", new FiltroOperacion());
+
             model.addAttribute("operaciones", operaciones);
         }
         return "detallesCliente";
@@ -149,8 +157,8 @@ public class GestorController {
 
     @PostMapping("/filtrar")
     public String doFiltrar(Model model, @ModelAttribute("filtro") FiltroClientes filtro) {
-        List<PersonaEntity> lista = new ArrayList<>();
-        List<EmpresaEntity> lista2 = new ArrayList<>();
+        List<PersonaEntity> lista;
+        List<EmpresaEntity> lista2;
         if(!filtro.getTexto().isEmpty() && !filtro.getEstados().isEmpty()) {
             lista = this.personaRepository.buscarPorNombreYEstado(filtro.getTexto(),filtro.getEstados());
             lista2 = this.empresaRepository.buscarPorNombreYEstado(filtro.getTexto(), filtro.getEstados());
