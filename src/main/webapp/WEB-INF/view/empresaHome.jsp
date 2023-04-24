@@ -1,7 +1,9 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
 <%@ page import="java.awt.*" %>
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="es.taw.grupo17.entity.TipopersonaEntity" %><%--
   Created by IntelliJ IDEA.
   User: Alvaro
   Date: 06/04/2023
@@ -12,6 +14,9 @@
 <%
     EmpresaEntity empresa = (EmpresaEntity) request.getAttribute("empresa");
     List<PersonaEntity> listaPersonas = (List<PersonaEntity>) request.getAttribute("listaPersonas");
+    List<TipopersonaEntity> listaTipos = (List<TipopersonaEntity>) request.getAttribute("listaTipos");
+    PersonaEntity personaEmpresa = (PersonaEntity) request.getAttribute("persona");
+    String url = "/empresa/filtrarPersonas?id=" + empresa.getId();
 %>
 <html>
 <head>
@@ -23,15 +28,38 @@
     <tr>
         <th>CIF</th>
         <th>NOMBRE</th>
+        <th>NUMERO</th>
+        <th>PAIS</th>
+        <th>CIUDAD</th>
         <th>ESTADO</th>
     </tr>
 
     <tr>
         <td><%=empresa.getCif()%></td>
         <td><%=empresa.getNombre()%></td>
+        <td><%=empresa.getNumero()%></td>
+        <td><%=empresa.getPais()%></td>
+        <td><%=empresa.getCiudad()%></td>
         <td><%=empresa.getEstadopersonaByEstado().getDescripcion()%></td>
     </tr>
 </table>
+<%
+    if (personaEmpresa==null || personaEmpresa.getTipopersonaByTipo().getId()!=3){
+%>
+<a href="</empresa/editarEmpresa?id=<%=empresa.getId()%>>" >Editar datos de la empresa</a>
+<%
+    }
+%>
+
+<form:form action="<%=url%>" modelAttribute="filtro" method="post">
+    Buscar por: <br/>
+        Contiene: <form:input path="texto"/>
+        Estado: <form:select multiple="true" path="tipos">
+                    <form:option value="" label="------"/>
+                    <form:options items="${listaTipos}" itemLabel="descripcion" itemValue="id"/>
+                </form:select>
+    <button>Filtrar</button>
+</form:form>
 
 <h1>Personas relacionadas a la empresa</h1>
 <table border="2">
@@ -42,6 +70,9 @@
         <th>FECHA NACIMIENTO</th>
         <th>PUESTO</th>
         <th>ESTADO</th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
 <%
     for(PersonaEntity persona : listaPersonas){
@@ -53,11 +84,34 @@
         <td><%=persona.getFechaNacimiento()%></td>
         <td><%=persona.getTipopersonaByTipo().getDescripcion()%></td>
         <td><%=persona.getEstadopersonaByEstado().getDescripcion()%></td>
+        <%
+            if (personaEmpresa!=null && personaEmpresa.getId()==persona.getId()){
+        %>
+        <td><a href="/empresa/editarPersonaEmpresa?id=<%=persona.getId()%>" >Editar</a></td>
+
+        <%
+                if(personaEmpresa.getTipopersonaByTipo().getId()!=3){
+        %>
+                    <td><a href="/empresa/bloquearPersona?id=<%=persona.getId()%>" >Bloquear</a></td>
+        <%
+                }
+            }
+        %>
+
+
+
+        <td><a href="/gestor/visualizarcliente?id=<%=persona.getId()%>" >Ver operaciones</a></td>
     </tr>
     <%
         }
     %>
 </table>
+<%
+    if(personaEmpresa==null){
+%>
 <a href="/empresa/nuevo?id=<%=empresa.getId()%>" >Dar de alta</a>
+<%
+    }
+%>
 </body>
 </html>

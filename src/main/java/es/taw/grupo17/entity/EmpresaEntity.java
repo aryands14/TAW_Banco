@@ -1,14 +1,18 @@
 package es.taw.grupo17.entity;
 
+import es.taw.grupo17.dto.DTO;
+import es.taw.grupo17.dto.Empresa;
+import es.taw.grupo17.dto.Persona;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "empresa", schema = "grupo17", catalog = "")
-public class EmpresaEntity {
+public class EmpresaEntity implements DTO<Empresa> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -187,5 +191,33 @@ public class EmpresaEntity {
 
     public void setPersonasById(List<PersonaEntity> personasById) {
         this.personasById = personasById;
+    }
+
+    public Empresa toDTO(){
+        Empresa dto = new Empresa();
+        dto.setId(this.getId());
+        dto.setCif(this.getCif());
+        dto.setNombre(this.getNombre());
+        dto.setCalle(this.getCalle());
+        dto.setNumero(this.getNumero());
+        dto.setPlantaPuertaOficina(this.getPlantaPuertaOficina());
+        dto.setCiudad(this.getCiudad());
+        dto.setPais(this.getPais());
+        dto.setRegion(this.getRegion());
+        dto.setCp(this.getCp());
+        dto.setValida(this.getValida());
+        dto.setContraseña(this.getContraseña());
+        dto.setCuentaByCuenta(this.getCuentaByCuenta().toDTO());
+
+        dto.setEstadopersonaByEstado(this.getEstadopersonaByEstado().toDTO());
+
+        List<Persona> personas = new ArrayList<>();
+        for (PersonaEntity personaEntity : this.getPersonasById()){
+            personas.add(personaEntity.toDTO());
+        }
+        dto.setPersonasById(personas);
+
+
+        return dto;
     }
 }

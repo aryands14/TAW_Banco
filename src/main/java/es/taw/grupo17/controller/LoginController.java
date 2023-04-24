@@ -2,8 +2,10 @@ package es.taw.grupo17.controller;
 
 import es.taw.grupo17.dao.EmpleadoRepository;
 import es.taw.grupo17.dao.EmpresaRepository;
+import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.entity.EmpleadoEntity;
 import es.taw.grupo17.entity.EmpresaEntity;
+import es.taw.grupo17.entity.PersonaEntity;
 import jakarta.persistence.Entity;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class LoginController {
     @Autowired
     protected EmpresaRepository empresaRepository;
 
+    @Autowired
+    protected PersonaRepository personaRepository;
+
     @GetMapping("/")
     public String doLogin() {
         return "login";
@@ -34,7 +39,8 @@ public class LoginController {
         String urlTo = "redirect:/clientes/";
         EmpleadoEntity empleado = this.empleadoRepository.autenticar(user, clave);
         EmpresaEntity empresa = this.empresaRepository.autenticar(user,clave);
-        if(empleado == null && empresa==null) {
+        PersonaEntity personaEmpresa = this.personaRepository.autenticarPersonaEmpresa(user,clave);
+        if(empleado == null && empresa==null && personaEmpresa==null) {
             model.addAttribute("error", "Credenciales incorrectas");
             urlTo = "login";
         } else if(empleado!=null){
@@ -45,6 +51,14 @@ public class LoginController {
                 urlTo = "login";
             }else{
                 session.setAttribute("empresa", empresa);
+                urlTo = "redirect:/empresa/";
+            }
+        } else if (personaEmpresa!=null){
+            if(personaEmpresa.getEstadopersonaByEstado().getId()==5){
+                model.addAttribute("error", "Esta pendiente de aprovación");
+                urlTo = "login";
+            }else{
+                session.setAttribute("personaEmpresa", personaEmpresa);
                 urlTo = "redirect:/empresa/";
             }
         }
