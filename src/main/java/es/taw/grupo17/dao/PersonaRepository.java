@@ -40,7 +40,8 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
             "CONCAT('%', :texto, '%')) and p.estadopersonaByEstado.descripcion in :estados")
     public List<PersonaEntity> buscarPorNombreYEstado(@Param("texto") String texto, @Param("estados") List<String> estados);
 
-    //   @Query("select c from PersonaEntity c where c.cuentaByCuenta.id in sospechosos")
-    //   public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);
+    @Query("select c from PersonaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id)" +
+            "where c.cuentaByCuenta in :sospechosos")
+    public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);
 
 }

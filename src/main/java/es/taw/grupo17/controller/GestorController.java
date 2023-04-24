@@ -168,4 +168,17 @@ public class GestorController {
         model.addAttribute("empresas", lista2);
         return "clientes";
     }
+
+    @GetMapping("/sospechosos")
+    public String doListarSospechosos(Model model) {
+        String urlTo = "clientesSospechosos";
+        List<CuentaEntity> cuentasSospechosas = null;
+        EstadocuentaEntity estadoCuenta = this.estadoCuentaRepository.findById(1).orElse(null);
+        List<PersonaEntity> sospechosos = this.personaRepository.getSospechosos(cuentasSospechosas);
+        model.addAttribute("clientes", sospechosos);
+        List<EmpresaEntity> sospechosos1 = this.empresaRepository.getSospechosos(cuentasSospechosas);
+        model.addAttribute("empresas", sospechosos1);
+        return urlTo;
+    }
+
 }

@@ -84,6 +84,7 @@
   %>
 </table><br>
 <a href="/gestor/solicitados"/>Ver Clientes que han solicitado la alta.<br>
-<a href="/gestor/inactivos"/>Ver Clientes inactivos.
+<a href="/gestor/inactivos"/>Ver Clientes inactivos.<br>
+<a href="/gestor/sospechosos"/>Ver Clientes que han realizado transferencias a cuentas sospechosas.
 </body>
 </html>

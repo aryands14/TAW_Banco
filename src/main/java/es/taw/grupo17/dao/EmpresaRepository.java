@@ -1,5 +1,6 @@
 package es.taw.grupo17.dao;
 
+import es.taw.grupo17.entity.CuentaEntity;
 import es.taw.grupo17.entity.EmpleadoEntity;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
@@ -35,5 +36,9 @@ public interface EmpresaRepository  extends JpaRepository<EmpresaEntity, Integer
     @Query("select e from EmpresaEntity e where (e.nombre like " +
             "CONCAT('%', :texto, '%' )) and e.estadopersonaByEstado.descripcion in :estados")
     public List<EmpresaEntity> buscarPorNombreYEstado(@Param("texto") String texto, @Param("estados") List<String> estados);
+
+    @Query("select c from EmpresaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id)" +
+            "where c.cuentaByCuenta in :sospechosos")
+    public List<EmpresaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);
 
 }
