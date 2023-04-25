@@ -37,6 +37,9 @@ public class CuentaEntity implements DTO<Cuenta> {
     private Collection<OperacionEntity> operacionsById;
     @OneToMany(mappedBy = "cuentaByCuenta")
     private Collection<PersonaEntity> personasById;
+    @ManyToOne
+    @JoinColumn(name = "SOSPECHOSO", referencedColumnName = "id")
+    private SospechosoEntity sospechosoBySospechoso;
 
     public Integer getId() {
         return id;
@@ -122,6 +125,7 @@ public class CuentaEntity implements DTO<Cuenta> {
     public void setPersonasById(Collection<PersonaEntity> personasById) {
         this.personasById = personasById;
     }
+
     public Cuenta toDTO() {
         Cuenta dto = new Cuenta();
         dto.setId(this.getId());
@@ -152,4 +156,11 @@ public class CuentaEntity implements DTO<Cuenta> {
         return dto;
     }
 
+    public SospechosoEntity getSospechosoBySospechoso() {
+        return sospechosoBySospechoso;
+    }
+
+    public void setSospechosoBySospechoso(SospechosoEntity sospechosoBySospechoso) {
+        this.sospechosoBySospechoso = sospechosoBySospechoso;
+    }
 }
