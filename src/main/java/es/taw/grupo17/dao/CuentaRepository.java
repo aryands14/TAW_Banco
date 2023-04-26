@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface CuentaRepository  extends JpaRepository<CuentaEntity, Integer> {
-//    @Query("select c from CuentaEntity c where c.personasById[0] = :id")
-//    public CuentaEntity getCuentaByPersona(@Param("id") Integer id);
+    @Query("select c from CuentaEntity c where c.sospechosoBySospechoso.id = 1")
+    public List<CuentaEntity> getSospechosos();
 }
