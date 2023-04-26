@@ -2,7 +2,7 @@
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
-<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: aryan
   Date: 27/03/2023

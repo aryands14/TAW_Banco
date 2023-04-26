@@ -42,7 +42,7 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
     public List<PersonaEntity> buscarPorNombreYEstado(@Param("texto") String texto, @Param("estados") List<String> estados);
 
     @Query("select c from PersonaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id)" +
-            "where c.cuentaByCuenta in :sospechosos")
+            "where o.personaByBeneficiario.cuentaByCuenta in :sospechosos")
     public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);
 
     @Query("select p from PersonaEntity p where (p.primerNombre like " +
