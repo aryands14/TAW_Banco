@@ -19,13 +19,15 @@ public class Cuenta implements Serializable {
 
     private Double saldo;
 
-    private Estadocuenta estadocuentaByEstado;
+    private Integer estadocuentaByEstado;
 
-    private Collection<Empresa> empresasById;
+    private Collection<Integer> empresasById;
 
-    private Collection<Operacion> operacionsById;
+    private Collection<Integer> operacionsById;
 
-    private Collection<Persona> personasById;
+    private Collection<Integer> personasById;
+
+    private Integer sospechosoBySospechoso;
 
     public Cuenta(){
 
@@ -84,35 +86,43 @@ public class Cuenta implements Serializable {
         this.saldo = saldo;
     }
 
-    public Estadocuenta getEstadocuentaByEstado() {
+    public Integer getEstadocuentaByEstado() {
         return estadocuentaByEstado;
     }
 
-    public void setEstadocuentaByEstado(Estadocuenta estadocuentaByEstado) {
+    public void setEstadocuentaByEstado(Integer estadocuentaByEstado) {
         this.estadocuentaByEstado = estadocuentaByEstado;
     }
 
-    public Collection<Empresa> getEmpresasById() {
+    public Collection<Integer> getEmpresasById() {
         return empresasById;
     }
 
-    public void setEmpresasById(Collection<Empresa> empresasById) {
+    public void setEmpresasById(Collection<Integer> empresasById) {
         this.empresasById = empresasById;
     }
 
-    public Collection<Operacion> getOperacionsById() {
+    public Collection<Integer> getOperacionsById() {
         return operacionsById;
     }
 
-    public void setOperacionsById(Collection<Operacion> operacionsById) {
+    public void setOperacionsById(Collection<Integer> operacionsById) {
         this.operacionsById = operacionsById;
     }
 
-    public Collection<Persona> getPersonasById() {
+    public Collection<Integer> getPersonasById() {
         return personasById;
     }
 
-    public void setPersonasById(Collection<Persona> personasById) {
+    public void setPersonasById(Collection<Integer> personasById) {
         this.personasById = personasById;
+    }
+
+    public Integer getSospechosoBySospechoso() {
+        return sospechosoBySospechoso;
+    }
+
+    public void setSospechosoBySospechoso(Integer sospechosoBySospechoso) {
+        this.sospechosoBySospechoso = sospechosoBySospechoso;
     }
 }

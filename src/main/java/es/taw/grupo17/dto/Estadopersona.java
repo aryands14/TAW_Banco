@@ -12,9 +12,10 @@ public class Estadopersona implements Serializable {
 
     private String descripcion;
 
-    private Collection<Empresa> empresasById;
+    private Collection<Integer> empresasById;
 
-    private Collection<Persona> personasById;
+    private Collection<Integer> personasById;
+
 
     public Estadopersona(){
 
@@ -49,19 +50,20 @@ public class Estadopersona implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Collection<Empresa> getEmpresasById() {
+    public Collection<Integer> getEmpresasById() {
         return empresasById;
     }
 
-    public void setEmpresasById(Collection<Empresa> empresasById) {
+    public void setEmpresasById(Collection<Integer> empresasById) {
         this.empresasById = empresasById;
     }
 
-    public Collection<Persona> getPersonasById() {
+    public Collection<Integer> getPersonasById() {
         return personasById;
     }
 
-    public void setPersonasById(Collection<Persona> personasById) {
+    public void setPersonasById(Collection<Integer> personasById) {
         this.personasById = personasById;
+
     }
 }

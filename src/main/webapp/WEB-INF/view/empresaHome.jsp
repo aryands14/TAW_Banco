@@ -1,9 +1,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
-<%@ page import="java.awt.*" %>
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.taw.grupo17.entity.TipopersonaEntity" %><%--
+<%@ page import="es.taw.grupo17.dto.Empresa" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
+<%@ page import="es.taw.grupo17.dto.Tipopersona" %>
+<%@ page import="es.taw.grupo17.dto.Estadopersona" %>
+<%@ page import="es.taw.grupo17.service.TipopersonaService" %>
+<%@ page import="es.taw.grupo17.service.EstadopersonaService" %><%--
   Created by IntelliJ IDEA.
   User: Alvaro
   Date: 06/04/2023
@@ -12,11 +14,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    EmpresaEntity empresa = (EmpresaEntity) request.getAttribute("empresa");
-    List<PersonaEntity> listaPersonas = (List<PersonaEntity>) request.getAttribute("listaPersonas");
-    List<TipopersonaEntity> listaTipos = (List<TipopersonaEntity>) request.getAttribute("listaTipos");
-    PersonaEntity personaEmpresa = (PersonaEntity) request.getAttribute("persona");
-    String url = "/empresa/filtrarPersonas?id=" + empresa.getId();
+    EstadopersonaService estadopersonaService = (EstadopersonaService) request.getAttribute("estadoPersonaService");
+    TipopersonaService tipopersonaService = (TipopersonaService) request.getAttribute("tipopersonaService");
+
+    Empresa empresa = (Empresa) request.getAttribute("empresa");
+    List<Persona> listaPersonas = (List<Persona>) request.getAttribute("listaPersonas");
+    List<Tipopersona> listaTipos = (List<Tipopersona>) request.getAttribute("listaTipos");
+    Persona personaEmpresa = (Persona) request.getAttribute("persona");
+
 %>
 <html>
 <head>
@@ -40,18 +45,21 @@
         <td><%=empresa.getNumero()%></td>
         <td><%=empresa.getPais()%></td>
         <td><%=empresa.getCiudad()%></td>
-        <td><%=empresa.getEstadopersonaByEstado().getDescripcion()%></td>
+        <%
+            Estadopersona estadoEmpresa = estadopersonaService.buscarEstado(empresa.getEstadopersonaByEstado());
+        %>
+        <td><%=estadoEmpresa.getDescripcion()%></td>
     </tr>
 </table>
 <%
-    if (personaEmpresa==null || personaEmpresa.getTipopersonaByTipo().getId()!=3){
+    if (personaEmpresa==null || personaEmpresa.getTipopersonaByTipo()!=3){
 %>
-<a href="</empresa/editarEmpresa?id=<%=empresa.getId()%>>" >Editar datos de la empresa</a>
+<a href="/empresa/editarEmpresa?id=<%=empresa.getId()%>" >Editar datos de la empresa</a>
 <%
     }
 %>
 
-<form:form action="<%=url%>" modelAttribute="filtro" method="post">
+<form:form action="/empresa/filtrarPersonas" modelAttribute="filtro" method="post">
     Buscar por: <br/>
         Contiene: <form:input path="texto"/>
         Estado: <form:select multiple="true" path="tipos">
@@ -75,22 +83,28 @@
         <th></th>
     </tr>
 <%
-    for(PersonaEntity persona : listaPersonas){
+    for(Persona persona : listaPersonas){
 %>
     <tr>
         <td><%=persona.getNif()%></td>
         <td><%=persona.getPrimerNombre()%></td>
         <td><%=persona.getPrimerApellido()%></td>
         <td><%=persona.getFechaNacimiento()%></td>
-        <td><%=persona.getTipopersonaByTipo().getDescripcion()%></td>
-        <td><%=persona.getEstadopersonaByEstado().getDescripcion()%></td>
+        <%
+            Tipopersona tipopersona = tipopersonaService.buscarTipoPersona(persona.getTipopersonaByTipo());
+        %>
+        <td><%=tipopersona.getDescripcion()%></td>
+        <%
+            Estadopersona estadopersona = estadopersonaService.buscarEstado(persona.getEstadopersonaByEstado());
+        %>
+        <td><%=estadopersona.getDescripcion()%></td>
         <%
             if (personaEmpresa!=null && personaEmpresa.getId()==persona.getId()){
         %>
         <td><a href="/empresa/editarPersonaEmpresa?id=<%=persona.getId()%>" >Editar</a></td>
 
         <%
-                if(personaEmpresa.getTipopersonaByTipo().getId()!=3){
+                if(personaEmpresa.getTipopersonaByTipo()!=3){
         %>
                     <td><a href="/empresa/bloquearPersona?id=<%=persona.getId()%>" >Bloquear</a></td>
         <%

@@ -22,9 +22,9 @@ public class Mensaje implements Serializable {
 
     private Time hora;
 
-    private Conversacion conversacionByConversacion;
+    private Integer conversacionByConversacion;
 
-    private Persona personaByUsuario;
+    private Integer personaByUsuario;
 
     public Mensaje(){
 
@@ -75,19 +75,19 @@ public class Mensaje implements Serializable {
         this.hora = hora;
     }
 
-    public Conversacion getConversacionByConversacion() {
+    public Integer getConversacionByConversacion() {
         return conversacionByConversacion;
     }
 
-    public void setConversacionByConversacion(Conversacion conversacionByConversacion) {
+    public void setConversacionByConversacion(Integer conversacionByConversacion) {
         this.conversacionByConversacion = conversacionByConversacion;
     }
 
-    public Persona getPersonaByUsuario() {
+    public Integer getPersonaByUsuario() {
         return personaByUsuario;
     }
 
-    public void setPersonaByUsuario(Persona personaByUsuario) {
+    public void setPersonaByUsuario(Integer personaByUsuario) {
         this.personaByUsuario = personaByUsuario;
     }
 }

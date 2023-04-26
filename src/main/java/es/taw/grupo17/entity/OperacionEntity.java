@@ -144,9 +144,9 @@ public class OperacionEntity  implements DTO<Operacion> {
         dto.setMonedaCambio(this.getMonedaCambio());
         dto.setCantidadCambio(this.getCantidadCambio());
         dto.setCantidad(this.getCantidad());
-        dto.setTipooperacionByTipo(this.getTipooperacionByTipo().toDTO());
-        dto.setPersonaByBeneficiario(this.getPersonaByBeneficiario().toDTO());
-        dto.setCuentaByCuenta(this.getCuentaByCuenta().toDTO());
+        dto.setTipooperacionByTipo(this.getTipooperacionByTipo().getId());
+        dto.setPersonaByBeneficiario(this.getPersonaByBeneficiario().getId());
+        dto.setCuentaByCuenta(this.getCuentaByCuenta().getId());
 
         return dto;
     }

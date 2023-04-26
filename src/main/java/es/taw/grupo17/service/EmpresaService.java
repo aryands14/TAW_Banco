@@ -29,7 +29,13 @@ public class EmpresaService {
     @Autowired
     protected EmpresaRepository empresaRepository;
     public void guardarEmpresa(Empresa empresa) {
-        EmpresaEntity empresaEntity = new EmpresaEntity();
+        EmpresaEntity empresaEntity;
+        if (empresa.getId()==null){
+            empresaEntity = new EmpresaEntity();
+        }else {
+            empresaEntity = this.empresaRepository.findById(empresa.getId()).orElse(null);
+        }
+
         empresaEntity.setId(empresa.getId());
         empresaEntity.setCif(empresa.getCif());
         empresaEntity.setNombre(empresa.getNombre());
@@ -42,17 +48,25 @@ public class EmpresaService {
         empresaEntity.setCp(empresa.getCp());
         empresaEntity.setValida(empresa.getValida());
         empresaEntity.setContraseña(empresa.getContraseña());
-        empresaEntity.setCuentaByCuenta(this.cuentaRepository.findById(empresa.getCuentaByCuenta().getId()).orElse(null));
-        empresaEntity.setEstadopersonaByEstado(this.estadoPersonaRepository.findById(empresa.getEstadopersonaByEstado().getId()).orElse(null));
 
-        List<PersonaEntity> personas = new ArrayList<>();
-        for (Persona persona : empresa.getPersonasById()){
-            personas.add(this.personaRepository.findById(persona.getId()).orElse(null));
+        empresaEntity.setCuentaByCuenta(empresa.getCuentaByCuenta()==null? null :
+                this.cuentaRepository.findById(empresa.getCuentaByCuenta()).orElse(null));
+
+        empresaEntity.setEstadopersonaByEstado(empresa.getEstadopersonaByEstado()==null ? null :
+                this.estadoPersonaRepository.findById(empresa.getEstadopersonaByEstado()).orElse(null));
+
+        if (empresa.getPersonasById()!=null && !empresa.getPersonasById().isEmpty()){
+            List<PersonaEntity> personas = new ArrayList<>();
+            for (Integer id : empresa.getPersonasById()){
+                personas.add(this.personaRepository.findById(id).orElse(null));
+            }
+            empresaEntity.setPersonasById(personas);
         }
-        empresaEntity.setPersonasById(personas);
 
         this.empresaRepository.save(empresaEntity);
+        empresa.setId(empresaEntity.getId());
     }
+
 
     public Empresa autenticar(String user, String clave) {
         EmpresaEntity empresa = this.empresaRepository.autenticar(user, clave);
@@ -67,10 +81,11 @@ public class EmpresaService {
     public List<Persona> listarPlantilla(Empresa empresa) {
         List<Persona> lista = new ArrayList<>();
 
-        for (Persona persona : empresa.getPersonasById()){
-            lista.add(this.personaRepository.findById(persona.getId()).orElse(null).toDTO());
+        for (Integer id : empresa.getPersonasById()){
+            lista.add(this.personaRepository.findById(id).orElse(null).toDTO());
         }
 
         return lista;
     }
 }
+

@@ -66,11 +66,12 @@ public class TipooperacionEntity implements DTO<Tipooperacion> {
         dto.setId(this.getId());
         dto.setDescripcion(this.getDescripcion());
 
-        List<Operacion> operaciones = new ArrayList<>();
+        List<Integer> operaciones = new ArrayList<>();
         for (OperacionEntity operacionEntity : this.getOperacionsById()){
-            operaciones.add(operacionEntity.toDTO());
+            operaciones.add(operacionEntity.getId());
         }
         dto.setOperacionsById(operaciones);
+
         return dto;
     }
 }

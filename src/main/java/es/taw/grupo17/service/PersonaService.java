@@ -73,6 +73,7 @@ public class PersonaService {
         PersonaEntity personaEntity = new PersonaEntity();
 
         personaEntity.setId(persona.getId());
+        personaEntity.setNif(persona.getNif());
         personaEntity.setPrimerNombre(persona.getPrimerNombre());
         personaEntity.setSegundoNombre(persona.getSegundoNombre());
         personaEntity.setPrimerApellido(persona.getPrimerApellido());
@@ -88,34 +89,43 @@ public class PersonaService {
         personaEntity.setValida(persona.getValida());
         personaEntity.setContraseña(persona.getContraseña());
 
-        CuentaEntity cuentaEntity = this.cuentaRepository.findById(persona.getCuentaByCuenta().getId()).orElse(null);
-        personaEntity.setCuentaByCuenta(cuentaEntity);
+        personaEntity.setCuentaByCuenta(persona.getCuentaByCuenta()==null? null :
+                this.cuentaRepository.findById(persona.getCuentaByCuenta()).orElse(null));
 
-        EstadopersonaEntity estadopersonaEntity = this.estadoPersonaRepository.findById(persona.getEstadopersonaByEstado().getId()).orElse(null);
-        personaEntity.setEstadopersonaByEstado(estadopersonaEntity);
+        personaEntity.setEstadopersonaByEstado(persona.getEstadopersonaByEstado()==null ? null :
+                this.estadoPersonaRepository.findById(persona.getEstadopersonaByEstado()).orElse(null));
 
-        List<ConversacionEntity> conversaciones = new ArrayList<>();
-        for (Conversacion conversacion : persona.getConversacionsById()){
-            conversaciones.add(this.conversacionRepository.findById(conversacion.getId()).orElse(null));
+        if (persona.getConversacionsById()!=null){
+            List<ConversacionEntity> conversaciones = new ArrayList<>();
+            for (Integer id : persona.getConversacionsById()){
+                conversaciones.add(this.conversacionRepository.findById(id).orElse(null));
+            }
+            personaEntity.setConversacionsById(conversaciones);
         }
-        personaEntity.setConversacionsById(conversaciones);
 
-        List<MensajeEntity> mensajes = new ArrayList<>();
-        for (Mensaje mensaje : persona.getMensajesById()){
-            mensajes.add(this.mensajeRepository.findById(mensaje.getId()).orElse(null));
+        if (persona.getMensajesById()!=null){
+            List<MensajeEntity> mensajes = new ArrayList<>();
+            for (Integer id : persona.getMensajesById()){
+                mensajes.add(this.mensajeRepository.findById(id).orElse(null));
+            }
+            personaEntity.setMensajesById(mensajes);
         }
-        personaEntity.setMensajesById(mensajes);
 
-        List<OperacionEntity> operaciones = new ArrayList<>();
-        for (Operacion operacion : persona.getOperacionsById()){
-            operaciones.add(this.operacionRepository.findById(operacion.getId()).orElse(null));
+        if (persona.getOperacionsById()!=null){
+            List<OperacionEntity> operaciones = new ArrayList<>();
+            for (Integer id : persona.getOperacionsById()){
+                operaciones.add(this.operacionRepository.findById(id).orElse(null));
+            }
+            personaEntity.setOperacionsById(operaciones);
         }
-        personaEntity.setOperacionsById(operaciones);
 
-        personaEntity.setTipopersonaByTipo(this.tipoPersonaRepository.findById(persona.getTipopersonaByTipo().getId()).orElse(null));
-        personaEntity.setEmpresaByEmpresa(this.empresaRepository.findById(persona.getEmpresaByEmpresa().getId()).orElse(null));
+
+        personaEntity.setTipopersonaByTipo(this.tipoPersonaRepository.findById(persona.getTipopersonaByTipo()).orElse(null));
+        personaEntity.setEmpresaByEmpresa(persona.getEmpresaByEmpresa()==null ? null:
+                this.empresaRepository.findById(persona.getEmpresaByEmpresa()).orElse(null));
 
         this.personaRepository.save(personaEntity);
+        persona.setId(personaEntity.getId());
     }
 
 

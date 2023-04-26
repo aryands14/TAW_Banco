@@ -76,18 +76,17 @@ public class EstadopersonaEntity implements DTO<Estadopersona> {
         dto.setId(this.getId());
         dto.setDescripcion(this.getDescripcion());
 
-        List<Empresa> empresas = new ArrayList<>();
-        for (EmpresaEntity empresa : this.getEmpresasById()){
-            empresas.add(empresa.toDTO());
+        List<Integer> personas = new ArrayList<>();
+        for (PersonaEntity personaEntity : this.getPersonasById()){
+            personas.add(personaEntity.getId());
+        }
+        dto.setPersonasById(personas);
+
+        List<Integer> empresas = new ArrayList<>();
+        for (EmpresaEntity empresaEntity : this.getEmpresasById()){
+            empresas.add(empresaEntity.getId());
         }
         dto.setEmpresasById(empresas);
-
-        List<Persona> personas = new ArrayList<>();
-        for (PersonaEntity persona : this.getPersonasById()){
-            personas.add(persona.toDTO());
-        }
-
-        dto.setPersonasById(personas);
         return dto;
     }
 }

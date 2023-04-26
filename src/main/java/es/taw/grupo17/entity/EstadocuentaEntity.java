@@ -65,9 +65,9 @@ public class EstadocuentaEntity implements DTO<Estadocuenta> {
         dto.setId(this.getId());
         dto.setDescripcion(this.getDescripcion());
 
-        List<Cuenta> cuentas = new ArrayList<>();
+        List<Integer> cuentas = new ArrayList<>();
         for (CuentaEntity cuentaEntity : this.getCuentasById()){
-            cuentas.add(cuentaEntity.toDTO());
+            cuentas.add(cuentaEntity.getId());
         }
         dto.setCuentasById(cuentas);
 

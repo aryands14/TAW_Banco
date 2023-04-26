@@ -28,11 +28,11 @@ public class Operacion implements Serializable {
 
     private Double cantidad;
 
-    private Tipooperacion tipooperacionByTipo;
+    private Integer tipooperacionByTipo;
 
-    private Persona personaByBeneficiario;
+    private Integer personaByBeneficiario;
 
-    private Cuenta cuentaByCuenta;
+    private Integer cuentaByCuenta;
 
     public Operacion(){
 
@@ -107,27 +107,27 @@ public class Operacion implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public Tipooperacion getTipooperacionByTipo() {
+    public Integer getTipooperacionByTipo() {
         return tipooperacionByTipo;
     }
 
-    public void setTipooperacionByTipo(Tipooperacion tipooperacionByTipo) {
+    public void setTipooperacionByTipo(Integer tipooperacionByTipo) {
         this.tipooperacionByTipo = tipooperacionByTipo;
     }
 
-    public Persona getPersonaByBeneficiario() {
+    public Integer getPersonaByBeneficiario() {
         return personaByBeneficiario;
     }
 
-    public void setPersonaByBeneficiario(Persona personaByBeneficiario) {
+    public void setPersonaByBeneficiario(Integer personaByBeneficiario) {
         this.personaByBeneficiario = personaByBeneficiario;
     }
 
-    public Cuenta getCuentaByCuenta() {
+    public Integer getCuentaByCuenta() {
         return cuentaByCuenta;
     }
 
-    public void setCuentaByCuenta(Cuenta cuentaByCuenta) {
+    public void setCuentaByCuenta(Integer cuentaByCuenta) {
         this.cuentaByCuenta = cuentaByCuenta;
     }
 }

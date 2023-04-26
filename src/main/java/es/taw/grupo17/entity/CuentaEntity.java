@@ -126,6 +126,14 @@ public class CuentaEntity implements DTO<Cuenta> {
         this.personasById = personasById;
     }
 
+    public SospechosoEntity getSospechosoBySospechoso() {
+        return sospechosoBySospechoso;
+    }
+
+    public void setSospechosoBySospechoso(SospechosoEntity sospechosoBySospechoso) {
+        this.sospechosoBySospechoso = sospechosoBySospechoso;
+    }
+
     public Cuenta toDTO() {
         Cuenta dto = new Cuenta();
         dto.setId(this.getId());
@@ -133,34 +141,28 @@ public class CuentaEntity implements DTO<Cuenta> {
         dto.setFechaApertura(this.getFechaApertura());
         dto.setFechaCierre(this.getFechaCierre());
         dto.setSaldo(this.getSaldo());
-        dto.setEstadocuentaByEstado(this.getEstadocuentaByEstado().toDTO());
+        dto.setEstadocuentaByEstado(this.getEstadocuentaByEstado().getId());
 
-        List<Empresa> empresas = new ArrayList<>();
+        List<Integer> empresas = new ArrayList<>();
         for (EmpresaEntity empresaEntity : this.getEmpresasById()){
-            empresas.add(empresaEntity.toDTO());
+            empresas.add(empresaEntity.getId());
         }
         dto.setEmpresasById(empresas);
 
-        List<Operacion> operaciones = new ArrayList<>();
+        List<Integer> operaciones = new ArrayList<>();
         for (OperacionEntity operacionEntity : this.getOperacionsById()){
-            operaciones.add(operacionEntity.toDTO());
+            operaciones.add(operacionEntity.getId());
         }
         dto.setOperacionsById(operaciones);
 
-        List<Persona> personas = new ArrayList<>();
+        List<Integer> personas = new ArrayList<>();
         for (PersonaEntity personaEntity : this.getPersonasById()){
-            personas.add(personaEntity.toDTO());
+            personas.add(personaEntity.getId());
         }
         dto.setPersonasById(personas);
 
+        dto.setSospechosoBySospechoso(this.getSospechosoBySospechoso().getId());
+
         return dto;
-    }
-
-    public SospechosoEntity getSospechosoBySospechoso() {
-        return sospechosoBySospechoso;
-    }
-
-    public void setSospechosoBySospechoso(SospechosoEntity sospechosoBySospechoso) {
-        this.sospechosoBySospechoso = sospechosoBySospechoso;
     }
 }

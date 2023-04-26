@@ -16,7 +16,8 @@ public class Tipooperacion implements Serializable {
 
     private String descripcion;
 
-    private Collection<Operacion> operacionsById;
+    private Collection<Integer> operacionsById;
+
 
     public Tipooperacion(){
 
@@ -51,11 +52,12 @@ public class Tipooperacion implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Collection<Operacion> getOperacionsById() {
+    public Collection<Integer> getOperacionsById() {
         return operacionsById;
     }
 
-    public void setOperacionsById(Collection<Operacion> operacionsById) {
+    public void setOperacionsById(Collection<Integer> operacionsById) {
         this.operacionsById = operacionsById;
     }
+
 }

@@ -88,13 +88,13 @@ public class EmpleadoEntity implements DTO<Empleado> {
         dto.setUsuario(this.getUsuario());
         dto.setContraseña(this.getContraseña());
 
-        List<Conversacion> conversaciones = new ArrayList<>();
+        List<Integer> conversaciones = new ArrayList<>();
         for(ConversacionEntity conversacionEntity : this.getConversacionsById()){
-            conversaciones.add(conversacionEntity.toDTO());
+            conversaciones.add(conversacionEntity.getId());
         }
         dto.setConversacionsById(conversaciones);
 
-        dto.setTipoempleadoByTipo(this.getTipoempleadoByTipo().toDTO());
+        dto.setTipoempleadoByTipo(this.getTipoempleadoByTipo().getId());
         return dto;
     }
 }

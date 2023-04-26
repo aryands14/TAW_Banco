@@ -279,6 +279,7 @@ public class PersonaEntity implements DTO<Persona> {
     public Persona toDTO() {
         Persona dto = new Persona();
         dto.setId(this.getId());
+        dto.setNif(this.getNif());
         dto.setPrimerNombre(this.getPrimerNombre());
         dto.setSegundoNombre(this.getSegundoNombre());
         dto.setPrimerApellido(this.getPrimerApellido());
@@ -293,28 +294,28 @@ public class PersonaEntity implements DTO<Persona> {
         dto.setCp(this.getCp());
         dto.setValida(this.getValida());
         dto.setContraseña(this.getContraseña());
-        dto.setCuentaByCuenta(this.getCuentaByCuenta().toDTO());
-        dto.setEstadopersonaByEstado(this.getEstadopersonaByEstado().toDTO());
+        dto.setCuentaByCuenta(this.getCuentaByCuenta()==null? null : this.getCuentaByCuenta().getId());
+        dto.setEstadopersonaByEstado(this.getEstadopersonaByEstado().getId());
 
-        List<Conversacion> conversaciones = new ArrayList<>();
+        List<Integer> conversaciones = new ArrayList<>();
         for (ConversacionEntity conversacion : this.getConversacionsById()){
-            conversaciones.add(conversacion.toDTO());
+            conversaciones.add(conversacion.getId());
         }
         dto.setConversacionsById(conversaciones);
 
-        List<Mensaje> mensajes = new ArrayList<>();
+        List<Integer> mensajes = new ArrayList<>();
         for (MensajeEntity mensaje : this.getMensajesById()){
-            mensajes.add(mensaje.toDTO());
+            mensajes.add(mensaje.getId());
         }
         dto.setMensajesById(mensajes);
 
-        List<Operacion> operaciones = new ArrayList<>();
+        List<Integer> operaciones = new ArrayList<>();
         for (OperacionEntity operacion : this.getOperacionsById()){
-            operaciones.add(operacion.toDTO());
+            operaciones.add(operacion.getId());
         }
         dto.setOperacionsById(operaciones);
-        dto.setTipopersonaByTipo(this.getTipopersonaByTipo().toDTO());
-        dto.setEmpresaByEmpresa(this.getEmpresaByEmpresa().toDTO());
+        dto.setTipopersonaByTipo(this.getTipopersonaByTipo().getId());
+        dto.setEmpresaByEmpresa(this.getEmpresaByEmpresa()==null ? null : this.getEmpresaByEmpresa().getId());
 
         return dto;
     }

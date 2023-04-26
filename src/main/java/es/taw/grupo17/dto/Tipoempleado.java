@@ -14,7 +14,9 @@ public class Tipoempleado implements Serializable {
 
     private Integer id;
     private String descripcion;
-    private Collection<Empleado> empleadosById;
+    private Collection<Integer> empleadosById;
+
+
 
     public Tipoempleado(){
 
@@ -50,11 +52,12 @@ public class Tipoempleado implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Collection<Empleado> getEmpleadosById() {
+    public Collection<Integer> getEmpleadosById() {
         return empleadosById;
     }
 
-    public void setEmpleadosById(Collection<Empleado> empleadosById) {
+    public void setEmpleadosById(Collection<Integer> empleadosById) {
         this.empleadosById = empleadosById;
     }
+
 }

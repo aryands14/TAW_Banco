@@ -1,13 +1,17 @@
 package es.taw.grupo17.entity;
 
+import es.taw.grupo17.dto.DTO;
+import es.taw.grupo17.dto.Sospechoso;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "sospechoso", schema = "grupo17", catalog = "")
-public class SospechosoEntity {
+public class SospechosoEntity implements DTO<Sospechoso> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
@@ -53,5 +57,20 @@ public class SospechosoEntity {
 
     public void setCuentasById(Collection<CuentaEntity> cuentasById) {
         this.cuentasById = cuentasById;
+    }
+
+    @Override
+    public Sospechoso toDTO() {
+        Sospechoso dto = new Sospechoso();
+
+        dto.setId(this.getId());
+        dto.setDescripcion(this.getDescripcion());
+
+        List<Integer> cuentas = new ArrayList<>();
+        for (CuentaEntity cuentaEntity : this.getCuentasById()){
+            cuentas.add(cuentaEntity.getId());
+        }
+        dto.setCuentasById(cuentas);
+        return dto;
     }
 }

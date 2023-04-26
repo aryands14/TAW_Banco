@@ -41,19 +41,19 @@ public class Persona implements Serializable {
 
     private String contraseña;
 
-    private Collection<Conversacion> conversacionsById;
+    private Collection<Integer> conversacionsById;
 
-    private Collection<Mensaje> mensajesById;
+    private Collection<Integer> mensajesById;
 
-    private Collection<Operacion> operacionsById;
+    private Collection<Integer> operacionsById;
 
-    private Tipopersona tipopersonaByTipo;
+    private Integer tipopersonaByTipo;
 
-    private Cuenta cuentaByCuenta;
+    private Integer cuentaByCuenta;
 
-    private Empresa empresaByEmpresa;
+    private Integer empresaByEmpresa;
 
-    private Estadopersona estadopersonaByEstado;
+    private Integer estadopersonaByEstado;
 
     public Persona(){
 
@@ -200,59 +200,59 @@ public class Persona implements Serializable {
         this.contraseña = contraseña;
     }
 
-    public Collection<Conversacion> getConversacionsById() {
+    public Collection<Integer> getConversacionsById() {
         return conversacionsById;
     }
 
-    public void setConversacionsById(Collection<Conversacion> conversacionsById) {
+    public void setConversacionsById(Collection<Integer> conversacionsById) {
         this.conversacionsById = conversacionsById;
     }
 
-    public Collection<Mensaje> getMensajesById() {
+    public Collection<Integer> getMensajesById() {
         return mensajesById;
     }
 
-    public void setMensajesById(Collection<Mensaje> mensajesById) {
+    public void setMensajesById(Collection<Integer> mensajesById) {
         this.mensajesById = mensajesById;
     }
 
-    public Collection<Operacion> getOperacionsById() {
+    public Collection<Integer> getOperacionsById() {
         return operacionsById;
     }
 
-    public void setOperacionsById(Collection<Operacion> operacionsById) {
+    public void setOperacionsById(Collection<Integer> operacionsById) {
         this.operacionsById = operacionsById;
     }
 
-    public Tipopersona getTipopersonaByTipo() {
+    public Integer getTipopersonaByTipo() {
         return tipopersonaByTipo;
     }
 
-    public void setTipopersonaByTipo(Tipopersona tipopersonaByTipo) {
+    public void setTipopersonaByTipo(Integer tipopersonaByTipo) {
         this.tipopersonaByTipo = tipopersonaByTipo;
     }
 
-    public Cuenta getCuentaByCuenta() {
+    public Integer getCuentaByCuenta() {
         return cuentaByCuenta;
     }
 
-    public void setCuentaByCuenta(Cuenta cuentaByCuenta) {
+    public void setCuentaByCuenta(Integer cuentaByCuenta) {
         this.cuentaByCuenta = cuentaByCuenta;
     }
 
-    public Empresa getEmpresaByEmpresa() {
+    public Integer getEmpresaByEmpresa() {
         return empresaByEmpresa;
     }
 
-    public void setEmpresaByEmpresa(Empresa empresaByEmpresa) {
+    public void setEmpresaByEmpresa(Integer empresaByEmpresa) {
         this.empresaByEmpresa = empresaByEmpresa;
     }
 
-    public Estadopersona getEstadopersonaByEstado() {
+    public Integer getEstadopersonaByEstado() {
         return estadopersonaByEstado;
     }
 
-    public void setEstadopersonaByEstado(Estadopersona estadopersonaByEstado) {
+    public void setEstadopersonaByEstado(Integer estadopersonaByEstado) {
         this.estadopersonaByEstado = estadopersonaByEstado;
     }
 }

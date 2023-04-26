@@ -85,12 +85,12 @@ public class ConversacionEntity implements DTO<Conversacion> {
 
         dto.setId(this.getId());
         dto.setCerrada(this.getCerrada());
-        dto.setPersonaByUsuario(this.getPersonaByUsuario().toDTO());
-        dto.setEmpleadoByAsistente(this.getEmpleadoByAsistente().toDTO());
+        dto.setPersonaByUsuario(this.getPersonaByUsuario().getId());
+        dto.setEmpleadoByAsistente(this.getEmpleadoByAsistente().getId());
 
-        List<Mensaje> mensajes = new ArrayList<>();
+        List<Integer> mensajes = new ArrayList<>();
         for(MensajeEntity mensajeEntity : this.getMensajesById()){
-            mensajes.add(mensajeEntity.toDTO());
+            mensajes.add(mensajeEntity.getId());
         }
         dto.setMensajesById(mensajes);
         return dto;

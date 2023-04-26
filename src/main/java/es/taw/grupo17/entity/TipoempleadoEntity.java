@@ -66,9 +66,9 @@ public class TipoempleadoEntity implements DTO<Tipoempleado> {
         dto.setId(this.getId());
         dto.setDescripcion(this.getDescripcion());
 
-        List<Empleado> empleados = new ArrayList<>();
+        List<Integer> empleados = new ArrayList<>();
         for (EmpleadoEntity empleadoEntity : this.getEmpleadosById()){
-            empleados.add(empleadoEntity.toDTO());
+            empleados.add(empleadoEntity.getId());
         }
         dto.setEmpleadosById(empleados);
 

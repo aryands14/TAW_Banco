@@ -1,6 +1,7 @@
 package es.taw.grupo17.service;
 
 import es.taw.grupo17.dao.TipoPersonaRepository;
+import es.taw.grupo17.dto.Persona;
 import es.taw.grupo17.dto.Tipopersona;
 import es.taw.grupo17.entity.TipopersonaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,12 @@ public class TipopersonaService {
 
     @Autowired
     protected TipoPersonaRepository tipoPersonaRepository;
+
+
+    public Tipopersona buscarTipoPersona(Integer id){
+        TipopersonaEntity tipopersona = this.tipoPersonaRepository.findById(id).orElse(null);
+        return tipopersona==null? null : tipopersona.toDTO();
+    }
     public List<Tipopersona> listarTiposPersonas() {
         List<TipopersonaEntity> lista = this.tipoPersonaRepository.findAll();
         return this.listaEntidadesADTO(lista);

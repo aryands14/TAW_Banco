@@ -16,8 +16,8 @@ public class Empleado implements Serializable {
     private String usuario;
 
     private String contraseña;
-    private Collection<Conversacion> conversacionsById;
-    private Tipoempleado tipoempleadoByTipo;
+    private Collection<Integer> conversacionsById;
+    private Integer tipoempleadoByTipo;
 
     public Empleado(){
 
@@ -60,19 +60,19 @@ public class Empleado implements Serializable {
         this.contraseña = contraseña;
     }
 
-    public Collection<Conversacion> getConversacionsById() {
+    public Collection<Integer> getConversacionsById() {
         return conversacionsById;
     }
 
-    public void setConversacionsById(Collection<Conversacion> conversacionsById) {
+    public void setConversacionsById(Collection<Integer> conversacionsById) {
         this.conversacionsById = conversacionsById;
     }
 
-    public Tipoempleado getTipoempleadoByTipo() {
+    public Integer getTipoempleadoByTipo() {
         return tipoempleadoByTipo;
     }
 
-    public void setTipoempleadoByTipo(Tipoempleado tipoempleadoByTipo) {
+    public void setTipoempleadoByTipo(Integer tipoempleadoByTipo) {
         this.tipoempleadoByTipo = tipoempleadoByTipo;
     }
 }

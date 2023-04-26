@@ -101,8 +101,8 @@ public class MensajeEntity implements DTO<Mensaje> {
         dto.setContenido(this.getContenido());
         dto.setFecha(this.getFecha());
         dto.setHora(this.getHora());
-        dto.setConversacionByConversacion(this.getConversacionByConversacion().toDTO());
-        dto.setPersonaByUsuario(this.getPersonaByUsuario().toDTO());
+        dto.setConversacionByConversacion(this.getConversacionByConversacion().getId());
+        dto.setPersonaByUsuario(this.getPersonaByUsuario().getId());
 
         return dto;
     }

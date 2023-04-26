@@ -207,13 +207,13 @@ public class EmpresaEntity implements DTO<Empresa> {
         dto.setCp(this.getCp());
         dto.setValida(this.getValida());
         dto.setContraseña(this.getContraseña());
-        dto.setCuentaByCuenta(this.getCuentaByCuenta().toDTO());
+        dto.setCuentaByCuenta(this.getCuentaByCuenta()==null ? null : this.getCuentaByCuenta().getId());
 
-        dto.setEstadopersonaByEstado(this.getEstadopersonaByEstado().toDTO());
+        dto.setEstadopersonaByEstado(this.getEstadopersonaByEstado()==null ? null : this.getEstadopersonaByEstado().getId());
 
-        List<Persona> personas = new ArrayList<>();
+        List<Integer> personas = new ArrayList<>();
         for (PersonaEntity personaEntity : this.getPersonasById()){
-            personas.add(personaEntity.toDTO());
+            personas.add(personaEntity.getId());
         }
         dto.setPersonasById(personas);
 

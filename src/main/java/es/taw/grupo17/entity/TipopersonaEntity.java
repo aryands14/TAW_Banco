@@ -65,11 +65,12 @@ public class TipopersonaEntity implements DTO<Tipopersona> {
         dto.setId(this.getId());
         dto.setDescripcion(this.getDescripcion());
 
-        List<Persona> personas = new ArrayList<>();
-        for (PersonaEntity persona : this.getPersonasById()){
-            personas.add(persona.toDTO());
+        List<Integer> personas = new ArrayList<>();
+        for (PersonaEntity personaEntity : this.getPersonasById()){
+            personas.add(personaEntity.getId());
         }
         dto.setPersonasById(personas);
+
         return dto;
     }
 }

@@ -12,7 +12,8 @@ public class Tipopersona implements Serializable {
 
     private String descripcion;
 
-    private Collection<Persona> personasById;
+    private Collection<Integer> personasById;
+
 
     public Tipopersona(){
 
@@ -46,11 +47,12 @@ public class Tipopersona implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Collection<Persona> getPersonasById() {
+    public Collection<Integer> getPersonasById() {
         return personasById;
     }
 
-    public void setPersonasById(Collection<Persona> personasById) {
+    public void setPersonasById(Collection<Integer> personasById) {
         this.personasById = personasById;
     }
+
 }

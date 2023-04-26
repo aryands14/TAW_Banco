@@ -3,9 +3,13 @@ package es.taw.grupo17.controller;
 import es.taw.grupo17.dao.EmpleadoRepository;
 import es.taw.grupo17.dao.EmpresaRepository;
 import es.taw.grupo17.dao.PersonaRepository;
+import es.taw.grupo17.dto.Empresa;
+import es.taw.grupo17.dto.Persona;
 import es.taw.grupo17.entity.EmpleadoEntity;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
+import es.taw.grupo17.service.EmpresaService;
+import es.taw.grupo17.service.PersonaService;
 import jakarta.persistence.Entity;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,12 @@ public class LoginController {
     @Autowired
     protected PersonaRepository personaRepository;
 
+    @Autowired
+    protected EmpresaService empresaService;
+
+    @Autowired
+    protected PersonaService personaService;
+
     @GetMapping("/")
     public String doLogin() {
         return "login";
@@ -38,15 +48,15 @@ public class LoginController {
                                @RequestParam("clave") String clave, Model model, HttpSession session) {
         String urlTo = "redirect:/clientes/";
         EmpleadoEntity empleado = this.empleadoRepository.autenticar(user, clave);
-        EmpresaEntity empresa = this.empresaRepository.autenticar(user,clave);
-        PersonaEntity personaEmpresa = this.personaRepository.autenticarPersonaEmpresa(user,clave);
+        Empresa empresa = this.empresaService.autenticar(user,clave);
+        Persona personaEmpresa = this.personaService.autenticarPersonaEmpresa(user,clave);
         if(empleado == null && empresa==null && personaEmpresa==null) {
             model.addAttribute("error", "Credenciales incorrectas");
             urlTo = "login";
         } else if(empleado!=null){
             session.setAttribute("empleado", empleado);
         } else if (empresa!=null) {
-            if(empresa.getEstadopersonaByEstado().getId()==5){
+            if(empresa.getEstadopersonaByEstado()==5){
                 model.addAttribute("error", "Esta pendiente de aprovación");
                 urlTo = "login";
             }else{
@@ -54,7 +64,7 @@ public class LoginController {
                 urlTo = "redirect:/empresa/";
             }
         } else if (personaEmpresa!=null){
-            if(personaEmpresa.getEstadopersonaByEstado().getId()==5){
+            if(personaEmpresa.getEstadopersonaByEstado()==5){
                 model.addAttribute("error", "Esta pendiente de aprovación");
                 urlTo = "login";
             }else{

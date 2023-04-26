@@ -35,11 +35,11 @@ public class Empresa implements Serializable {
 
     private String contraseña;
 
-    private Cuenta cuentaByCuenta;
+    private Integer cuentaByCuenta;
 
-    private Estadopersona estadopersonaByEstado;
+    private Integer estadopersonaByEstado;
 
-    private List<Persona> personasById;
+    private List<Integer> personasById;
 
     public Empresa(){
 
@@ -154,27 +154,27 @@ public class Empresa implements Serializable {
         this.contraseña = contraseña;
     }
 
-    public Cuenta getCuentaByCuenta() {
+    public Integer getCuentaByCuenta() {
         return cuentaByCuenta;
     }
 
-    public void setCuentaByCuenta(Cuenta cuentaByCuenta) {
+    public void setCuentaByCuenta(Integer cuentaByCuenta) {
         this.cuentaByCuenta = cuentaByCuenta;
     }
 
-    public Estadopersona getEstadopersonaByEstado() {
+    public Integer getEstadopersonaByEstado() {
         return estadopersonaByEstado;
     }
 
-    public void setEstadopersonaByEstado(Estadopersona estadopersonaByEstado) {
+    public void setEstadopersonaByEstado(Integer estadopersonaByEstado) {
         this.estadopersonaByEstado = estadopersonaByEstado;
     }
 
-    public List<Persona> getPersonasById() {
+    public List<Integer> getPersonasById() {
         return personasById;
     }
 
-    public void setPersonasById(List<Persona> personasById) {
+    public void setPersonasById(List<Integer> personasById) {
         this.personasById = personasById;
     }
 }

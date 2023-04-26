@@ -14,10 +14,10 @@ public class Conversacion implements Serializable {
     private Integer id;
     private Byte cerrada;
 
-    private Persona personaByUsuario;
+    private Integer personaByUsuario;
 
-    private Empleado empleadoByAsistente;
-    private Collection<Mensaje> mensajesById;
+    private Integer empleadoByAsistente;
+    private Collection<Integer> mensajesById;
 
     public Conversacion(){
 
@@ -52,27 +52,27 @@ public class Conversacion implements Serializable {
         this.cerrada = cerrada;
     }
 
-    public Persona getPersonaByUsuario() {
+    public Integer getPersonaByUsuario() {
         return personaByUsuario;
     }
 
-    public void setPersonaByUsuario(Persona personaByUsuario) {
+    public void setPersonaByUsuario(Integer personaByUsuario) {
         this.personaByUsuario = personaByUsuario;
     }
 
-    public Empleado getEmpleadoByAsistente() {
+    public Integer getEmpleadoByAsistente() {
         return empleadoByAsistente;
     }
 
-    public void setEmpleadoByAsistente(Empleado empleadoByAsistente) {
+    public void setEmpleadoByAsistente(Integer empleadoByAsistente) {
         this.empleadoByAsistente = empleadoByAsistente;
     }
 
-    public Collection<Mensaje> getMensajesById() {
+    public Collection<Integer> getMensajesById() {
         return mensajesById;
     }
 
-    public void setMensajesById(Collection<Mensaje> mensajesById) {
+    public void setMensajesById(Collection<Integer> mensajesById) {
         this.mensajesById = mensajesById;
     }
 }
