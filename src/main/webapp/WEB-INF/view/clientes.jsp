@@ -80,7 +80,7 @@
     <td><%=c.getCp()%></td>
     <td><%=c.getNumero()%></td>
     <td><%=c.getCiudad()%></td>
-    <td><%=c.getCuentaByCuenta()==null?"null":c.getCuentaByCuenta()%></td>
+    <td><%=c.getCuentaByCuenta()==null?"No tiene cuenta":cuentaService.getEstadoByCuenta(c.getCuentaByCuenta()).getDescripcion()%></td>
     <td><a href="/gestor/visualizarempresa?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%

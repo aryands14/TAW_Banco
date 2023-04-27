@@ -79,8 +79,8 @@ public class GestorController {
     @GetMapping("/solicitados")
     public String doListarSolicitados(Model model, HttpSession session) {
         String urlTo = "clientesAlta";
-        List<Persona> listaClientes = this.gestorService.getClientesPendientes(8);
-        List<Empresa> listaEmpresas = this.gestorService.getEmpresasPendientes(8);
+        List<Persona> listaClientes = this.gestorService.getClientesPendientes(10);
+        List<Empresa> listaEmpresas = this.gestorService.getEmpresasPendientes(10);
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
         return urlTo;
