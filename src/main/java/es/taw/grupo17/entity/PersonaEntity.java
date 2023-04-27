@@ -296,7 +296,6 @@ public class PersonaEntity implements DTO<Persona> {
         dto.setContraseña(this.getContraseña());
         dto.setCuentaByCuenta(this.getCuentaByCuenta()==null? null : this.getCuentaByCuenta().getId());
         dto.setEstadopersonaByEstado(this.getEstadopersonaByEstado().getId());
-
         List<Integer> conversaciones = new ArrayList<>();
         for (ConversacionEntity conversacion : this.getConversacionsById()){
             conversaciones.add(conversacion.getId());
@@ -314,7 +313,7 @@ public class PersonaEntity implements DTO<Persona> {
             operaciones.add(operacion.getId());
         }
         dto.setOperacionsById(operaciones);
-        dto.setTipopersonaByTipo(this.getTipopersonaByTipo().getId());
+        dto.setTipopersonaByTipo(this.getTipopersonaByTipo()==null ? null : this.getTipopersonaByTipo().getId());
         dto.setEmpresaByEmpresa(this.getEmpresaByEmpresa()==null ? null : this.getEmpresaByEmpresa().getId());
 
         return dto;

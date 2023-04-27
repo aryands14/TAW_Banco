@@ -1,7 +1,14 @@
 package es.taw.grupo17.controller;
 
 import es.taw.grupo17.dao.*;
+import es.taw.grupo17.dto.Empresa;
+import es.taw.grupo17.dto.Estadopersona;
+import es.taw.grupo17.dto.Persona;
 import es.taw.grupo17.entity.*;
+import es.taw.grupo17.service.CuentaService;
+import es.taw.grupo17.service.EstadopersonaService;
+import es.taw.grupo17.service.GestorService;
+import es.taw.grupo17.service.PersonaService;
 import es.taw.grupo17.ui.FiltroClientes;
 import es.taw.grupo17.ui.FiltroOperacion;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +31,8 @@ public class GestorController {
     @Autowired
     protected PersonaRepository personaRepository;
     @Autowired
+    protected GestorService gestorService;
+    @Autowired
     protected EmpresaRepository empresaRepository;
     @Autowired
     protected OperacionRepository operacionRepository;
@@ -31,29 +40,47 @@ public class GestorController {
     protected EstadoCuentaRepository estadoCuentaRepository;
     @Autowired
     protected EstadoPersonaRepository estadoPersonaRepository;
+    @Autowired
+    protected EstadopersonaService estadopersonaService;
 
     @Autowired
     protected TipoOperacionRepository tipoOperacionRepository;
 
+    @Autowired
+    protected CuentaService cuentaService;
 
     @GetMapping("/")
     public String doListarTodos(Model model, HttpSession session) {
-        String urlTo = "clientes";
-        List<PersonaEntity> listaClientes = this.personaRepository.findAll();
-        List<EmpresaEntity> listaEmpresas = this.empresaRepository.findAll();
+        return doFiltrar(model, null);
+    }
+
+    @PostMapping("/filtrar")
+    public String doFiltrar(Model model, @ModelAttribute("filtro") FiltroClientes filtro) {
+        List<Persona> listaClientes;
+        List<Empresa> listaEmpresas;
+        if(filtro == null || (filtro.getTexto().isEmpty() && filtro.getEstados().isEmpty())) {
+            listaClientes = this.gestorService.listarClientes();
+            listaEmpresas = this.gestorService.listarEmpresas();
+            filtro = new FiltroClientes();
+        } else {
+            listaClientes = this.gestorService.listarClientes(filtro.getTexto(), filtro.getEstados());
+            listaEmpresas = this.gestorService.listarEmpresas(filtro.getTexto(), filtro.getEstados());
+        }
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
+        model.addAttribute("filtro", filtro);
         List<EstadopersonaEntity> estadosPersona = this.estadoPersonaRepository.findAll();
         model.addAttribute("estadosPersona", estadosPersona);
-        model.addAttribute("filtro", new FiltroClientes());
-        return urlTo;
+        model.addAttribute("cuentaService", this.cuentaService);
+        return "clientes";
     }
+
 
     @GetMapping("/solicitados")
     public String doListarSolicitados(Model model, HttpSession session) {
         String urlTo = "clientesAlta";
-        List<PersonaEntity> listaClientes = this.personaRepository.getPendientes(10);
-        List<EmpresaEntity> listaEmpresas = this.empresaRepository.getPendientes(10);
+        List<Persona> listaClientes = this.gestorService.getClientesPendientes(8);
+        List<Empresa> listaEmpresas = this.gestorService.getEmpresasPendientes(8);
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
         return urlTo;
@@ -155,27 +182,6 @@ public class GestorController {
         return "redirect:/gestor/inactivos";
     }
 
-    @PostMapping("/filtrar")
-    public String doFiltrar(Model model, @ModelAttribute("filtro") FiltroClientes filtro) {
-        List<PersonaEntity> lista;
-        List<EmpresaEntity> lista2;
-        if(!filtro.getTexto().isEmpty() && !filtro.getEstados().isEmpty()) {
-            lista = this.personaRepository.buscarPorNombreYEstado(filtro.getTexto(),filtro.getEstados());
-            lista2 = this.empresaRepository.buscarPorNombreYEstado(filtro.getTexto(), filtro.getEstados());
-        } else if(filtro.getEstados().isEmpty()) {
-            lista = this.personaRepository.buscarPorNombre(filtro.getTexto());
-            lista2 = this.empresaRepository.buscarPorNombre(filtro.getTexto());
-        } else {
-            lista = this.personaRepository.buscarPorEstado(filtro.getEstados());
-            lista2 = this.empresaRepository.buscarPorEstado(filtro.getEstados());
-        }
-        model.addAttribute("clientes", lista);
-        model.addAttribute("filtro", filtro);
-        List<EstadopersonaEntity> estadosPersona = this.estadoPersonaRepository.findAll();
-        model.addAttribute("estadosPersona", estadosPersona);
-        model.addAttribute("empresas", lista2);
-        return "clientes";
-    }
 
     @GetMapping("/sospechosos")
     public String doListarSospechosos(Model model) {

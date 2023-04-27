@@ -1,7 +1,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %><%--
+<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
+<%@ page import="es.taw.grupo17.dto.Empresa" %>
+<%@ page import="es.taw.grupo17.dto.Estadocuenta" %>
+<%@ page import="es.taw.grupo17.service.CuentaService" %><%--
   Created by IntelliJ IDEA.
   User: aryan
   Date: 20/03/2023
@@ -11,9 +15,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  List<PersonaEntity> listaClientes = (List<PersonaEntity>) request.getAttribute("clientes");
-  List<EmpresaEntity> listaEmpresas = (List<EmpresaEntity>) request.getAttribute("empresas");
-
+  List<Persona> listaClientes = (List<Persona>) request.getAttribute("clientes");
+  List<Empresa> listaEmpresas = (List<Empresa>) request.getAttribute("empresas");
+  CuentaService cuentaService = (CuentaService) request.getAttribute("cuentaService");
 %>
 <html>
 <head>
@@ -40,7 +44,7 @@
     <th>Estado cuenta </th>
   </tr>
   <%
-    for(PersonaEntity c : listaClientes) {
+    for(Persona c : listaClientes) {
   %>
   <tr>
     <td><%=c.getId()%></td>
@@ -48,7 +52,7 @@
     <td><%=c.getPrimerApellido()%></td>
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
-    <td><%=c.getCuentaByCuenta()==null?"null":c.getCuentaByCuenta().getEstadocuentaByEstado().getDescripcion()%></td>
+    <td><%=c.getCuentaByCuenta()==null?"No tiene cuenta":cuentaService.getEstadoByCuenta(c.getCuentaByCuenta()).getDescripcion()%></td>
     <td><a href="/gestor/visualizarcliente?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
@@ -68,7 +72,7 @@
     <th>Estado Cuenta </th>
   </tr>
   <%
-    for(EmpresaEntity c : listaEmpresas) {
+    for(Empresa c : listaEmpresas) {
   %>
   <tr>
     <td><%=c.getId()%></td>
@@ -76,7 +80,7 @@
     <td><%=c.getCp()%></td>
     <td><%=c.getNumero()%></td>
     <td><%=c.getCiudad()%></td>
-    <td><%=c.getCuentaByCuenta()==null?"null":c.getCuentaByCuenta().getEstadocuentaByEstado().getDescripcion()%></td>
+    <td><%=c.getCuentaByCuenta()==null?"null":c.getCuentaByCuenta()%></td>
     <td><a href="/gestor/visualizarempresa?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
   <%
