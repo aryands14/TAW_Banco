@@ -30,46 +30,6 @@ public class GestorService {
     @Autowired
     protected TipoOperacionRepository tipoOperacionRepository;
 
-
-    public List<Persona> listarClientes (String texto, List<String> estados) {
-        List<PersonaEntity> lista;
-        if (texto.isEmpty() && estados.isEmpty()) {
-            lista = this.personaRepository.findAll();
-        } else if (texto.isEmpty()) {
-            lista = this.personaRepository.buscarPorEstado(estados);
-        } else if (estados.isEmpty()) {
-            lista = this.personaRepository.buscarPorNombre(texto);
-        } else {
-            lista = this.personaRepository.buscarPorNombreYEstado(texto, estados);
-        }
-        return this.listaClientesADTO(lista);
-    }
-
-    public List<Empresa> listarEmpresas (String texto, List<String> estados) {
-        List<EmpresaEntity> lista;
-        if (texto.isEmpty() && estados.isEmpty()) {
-            lista = this.empresaRepository.findAll();
-        } else if (texto.isEmpty()) {
-            lista = this.empresaRepository.buscarPorEstado(estados);
-        } else if (estados.isEmpty()) {
-            lista = this.empresaRepository.buscarPorNombre(texto);
-        } else {
-            lista = this.empresaRepository.buscarPorNombreYEstado(texto, estados);
-        }
-        return this.listaEmpresasADTO(lista);
-    }
-
-    public List<Persona> listarClientes() {
-        List<PersonaEntity> listaClientes = this.personaRepository.findAll();
-        List<Persona> listaClientesDTO = listaClientesADTO(listaClientes);
-        return listaClientesDTO;
-    }
-    public List<Empresa> listarEmpresas() {
-        List<EmpresaEntity> listaEmpresas = this.empresaRepository.findAll();
-        List<Empresa> listaEmpresasDTO = listaEmpresasADTO(listaEmpresas);
-        return listaEmpresasDTO;
-    }
-
     protected List<Persona> listaClientesADTO (List<PersonaEntity> lista) {
         ArrayList dtos = new ArrayList<Persona>();
 
@@ -86,45 +46,6 @@ public class GestorService {
         return dtos;
     }
 
-    public List<Persona> getClientesPendientes(int i) {
-        EstadocuentaEntity e = this.estadoCuentaRepository.findById(i).orElse(null);
-        List<PersonaEntity> pendientes = this.personaRepository.getPendientes(i);
-        List<Persona> personasPendientes = listaClientesADTO(pendientes);
-        return  personasPendientes;
-    }
-
-    public List<Empresa> getEmpresasPendientes(int i) {
-        EstadocuentaEntity e = this.estadoCuentaRepository.findById(i).orElse(null);
-        List<EmpresaEntity> pendientes = this.empresaRepository.getPendientes(i);
-        List<Empresa> personasPendientes = listaEmpresasADTO(pendientes);
-        return  personasPendientes;
-    }
-
-
-    public List<Persona> getClientesInactivos(String estado) {
-        List<PersonaEntity> inactivos = this.personaRepository.getInactivos(estado);
-        List<Persona> personasInactivos = listaClientesADTO(inactivos);
-        return  personasInactivos;
-    }
-
-    public List<Empresa> getEmpresasInactivos(String estado) {
-        List<EmpresaEntity> inactivos = this.empresaRepository.getInactivos(estado);
-        List<Empresa> empresasInactivos = listaEmpresasADTO(inactivos);
-        return  empresasInactivos;
-    }
-
-
-    public List<Persona> getClientesSospechosos(List<CuentaEntity> sospechosos) {
-        List<PersonaEntity> listaPersonas = this.personaRepository.getSospechosos(sospechosos);
-        List<Persona> listaPersonasDTO = listaClientesADTO(listaPersonas);
-        return  listaPersonasDTO;
-    }
-
-    public List<Empresa> getEmpresasSospechosos(List<CuentaEntity> sospechosos) {
-        List<EmpresaEntity> listaEmpresas = this.empresaRepository.getSospechosos(sospechosos);
-        List<Empresa> listaEmpresasDTO = listaEmpresasADTO(listaEmpresas);
-        return  listaEmpresasDTO;
-    }
 
     public Persona buscarCliente (Integer id) {
         PersonaEntity cliente = this.personaRepository.findById(id).orElse(null);

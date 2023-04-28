@@ -3,6 +3,7 @@ package es.taw.grupo17.service;
 import es.taw.grupo17.dao.*;
 import es.taw.grupo17.dto.Cuenta;
 import es.taw.grupo17.dto.Estadocuenta;
+import es.taw.grupo17.dto.Persona;
 import es.taw.grupo17.entity.CuentaEntity;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.OperacionEntity;
@@ -90,4 +91,16 @@ public class CuentaService {
         return c==null?null:c.getEstadocuentaByEstado().toDTO();
     }
 
+    public List<Cuenta> getSospechosos() {
+        List<CuentaEntity> sospechosos = this.cuentaRepository.getSospechosos();
+        return listaCuentasADTO(sospechosos);
+    }
+
+    protected List<Cuenta> listaCuentasADTO (List<CuentaEntity> lista) {
+        ArrayList dtos = new ArrayList<Cuenta>();
+
+        lista.forEach((CuentaEntity cuenta) -> dtos.add(cuenta.toDTO()));
+
+        return dtos;
+    }
 }

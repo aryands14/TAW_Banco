@@ -1,5 +1,6 @@
 package es.taw.grupo17.dao;
 
+import es.taw.grupo17.dto.Cuenta;
 import es.taw.grupo17.entity.CuentaEntity;
 import es.taw.grupo17.entity.EmpleadoEntity;
 import es.taw.grupo17.entity.PersonaEntity;
@@ -43,7 +44,7 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
 
     @Query("select c from PersonaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id)" +
             "where o.personaByBeneficiario.cuentaByCuenta in :sospechosos")
-    public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);
+    public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<Cuenta> sospechosos);
 
     @Query("select p from PersonaEntity p where (p.primerNombre like " +
             "CONCAT('%', :texto, '%' ) or p.primerApellido like " +

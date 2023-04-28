@@ -30,22 +30,21 @@ public class GestorController {
     @Autowired
     protected EmpresaRepository empresaRepository;
     @Autowired
-    protected OperacionRepository operacionRepository;
-    @Autowired
     protected EstadoCuentaRepository estadoCuentaRepository;
     @Autowired
     protected EstadoPersonaRepository estadoPersonaRepository;
     @Autowired
-    protected EstadopersonaService estadopersonaService;
-
-    @Autowired
-    protected TipoOperacionRepository tipoOperacionRepository;
-    @Autowired
     protected CuentaService cuentaService;
+    @Autowired
+    protected PersonaService personaService;
+    @Autowired
+    protected EmpresaService empresaService;
     @Autowired
     protected OperacionService operacionService;
     @Autowired
     protected TipoOperacionService tipoOperacionService;
+    @Autowired
+    protected EstadopersonaService estadopersonaService;
 
     @GetMapping("/")
     public String doListarTodos(Model model, HttpSession session) {
@@ -57,17 +56,17 @@ public class GestorController {
         List<Persona> listaClientes;
         List<Empresa> listaEmpresas;
         if(filtro == null || (filtro.getTexto().isEmpty() && filtro.getEstados().isEmpty())) {
-            listaClientes = this.gestorService.listarClientes();
-            listaEmpresas = this.gestorService.listarEmpresas();
+            listaClientes = this.personaService.listarClientes();
+            listaEmpresas = this.empresaService.listarEmpresas();
             filtro = new FiltroClientes();
         } else {
-            listaClientes = this.gestorService.listarClientes(filtro.getTexto(), filtro.getEstados());
-            listaEmpresas = this.gestorService.listarEmpresas(filtro.getTexto(), filtro.getEstados());
+            listaClientes = this.personaService.listarClientes(filtro.getTexto(), filtro.getEstados());
+            listaEmpresas = this.empresaService.listarEmpresas(filtro.getTexto(), filtro.getEstados());
         }
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
         model.addAttribute("filtro", filtro);
-        List<EstadopersonaEntity> estadosPersona = this.estadoPersonaRepository.findAll();
+        List<Estadopersona> estadosPersona = this.estadopersonaService.doListarEstados();
         model.addAttribute("estadosPersona", estadosPersona);
         model.addAttribute("cuentaService", this.cuentaService);
         return "clientes";
@@ -77,8 +76,8 @@ public class GestorController {
     @GetMapping("/solicitados")
     public String doListarSolicitados(Model model, HttpSession session) {
         String urlTo = "clientesAlta";
-        List<Persona> listaClientes = this.gestorService.getClientesPendientes(10);
-        List<Empresa> listaEmpresas = this.gestorService.getEmpresasPendientes(10);
+        List<Persona> listaClientes = this.personaService.getClientesPendientes(10);
+        List<Empresa> listaEmpresas = this.empresaService.getEmpresasPendientes(10);
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
         return urlTo;
@@ -121,10 +120,10 @@ public class GestorController {
     @GetMapping("/sospechosos")
     public String doListarSospechosos(Model model) {
         String urlTo = "clientesSospechosos";
-        List<CuentaEntity> cuentasSospechosas = this.cuentaRepository.getSospechosos();
-        List<Persona> sospechosos = this.gestorService.getClientesSospechosos(cuentasSospechosas);
+        List<Cuenta> cuentasSospechosas = this.cuentaService.getSospechosos();
+        List<Persona> sospechosos = this.personaService.getClientesSospechosos(cuentasSospechosas);
         model.addAttribute("clientes", sospechosos);
-        List<Empresa> sospechosos1 = this.gestorService.getEmpresasSospechosos(cuentasSospechosas);
+        List<Empresa> sospechosos1 = this.empresaService.getEmpresasSospechosos(cuentasSospechosas);
         model.addAttribute("empresas", sospechosos1);
         return urlTo;
     }
@@ -165,8 +164,8 @@ public class GestorController {
     public String doListarInactivos(Model model, HttpSession session) {
         String urlTo = "clientesInactivos";
         EstadocuentaEntity estadoCuenta = this.estadoCuentaRepository.findById(5).orElse(null);
-        List<Persona> listaClientes = this.gestorService.getClientesInactivos(estadoCuenta.getDescripcion());
-        List<Empresa> listaEmpresas = this.gestorService.getEmpresasInactivos(estadoCuenta.getDescripcion());
+        List<Persona> listaClientes = this.personaService.getClientesInactivos(estadoCuenta.getDescripcion());
+        List<Empresa> listaEmpresas = this.empresaService.getEmpresasInactivos(estadoCuenta.getDescripcion());
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
         return urlTo;

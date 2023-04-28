@@ -32,14 +32,64 @@ public class PersonaService {
 
     @Autowired
     protected TipoPersonaRepository tipoPersonaRepository;
-
     @Autowired
     protected EmpresaRepository empresaRepository;
+    @Autowired
+    protected EstadoCuentaRepository estadoCuentaRepository;
+
 
     public Persona autenticarPersonaEmpresa(String user, String clave) {
         PersonaEntity persona = this.personaRepository.autenticarPersonaEmpresa(user, clave);
         return (persona == null? null : persona.toDTO());
     }
+
+    public List<Persona> listarClientes (String texto, List<String> estados) {
+        List<PersonaEntity> lista;
+        if (texto.isEmpty() && estados.isEmpty()) {
+            lista = this.personaRepository.findAll();
+        } else if (texto.isEmpty()) {
+            lista = this.personaRepository.buscarPorEstado(estados);
+        } else if (estados.isEmpty()) {
+            lista = this.personaRepository.buscarPorNombre(texto);
+        } else {
+            lista = this.personaRepository.buscarPorNombreYEstado(texto, estados);
+        }
+        return this.listaClientesADTO(lista);
+    }
+
+    public List<Persona> listarClientes() {
+        List<PersonaEntity> listaClientes = this.personaRepository.findAll();
+        List<Persona> listaClientesDTO = listaClientesADTO(listaClientes);
+        return listaClientesDTO;
+    }
+
+    protected List<Persona> listaClientesADTO (List<PersonaEntity> lista) {
+        ArrayList dtos = new ArrayList<Persona>();
+
+        lista.forEach((PersonaEntity cliente) -> dtos.add(cliente.toDTO()));
+
+        return dtos;
+    }
+
+    public List<Persona> getClientesPendientes(int i) {
+        EstadocuentaEntity e = this.estadoCuentaRepository.findById(i).orElse(null);
+        List<PersonaEntity> pendientes = this.personaRepository.getPendientes(i);
+        List<Persona> personasPendientes = listaClientesADTO(pendientes);
+        return  personasPendientes;
+    }
+
+    public List<Persona> getClientesInactivos(String estado) {
+        List<PersonaEntity> inactivos = this.personaRepository.getInactivos(estado);
+        List<Persona> personasInactivos = listaClientesADTO(inactivos);
+        return  personasInactivos;
+    }
+
+    public List<Persona> getClientesSospechosos(List<Cuenta> sospechosos) {
+        List<PersonaEntity> listaPersonas = this.personaRepository.getSospechosos(sospechosos);
+        List<Persona> listaPersonasDTO = listaClientesADTO(listaPersonas);
+        return  listaPersonasDTO;
+    }
+
 
     public Persona buscarPersona(Integer id) {
         PersonaEntity persona = this.personaRepository.findById(id).orElse(null);
