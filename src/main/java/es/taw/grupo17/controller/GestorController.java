@@ -1,14 +1,9 @@
 package es.taw.grupo17.controller;
 
 import es.taw.grupo17.dao.*;
-import es.taw.grupo17.dto.Empresa;
-import es.taw.grupo17.dto.Estadopersona;
-import es.taw.grupo17.dto.Persona;
+import es.taw.grupo17.dto.*;
 import es.taw.grupo17.entity.*;
-import es.taw.grupo17.service.CuentaService;
-import es.taw.grupo17.service.EstadopersonaService;
-import es.taw.grupo17.service.GestorService;
-import es.taw.grupo17.service.PersonaService;
+import es.taw.grupo17.service.*;
 import es.taw.grupo17.ui.FiltroClientes;
 import es.taw.grupo17.ui.FiltroOperacion;
 import jakarta.servlet.http.HttpSession;
@@ -45,9 +40,12 @@ public class GestorController {
 
     @Autowired
     protected TipoOperacionRepository tipoOperacionRepository;
-
     @Autowired
     protected CuentaService cuentaService;
+    @Autowired
+    protected OperacionService operacionService;
+    @Autowired
+    protected TipoOperacionService tipoOperacionService;
 
     @GetMapping("/")
     public String doListarTodos(Model model, HttpSession session) {
@@ -86,6 +84,51 @@ public class GestorController {
         return urlTo;
     }
 
+    @GetMapping("/visualizarcliente")
+    public String doVisualizarCliente(@RequestParam("id") Integer id, Model model) {
+        Persona persona = this.gestorService.buscarCliente(id);
+        if (persona != null) {
+            model.addAttribute("cliente", persona);
+            List<Operacion> operaciones = null;
+            if (persona.getCuentaByCuenta() != null) {
+                operaciones = this.operacionService.getOperaciones(persona.getCuentaByCuenta());
+            }
+            List<Tipooperacion> tiposOperacion = this.tipoOperacionService.listarTiposOperaciones();
+            model.addAttribute("tiposOperacion", tiposOperacion);
+            model.addAttribute("filtro", new FiltroOperacion());
+            model.addAttribute("operaciones", operaciones);
+        }
+        return "detallesCliente";
+    }
+
+    @GetMapping("/visualizarempresa")
+    public String doVisualizarEmpresa(@RequestParam("id") Integer id, Model model) {
+        Empresa empresa = this.gestorService.buscarEmpresa(id);
+        if (empresa != null) {
+            model.addAttribute("empresa", empresa);
+            List<Operacion> operaciones = null;
+            if (empresa.getCuentaByCuenta() != null) {
+                operaciones = this.operacionService.getOperaciones(empresa.getCuentaByCuenta());
+            }
+            List<Tipooperacion> tiposOperacion = this.tipoOperacionService.listarTiposOperaciones();
+            model.addAttribute("tiposOperacion", tiposOperacion);
+            model.addAttribute("filtro", new FiltroOperacion());
+            model.addAttribute("operaciones", operaciones);
+        }
+        return "detallesEmpresa";
+    }
+
+    @GetMapping("/sospechosos")
+    public String doListarSospechosos(Model model) {
+        String urlTo = "clientesSospechosos";
+        List<CuentaEntity> cuentasSospechosas = this.cuentaRepository.getSospechosos();
+        List<Persona> sospechosos = this.gestorService.getClientesSospechosos(cuentasSospechosas);
+        model.addAttribute("clientes", sospechosos);
+        List<Empresa> sospechosos1 = this.gestorService.getEmpresasSospechosos(cuentasSospechosas);
+        model.addAttribute("empresas", sospechosos1);
+        return urlTo;
+    }
+
     @GetMapping("/altaPersona")
     public String doAltaPersona(@RequestParam("id") Integer cid, Model model) {
         PersonaEntity p = this.personaRepository.findById(cid).orElse(null);
@@ -118,39 +161,6 @@ public class GestorController {
         return "redirect:/gestor/solicitados";
     }
 
-    @GetMapping("/visualizarcliente")
-    public String doVisualizarCliente(@RequestParam("id") Integer id, Model model) {
-        PersonaEntity persona = this.personaRepository.findById(id).orElse(null);
-        if (persona != null) {
-            model.addAttribute("cliente", persona);
-            List<OperacionEntity> operaciones = null;
-            if (persona.getCuentaByCuenta() != null) {
-                operaciones = this.operacionRepository.getOperaciones(persona.getCuentaByCuenta().getId());
-            }
-            List<TipooperacionEntity> tiposOperacion = this.tipoOperacionRepository.findAll();
-            model.addAttribute("tiposOperacion", tiposOperacion);
-            model.addAttribute("filtro", new FiltroOperacion());
-
-            model.addAttribute("operaciones", operaciones);
-        }
-        return "detallesCliente";
-    }
-
-    @GetMapping("/visualizarempresa")
-    public String doVisualizarEmpresa(@RequestParam("id") Integer id, Model model) {
-        EmpresaEntity empresa = this.empresaRepository.findById(id).orElse(null);
-        if (empresa != null) {
-            model.addAttribute("empresa", empresa);
-            List<OperacionEntity> operaciones = null;
-            if (empresa.getCuentaByCuenta() != null) {
-                operaciones = this.operacionRepository.getOperaciones(empresa.getCuentaByCuenta().getId());
-            }
-            model.addAttribute("operaciones", operaciones);
-        }
-        return "detallesEmpresa";
-    }
-
-
     @GetMapping("/inactivos")
     public String doListarInactivos(Model model, HttpSession session) {
         String urlTo = "clientesInactivos";
@@ -180,18 +190,6 @@ public class GestorController {
         c.setEstadocuentaByEstado(estado);
         this.cuentaRepository.save(c);
         return "redirect:/gestor/inactivos";
-    }
-
-
-    @GetMapping("/sospechosos")
-    public String doListarSospechosos(Model model) {
-        String urlTo = "clientesSospechosos";
-        List<CuentaEntity> cuentasSospechosas = this.cuentaRepository.getSospechosos();
-        List<PersonaEntity> sospechosos = this.personaRepository.getSospechosos(cuentasSospechosas);
-        model.addAttribute("clientes", sospechosos);
-        List<EmpresaEntity> sospechosos1 = this.empresaRepository.getSospechosos(cuentasSospechosas);
-        model.addAttribute("empresas", sospechosos1);
-        return urlTo;
     }
 
     @GetMapping ("/bloquearCuentaPersona")

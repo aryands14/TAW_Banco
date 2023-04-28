@@ -3,6 +3,7 @@ package es.taw.grupo17.service;
 import es.taw.grupo17.dao.*;
 import es.taw.grupo17.dto.Empresa;
 import es.taw.grupo17.dto.Persona;
+import es.taw.grupo17.entity.CuentaEntity;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.EstadocuentaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
@@ -110,6 +111,19 @@ public class GestorService {
         List<EmpresaEntity> inactivos = this.empresaRepository.getInactivos(estado);
         List<Empresa> empresasInactivos = listaEmpresasADTO(inactivos);
         return  empresasInactivos;
+    }
+
+
+    public List<Persona> getClientesSospechosos(List<CuentaEntity> sospechosos) {
+        List<PersonaEntity> listaPersonas = this.personaRepository.getSospechosos(sospechosos);
+        List<Persona> listaPersonasDTO = listaClientesADTO(listaPersonas);
+        return  listaPersonasDTO;
+    }
+
+    public List<Empresa> getEmpresasSospechosos(List<CuentaEntity> sospechosos) {
+        List<EmpresaEntity> listaEmpresas = this.empresaRepository.getSospechosos(sospechosos);
+        List<Empresa> listaEmpresasDTO = listaEmpresasADTO(listaEmpresas);
+        return  listaEmpresasDTO;
     }
 
     public Persona buscarCliente (Integer id) {

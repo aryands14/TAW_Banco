@@ -2,6 +2,8 @@
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
+<%@ page import="es.taw.grupo17.dto.Operacion" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
 <%--
   Created by IntelliJ IDEA.
   User: aryan
@@ -11,8 +13,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  PersonaEntity c = (PersonaEntity) request.getAttribute("cliente");
-  List<OperacionEntity> operaciones = (List<OperacionEntity>) request.getAttribute("operaciones");
+  Persona c = (Persona) request.getAttribute("cliente");
+  List<Operacion> operaciones = (List<Operacion>) request.getAttribute("operaciones");
   String url = "/operaciones/filtrar?id="+c.getId();
 %>
 <html>
@@ -75,15 +77,15 @@
 
 <%
   if(operaciones != null) {
-  for(OperacionEntity op : operaciones) {
+  for(Operacion op : operaciones) {
 %>
 
   <tr>
     <td><%=op.getId()%></td>
-    <td><%=op.getCuentaByCuenta().getId()%></td>
+    <td><%=op.getCuentaByCuenta()%></td>
     <td><%=op.getCantidad()%></td>
     <td><%=op.getCantidadCambio()%></td>
-    <td><%=op.getTipooperacionByTipo().getDescripcion()%></td>
+    <td><%=op.getTipooperacionByTipo()%></td>
     <td><%=op.getMoneda()%></td>
     <td><%=op.getFechaInstruccion()%></td>
   </tr>
