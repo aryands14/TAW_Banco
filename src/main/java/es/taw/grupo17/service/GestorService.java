@@ -100,6 +100,18 @@ public class GestorService {
     }
 
 
+    public List<Persona> getClientesInactivos(String estado) {
+        List<PersonaEntity> inactivos = this.personaRepository.getInactivos(estado);
+        List<Persona> personasInactivos = listaClientesADTO(inactivos);
+        return  personasInactivos;
+    }
+
+    public List<Empresa> getEmpresasInactivos(String estado) {
+        List<EmpresaEntity> inactivos = this.empresaRepository.getInactivos(estado);
+        List<Empresa> empresasInactivos = listaEmpresasADTO(inactivos);
+        return  empresasInactivos;
+    }
+
     public Persona buscarCliente (Integer id) {
         PersonaEntity cliente = this.personaRepository.findById(id).orElse(null);
         if (cliente != null) {

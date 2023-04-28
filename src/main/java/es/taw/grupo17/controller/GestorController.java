@@ -155,10 +155,10 @@ public class GestorController {
     public String doListarInactivos(Model model, HttpSession session) {
         String urlTo = "clientesInactivos";
         EstadocuentaEntity estadoCuenta = this.estadoCuentaRepository.findById(5).orElse(null);
-        List<PersonaEntity> inactivos = this.personaRepository.getInactivos(estadoCuenta.getDescripcion());
-        model.addAttribute("clientes", inactivos);
-        List<EmpresaEntity> inactivos2 = this.empresaRepository.getInactivos(estadoCuenta.getDescripcion());
-        model.addAttribute("empresas", inactivos2);
+        List<Persona> listaClientes = this.gestorService.getClientesInactivos(estadoCuenta.getDescripcion());
+        List<Empresa> listaEmpresas = this.gestorService.getEmpresasInactivos(estadoCuenta.getDescripcion());
+        model.addAttribute("clientes", listaClientes);
+        model.addAttribute("empresas", listaEmpresas);
         return urlTo;
     }
 

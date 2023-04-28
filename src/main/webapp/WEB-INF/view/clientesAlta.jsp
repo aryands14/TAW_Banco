@@ -1,6 +1,9 @@
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %><%--
+<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
+<%@ page import="es.taw.grupo17.dto.Empresa" %>
+<%@ page import="es.taw.grupo17.service.CuentaService" %><%--
   Created by IntelliJ IDEA.
   User: aryan
   Date: 27/03/2023
@@ -9,8 +12,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  List<PersonaEntity> listaClientes = (List<PersonaEntity>) request.getAttribute("clientes");
-  List<EmpresaEntity> listaEmpresas = (List<EmpresaEntity>) request.getAttribute("empresas");
+  List<Persona> listaClientes = (List<Persona>) request.getAttribute("clientes");
+  List<Empresa> listaEmpresas = (List<Empresa>) request.getAttribute("empresas");
+  CuentaService cuentaService = (CuentaService) request.getAttribute("cuentaService");
+
 %>
 <html>
 <head>
@@ -28,7 +33,7 @@
     <th>CP </th>
   </tr>
   <%
-    for(PersonaEntity c : listaClientes) {
+    for(Persona c : listaClientes) {
   %>
   <tr>
     <td><%=c.getId()%></td>
@@ -55,7 +60,7 @@
     <th>Ciudad </th>
   </tr>
   <%
-    for(EmpresaEntity e : listaEmpresas) {
+    for(Empresa e : listaEmpresas) {
   %>
   <tr>
     <td><%=e.getId()%></td>
