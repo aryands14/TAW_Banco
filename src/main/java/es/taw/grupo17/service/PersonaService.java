@@ -120,7 +120,13 @@ public class PersonaService {
     }
 
     public void guardarPersona(Persona persona) {
-        PersonaEntity personaEntity = new PersonaEntity();
+        PersonaEntity personaEntity ;
+
+        if (persona.getId()==null){
+            personaEntity = new PersonaEntity();
+        }else {
+            personaEntity = this.personaRepository.findById(persona.getId()).orElse(null);
+        }
 
         personaEntity.setId(persona.getId());
         personaEntity.setNif(persona.getNif());
@@ -145,7 +151,8 @@ public class PersonaService {
         personaEntity.setEstadopersonaByEstado(persona.getEstadopersonaByEstado()==null ? null :
                 this.estadoPersonaRepository.findById(persona.getEstadopersonaByEstado()).orElse(null));
 
-        if (persona.getConversacionsById()!=null){
+
+        if (persona.getConversacionsById()!=null && !persona.getConversacionsById().isEmpty()){
             List<ConversacionEntity> conversaciones = new ArrayList<>();
             for (Integer id : persona.getConversacionsById()){
                 conversaciones.add(this.conversacionRepository.findById(id).orElse(null));
@@ -153,7 +160,7 @@ public class PersonaService {
             personaEntity.setConversacionsById(conversaciones);
         }
 
-        if (persona.getMensajesById()!=null){
+        if (persona.getMensajesById()!=null && !persona.getMensajesById().isEmpty()){
             List<MensajeEntity> mensajes = new ArrayList<>();
             for (Integer id : persona.getMensajesById()){
                 mensajes.add(this.mensajeRepository.findById(id).orElse(null));
@@ -161,7 +168,7 @@ public class PersonaService {
             personaEntity.setMensajesById(mensajes);
         }
 
-        if (persona.getOperacionsById()!=null){
+        if (persona.getOperacionsById()!=null && !persona.getOperacionsById().isEmpty()){
             List<OperacionEntity> operaciones = new ArrayList<>();
             for (Integer id : persona.getOperacionsById()){
                 operaciones.add(this.operacionRepository.findById(id).orElse(null));

@@ -61,6 +61,7 @@ public class LoginController {
                 urlTo = "login";
             }else{
                 session.setAttribute("empresa", empresa);
+                session.setAttribute("personaEmpresa",null);
                 urlTo = "redirect:/empresa/";
             }
         } else if (personaEmpresa!=null){
@@ -69,6 +70,7 @@ public class LoginController {
                 urlTo = "login";
             }else{
                 session.setAttribute("personaEmpresa", personaEmpresa);
+                session.setAttribute("empresa", null);
                 urlTo = "redirect:/empresa/";
             }
         }
