@@ -1,12 +1,10 @@
 package es.taw.grupo17.controller;
 
+import es.taw.grupo17.dto.Cuenta;
 import es.taw.grupo17.dto.Empresa;
 import es.taw.grupo17.dto.Persona;
 import es.taw.grupo17.dto.Tipopersona;
-import es.taw.grupo17.service.EmpresaService;
-import es.taw.grupo17.service.EstadopersonaService;
-import es.taw.grupo17.service.PersonaService;
-import es.taw.grupo17.service.TipopersonaService;
+import es.taw.grupo17.service.*;
 import es.taw.grupo17.ui.FiltroClientes;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,12 @@ public class EmpresaController {
     @Autowired
     protected PersonaService personaService;
 
+    @Autowired
+    protected CuentaService cuentaService;
+
+    @Autowired
+    protected EstadoCuentaService estadoCuentaService;
+
 
     @GetMapping("/")
     public String empresaHome(Model model, HttpSession session){
@@ -51,9 +55,11 @@ public class EmpresaController {
             return "login";
         } else {
             List<Persona> lista;
+            Persona persona = personaSessionAttribute==null ? null :
+                    this.personaService.buscarPersona(personaSessionAttribute.getId());
             Empresa empresa = empresaSessionAttribute==null ?
                     this.empresaService.buscarEmpresa(personaSessionAttribute.getEmpresaByEmpresa()) :
-                    empresaSessionAttribute;
+                    this.empresaService.buscarEmpresa(empresaSessionAttribute.getId());
             if (filtroClientes == null || filtroClientes.getTexto().isEmpty() && filtroClientes.getTipos().isEmpty()) {
                 lista = this.empresaService.listarPlantilla(empresa);
                 filtroClientes = new FiltroClientes();
@@ -72,8 +78,12 @@ public class EmpresaController {
             model.addAttribute("empresa", empresa);
             model.addAttribute("listaPersonas", lista);
 
+            model.addAttribute("persona",persona);
+
             model.addAttribute("estadoPersonaService",estadopersonaService);
             model.addAttribute("tipopersonaService",tipopersonaService);
+            model.addAttribute("cuentaService",cuentaService);
+            model.addAttribute("estadoCuentaService",estadoCuentaService);
             return "empresaHome";
         }
     }
@@ -153,7 +163,10 @@ public class EmpresaController {
                                   @RequestParam("repetirContraseña") String repetirContraseña,
                                   @RequestParam("idEmpresa") Integer idEmpresa,Model model){
         Empresa empresa = this.empresaService.buscarEmpresa(idEmpresa);
-        if (persona.getContraseña().equals(repetirContraseña)){
+        if (empresa.getPersonasById().contains(persona.getId())){
+            this.personaService.guardarPersona(persona);
+            return "redirect:/empresa/";
+        }else if (persona.getContraseña().equals(repetirContraseña)){
             persona.setEstadopersonaByEstado(5);
             persona.setEmpresaByEmpresa(empresa.getId());
             this.personaService.guardarPersona(persona);
@@ -188,6 +201,26 @@ public class EmpresaController {
     public String doBloquearPersona(@RequestParam("id") Integer idPersona){
         Persona persona = this.personaService.buscarPersona(idPersona);
         persona.setEstadopersonaByEstado(3);
+        Cuenta cuenta = this.cuentaService.buscarCuenta(persona.getCuentaByCuenta());
+        if(cuenta!=null){
+            cuenta.setEstadocuentaByEstado(3);
+        }
+        this.cuentaService.guardarCuenta(cuenta);
+        this.personaService.guardarPersona(persona);
+
+        return "redirect:/empresa/";
+    }
+
+    @GetMapping("/solicitarDesbloqueo")
+    public String doSolicitarDesbloqueo(@RequestParam("id") Integer idPersona){
+        Persona persona = this.personaService.buscarPersona(idPersona);
+        persona.setEstadopersonaByEstado(5);
+        Cuenta cuenta = this.cuentaService.buscarCuenta(persona.getCuentaByCuenta());
+        if(cuenta!=null){
+            cuenta.setEstadocuentaByEstado(4);
+        }
+
+        this.cuentaService.guardarCuenta(cuenta);
         this.personaService.guardarPersona(persona);
         return "redirect:/empresa/";
     }

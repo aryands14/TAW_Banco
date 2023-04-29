@@ -70,6 +70,7 @@
     <button>Filtrar</button>
 </form:form>
 
+
 <h1>Personas relacionadas a la empresa</h1>
 <table border="2">
     <tr>
@@ -103,9 +104,9 @@
         <td><%=estadopersona.getDescripcion()%></td>
         <%
             Cuenta cuenta = persona.getCuentaByCuenta()==null? null :cuentaService.buscarCuenta(persona.getCuentaByCuenta());
-            Estadocuenta estadocuenta= estadoCuentaService.buscarEstadoCuenta(cuenta.getEstadocuentaByEstado());
+            Estadocuenta estadocuenta = cuenta==null ? null : estadoCuentaService.buscarEstadoCuenta(cuenta.getEstadocuentaByEstado());
         %>
-        <td><%=estadocuenta.getDescripcion()%></td>
+        <td><%=estadocuenta==null? "No asignada": estadocuenta.getDescripcion()%></td>
         <%
             if (personaEmpresa!=null && personaEmpresa.getId()==persona.getId()){
         %>
@@ -122,7 +123,7 @@
                     }
                 }
             }
-            if(personaEmpresa.getTipopersonaByTipo()==1 && persona.getEstadopersonaByEstado()!=5 && persona.getEstadopersonaByEstado()!=3){
+            if(personaEmpresa!=null && !persona.equals(personaEmpresa) &&personaEmpresa.getTipopersonaByTipo()==1 && persona.getEstadopersonaByEstado()!=5 && persona.getEstadopersonaByEstado()!=3 && persona.getTipopersonaByTipo()!=3){
         %>
         <td><a href="/empresa/bloquearPersona?id=<%=persona.getId()%>" >Bloquear</a></td>
         <%
@@ -142,7 +143,7 @@
 <%
     if(personaEmpresa==null){
 %>
-<a href="/empresa/nuevaPersona?id=<%=empresa.getId()%>" >Dar de alta</a>
+<a href="/empresa/nuevo?id=<%=empresa.getId()%>" >Dar de alta</a>
 <%
     }
 %>

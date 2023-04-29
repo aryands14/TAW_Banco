@@ -27,6 +27,9 @@
 
 <form:form action="<%=url%>" method="post" modelAttribute="persona" >
     <form:hidden path="id"/>
+    <form:hidden path="estadopersonaByEstado"/>
+    <form:hidden path="cuentaByCuenta"/>
+    <form:hidden path="empresaByEmpresa"/>
     <legend>Datos de la persona</legend>
     NIF(*) <form:input path="nif" required="true"/><br/>
     Primer Nombre(*) <form:input path="primerNombre" required="true"/><br/>
