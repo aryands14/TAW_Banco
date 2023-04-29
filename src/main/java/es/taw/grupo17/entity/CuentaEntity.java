@@ -161,7 +161,7 @@ public class CuentaEntity implements DTO<Cuenta> {
         }
         dto.setPersonasById(personas);
 
-        dto.setSospechosoBySospechoso(this.getSospechosoBySospechoso().getId());
+        dto.setSospechosoBySospechoso(this.getSospechosoBySospechoso()==null?null:this.getSospechosoBySospechoso().getId());
 
         return dto;
     }

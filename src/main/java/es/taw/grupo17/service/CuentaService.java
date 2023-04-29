@@ -4,14 +4,12 @@ import es.taw.grupo17.dao.*;
 import es.taw.grupo17.dto.Cuenta;
 import es.taw.grupo17.dto.Estadocuenta;
 import es.taw.grupo17.dto.Persona;
-import es.taw.grupo17.entity.CuentaEntity;
-import es.taw.grupo17.entity.EmpresaEntity;
-import es.taw.grupo17.entity.OperacionEntity;
-import es.taw.grupo17.entity.PersonaEntity;
+import es.taw.grupo17.entity.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +33,8 @@ public class CuentaService {
 
     @Autowired
     protected SospechosoRepository sospechosoRepository;
+    @Autowired
+    protected EstadoCuentaService estadoCuentaService;
 
     public void guardarCuenta(Cuenta cuenta) {
         CuentaEntity cuentaEntity;
@@ -79,6 +79,8 @@ public class CuentaService {
         cuentaEntity.setSospechosoBySospechoso(cuenta.getSospechosoBySospechoso()==null? null :
                 this.sospechosoRepository.findById(cuenta.getSospechosoBySospechoso()).orElse(null));
 
+        this.cuentaRepository.save(cuentaEntity);
+        cuenta.setId(cuentaEntity.getId());
     }
 
     public Cuenta buscarCuenta(Integer id){
@@ -103,4 +105,5 @@ public class CuentaService {
 
         return dtos;
     }
+
 }

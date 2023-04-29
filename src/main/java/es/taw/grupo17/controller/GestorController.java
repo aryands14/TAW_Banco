@@ -26,13 +26,9 @@ public class GestorController {
     @Autowired
     protected PersonaRepository personaRepository;
     @Autowired
-    protected GestorService gestorService;
-    @Autowired
-    protected EmpresaRepository empresaRepository;
-    @Autowired
     protected EstadoCuentaRepository estadoCuentaRepository;
     @Autowired
-    protected EstadoPersonaRepository estadoPersonaRepository;
+    protected GestorService gestorService;
     @Autowired
     protected CuentaService cuentaService;
     @Autowired
@@ -45,6 +41,8 @@ public class GestorController {
     protected TipoOperacionService tipoOperacionService;
     @Autowired
     protected EstadopersonaService estadopersonaService;
+    @Autowired
+    protected EstadoCuentaService estadoCuentaService;
 
     @GetMapping("/")
     public String doListarTodos(Model model, HttpSession session) {
@@ -130,40 +128,41 @@ public class GestorController {
 
     @GetMapping("/altaPersona")
     public String doAltaPersona(@RequestParam("id") Integer cid, Model model) {
-        PersonaEntity p = this.personaRepository.findById(cid).orElse(null);
-        CuentaEntity c = new CuentaEntity();
-        EstadopersonaEntity estadoPersona = this.estadoPersonaRepository.findById(6).orElse(null);
-        EstadocuentaEntity estadoCuenta = this.estadoCuentaRepository.findById(5).orElse(null);
-        p.setEstadopersonaByEstado(estadoPersona);
-        c.setEstadocuentaByEstado(estadoCuenta);
-        p.setCuentaByCuenta(c);
+        Persona p = this.personaService.buscarPersona(cid);
+        Cuenta c = new Cuenta();
+        Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(6);
+        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(5);
         c.setFechaApertura(java.sql.Date.valueOf(LocalDate.now()));
         c.setSaldo(0.0);
-        this.cuentaRepository.save(c);
-        this.personaRepository.save(p);
+        c.setEstadocuentaByEstado(estadoCuenta.getId());
+        this.cuentaService.guardarCuenta(c);
+        p.setEstadopersonaByEstado(estadoPersona.getId());
+        p.setCuentaByCuenta(c.getId());
+        this.personaService.guardarPersona(p);
         return "redirect:/gestor/solicitados";
     }
 
     @GetMapping("/altaEmpresa")
     public String doAltaEmpresa(@RequestParam("id") Integer cid, Model model) {
-        EmpresaEntity p = this.empresaRepository.findById(cid).orElse(null);
-        CuentaEntity c = new CuentaEntity();
-        EstadopersonaEntity estadoPersona = this.estadoPersonaRepository.findById(6).orElse(null);
-        EstadocuentaEntity estadoCuenta = this.estadoCuentaRepository.findById(5).orElse(null);
-        p.setEstadopersonaByEstado(estadoPersona);
-        c.setEstadocuentaByEstado(estadoCuenta);
-        p.setCuentaByCuenta(c);
+        //EmpresaEntity p = this.empresaRepository.findById(cid).orElse(null);
+        Empresa e = this.empresaService.buscarEmpresa(cid);
+        Cuenta c = new Cuenta();
+        Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(6);
+        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(5);
+        e.setEstadopersonaByEstado(estadoPersona.getId());
+        c.setEstadocuentaByEstado(estadoCuenta.getId());
+        e.setCuentaByCuenta(c.getId());
         c.setFechaApertura(java.sql.Date.valueOf(LocalDate.now()));
         c.setSaldo(0.0);
-        this.cuentaRepository.save(c);
-        this.empresaRepository.save(p);
+        this.cuentaService.guardarCuenta(c);
+        this.empresaService.guardarEmpresa(e);
         return "redirect:/gestor/solicitados";
     }
 
     @GetMapping("/inactivos")
     public String doListarInactivos(Model model, HttpSession session) {
         String urlTo = "clientesInactivos";
-        EstadocuentaEntity estadoCuenta = this.estadoCuentaRepository.findById(5).orElse(null);
+        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(5);
         List<Persona> listaClientes = this.personaService.getClientesInactivos(estadoCuenta.getDescripcion());
         List<Empresa> listaEmpresas = this.empresaService.getEmpresasInactivos(estadoCuenta.getDescripcion());
         model.addAttribute("clientes", listaClientes);
@@ -173,31 +172,31 @@ public class GestorController {
 
     @GetMapping ("/desactivarPersona")
     public String doDesactivarCuenta(@RequestParam("id") Integer id, Model model, HttpSession session) {
-        PersonaEntity p = this.personaRepository.findById(id).orElse(null);
-        CuentaEntity c = p.getCuentaByCuenta();
-        EstadocuentaEntity estado = this.estadoCuentaRepository.findById(6).orElse(null);
-        c.setEstadocuentaByEstado(estado);
-        this.cuentaRepository.save(c);
+        Persona p = this.personaService.buscarPersona(id);
+        Cuenta c = this.cuentaService.buscarCuenta(p.getCuentaByCuenta());
+        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(6);
+        c.setEstadocuentaByEstado(estado.getId());
+        this.cuentaService.guardarCuenta(c);
         return "redirect:/gestor/inactivos";
     }
 
     @GetMapping ("/desactivarEmpresa")
     public String doDesactivarCuentaEmpresa(@RequestParam("id") Integer id, Model model, HttpSession session) {
-        EmpresaEntity p = this.empresaRepository.findById(id).orElse(null);
-        CuentaEntity c = p.getCuentaByCuenta();
-        EstadocuentaEntity estado = this.estadoCuentaRepository.findById(6).orElse(null);
-        c.setEstadocuentaByEstado(estado);
-        this.cuentaRepository.save(c);
+        Empresa e = this.empresaService.buscarEmpresa(id);
+        Cuenta c = this.cuentaService.buscarCuenta(e.getCuentaByCuenta());
+        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(6);
+        c.setEstadocuentaByEstado(estado.getId());
+        this.cuentaService.guardarCuenta(c);
         return "redirect:/gestor/inactivos";
     }
 
     @GetMapping ("/bloquearCuentaPersona")
     public String doBloquearCuenta(@RequestParam("id") Integer id, Model model) {
-        PersonaEntity p = this.personaRepository.findById(id).orElse(null);
-        CuentaEntity c = p.getCuentaByCuenta();
-        EstadocuentaEntity estado = this.estadoCuentaRepository.findById(7).orElse(null);
-        c.setEstadocuentaByEstado(estado);
-        this.cuentaRepository.save(c);
+        Persona p = this.personaService.buscarPersona(id);
+        Cuenta c = this.cuentaService.buscarCuenta(p.getCuentaByCuenta());
+        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(7);
+        c.setEstadocuentaByEstado(estado.getId());
+        this.cuentaService.guardarCuenta(c);
         return "redirect:/gestor/sospechosos";
     }
 

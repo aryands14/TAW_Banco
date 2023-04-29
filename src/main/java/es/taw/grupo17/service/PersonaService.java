@@ -169,8 +169,12 @@ public class PersonaService {
             personaEntity.setOperacionsById(operaciones);
         }
 
-
-        personaEntity.setTipopersonaByTipo(this.tipoPersonaRepository.findById(persona.getTipopersonaByTipo()).orElse(null));
+        if(persona.getTipopersonaByTipo() != null) {
+            TipopersonaEntity t = this.tipoPersonaRepository.findById(persona.getTipopersonaByTipo()).orElse(null);
+            if(t!=null) {
+                personaEntity.setTipopersonaByTipo(t);
+            }
+        }
         personaEntity.setEmpresaByEmpresa(persona.getEmpresaByEmpresa()==null ? null:
                 this.empresaRepository.findById(persona.getEmpresaByEmpresa()).orElse(null));
 

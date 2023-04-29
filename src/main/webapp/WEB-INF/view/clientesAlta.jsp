@@ -15,7 +15,6 @@
   List<Persona> listaClientes = (List<Persona>) request.getAttribute("clientes");
   List<Empresa> listaEmpresas = (List<Empresa>) request.getAttribute("empresas");
   CuentaService cuentaService = (CuentaService) request.getAttribute("cuentaService");
-
 %>
 <html>
 <head>
