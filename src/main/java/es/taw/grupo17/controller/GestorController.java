@@ -1,8 +1,6 @@
 package es.taw.grupo17.controller;
 
-import es.taw.grupo17.dao.*;
 import es.taw.grupo17.dto.*;
-import es.taw.grupo17.entity.*;
 import es.taw.grupo17.service.*;
 import es.taw.grupo17.ui.FiltroClientes;
 import es.taw.grupo17.ui.FiltroOperacion;
@@ -11,22 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/gestor")
 public class GestorController {
 
-    @Autowired
-    protected CuentaRepository cuentaRepository;
-    @Autowired
-    protected PersonaRepository personaRepository;
-    @Autowired
-    protected EstadoCuentaRepository estadoCuentaRepository;
     @Autowired
     protected GestorService gestorService;
     @Autowired
@@ -46,33 +35,39 @@ public class GestorController {
 
     @GetMapping("/")
     public String doListarTodos(Model model, HttpSession session) {
-        return doFiltrar(model, null);
+        return doFiltrar(model, null, session);
     }
 
     @PostMapping("/filtrar")
-    public String doFiltrar(Model model, @ModelAttribute("filtro") FiltroClientes filtro) {
+    public String doFiltrar(Model model, @ModelAttribute("filtro") FiltroClientes filtro, HttpSession session) {
         List<Persona> listaClientes;
         List<Empresa> listaEmpresas;
-        if(filtro == null || (filtro.getTexto().isEmpty() && filtro.getEstados().isEmpty())) {
-            listaClientes = this.personaService.listarClientes();
-            listaEmpresas = this.empresaService.listarEmpresas();
-            filtro = new FiltroClientes();
+        String urlTo = "clientes";
+        Empleado admin = (Empleado) session.getAttribute("gestor");
+        if (admin == null) {
+            urlTo = "login";
         } else {
-            listaClientes = this.personaService.listarClientes(filtro.getTexto(), filtro.getEstados());
-            listaEmpresas = this.empresaService.listarEmpresas(filtro.getTexto(), filtro.getEstados());
+            if (filtro == null || (filtro.getTexto().isEmpty() && filtro.getEstados().isEmpty())) {
+                listaClientes = this.personaService.listarClientes();
+                listaEmpresas = this.empresaService.listarEmpresas();
+                filtro = new FiltroClientes();
+            } else {
+                listaClientes = this.personaService.listarClientes(filtro.getTexto(), filtro.getEstados());
+                listaEmpresas = this.empresaService.listarEmpresas(filtro.getTexto(), filtro.getEstados());
+            }
+            model.addAttribute("clientes", listaClientes);
+            model.addAttribute("empresas", listaEmpresas);
+            model.addAttribute("filtro", filtro);
+            List<Estadopersona> estadosPersona = this.estadopersonaService.doListarEstados();
+            model.addAttribute("estadosPersona", estadosPersona);
+            model.addAttribute("cuentaService", this.cuentaService);
         }
-        model.addAttribute("clientes", listaClientes);
-        model.addAttribute("empresas", listaEmpresas);
-        model.addAttribute("filtro", filtro);
-        List<Estadopersona> estadosPersona = this.estadopersonaService.doListarEstados();
-        model.addAttribute("estadosPersona", estadosPersona);
-        model.addAttribute("cuentaService", this.cuentaService);
-        return "clientes";
+        return urlTo;
     }
 
 
     @GetMapping("/solicitados")
-    public String doListarSolicitados(Model model, HttpSession session) {
+    public String doListarSolicitados(Model model) {
         String urlTo = "clientesAlta";
         List<Persona> listaClientes = this.personaService.getClientesPendientes(10);
         List<Empresa> listaEmpresas = this.empresaService.getEmpresasPendientes(10);
@@ -83,7 +78,7 @@ public class GestorController {
 
     @GetMapping("/visualizarcliente")
     public String doVisualizarCliente(@RequestParam("id") Integer id, Model model) {
-        Persona persona = this.gestorService.buscarCliente(id);
+        Persona persona = this.personaService.buscarPersona(id);
         if (persona != null) {
             model.addAttribute("cliente", persona);
             List<Operacion> operaciones = null;
@@ -100,7 +95,7 @@ public class GestorController {
 
     @GetMapping("/visualizarempresa")
     public String doVisualizarEmpresa(@RequestParam("id") Integer id, Model model) {
-        Empresa empresa = this.gestorService.buscarEmpresa(id);
+        Empresa empresa = this.empresaService.buscarEmpresa(id);
         if (empresa != null) {
             model.addAttribute("empresa", empresa);
             List<Operacion> operaciones = null;
@@ -127,7 +122,7 @@ public class GestorController {
     }
 
     @GetMapping("/altaPersona")
-    public String doAltaPersona(@RequestParam("id") Integer cid, Model model) {
+    public String doAltaPersona(@RequestParam("id") Integer cid) {
         Persona p = this.personaService.buscarPersona(cid);
         Cuenta c = new Cuenta();
         Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(6);
@@ -143,8 +138,7 @@ public class GestorController {
     }
 
     @GetMapping("/altaEmpresa")
-    public String doAltaEmpresa(@RequestParam("id") Integer cid, Model model) {
-        //EmpresaEntity p = this.empresaRepository.findById(cid).orElse(null);
+    public String doAltaEmpresa(@RequestParam("id") Integer cid) {
         Empresa e = this.empresaService.buscarEmpresa(cid);
         Cuenta c = new Cuenta();
         Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(6);
@@ -160,7 +154,7 @@ public class GestorController {
     }
 
     @GetMapping("/inactivos")
-    public String doListarInactivos(Model model, HttpSession session) {
+    public String doListarInactivos(Model model) {
         String urlTo = "clientesInactivos";
         Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(5);
         List<Persona> listaClientes = this.personaService.getClientesInactivos(estadoCuenta.getDescripcion());
@@ -176,6 +170,7 @@ public class GestorController {
         Cuenta c = this.cuentaService.buscarCuenta(p.getCuentaByCuenta());
         Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(6);
         c.setEstadocuentaByEstado(estado.getId());
+        c.setFechaCierre(java.sql.Date.valueOf(LocalDate.now()));
         this.cuentaService.guardarCuenta(c);
         return "redirect:/gestor/inactivos";
     }
@@ -186,6 +181,7 @@ public class GestorController {
         Cuenta c = this.cuentaService.buscarCuenta(e.getCuentaByCuenta());
         Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(6);
         c.setEstadocuentaByEstado(estado.getId());
+        c.setFechaCierre(java.sql.Date.valueOf(LocalDate.now()));
         this.cuentaService.guardarCuenta(c);
         return "redirect:/gestor/inactivos";
     }

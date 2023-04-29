@@ -14,22 +14,16 @@ public class PersonaService {
 
     @Autowired
     protected PersonaRepository personaRepository;
-
     @Autowired
     protected CuentaRepository cuentaRepository;
-
     @Autowired
     protected EstadoPersonaRepository estadoPersonaRepository;
-
     @Autowired
     protected ConversacionRepository conversacionRepository;
-
     @Autowired
     protected MensajeRepository mensajeRepository;
-
     @Autowired
     protected OperacionRepository operacionRepository;
-
     @Autowired
     protected TipoPersonaRepository tipoPersonaRepository;
     @Autowired
