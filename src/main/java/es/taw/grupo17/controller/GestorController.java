@@ -113,7 +113,7 @@ public class GestorController {
     @GetMapping("/sospechosos")
     public String doListarSospechosos(Model model) {
         String urlTo = "clientesSospechosos";
-        List<Cuenta> cuentasSospechosas = this.cuentaService.getSospechosos();
+        List<Integer> cuentasSospechosas = this.cuentaService.getIdSospechosos(this.cuentaService.getSospechosos());
         List<Persona> sospechosos = this.personaService.getClientesSospechosos(cuentasSospechosas);
         model.addAttribute("clientes", sospechosos);
         List<Empresa> sospechosos1 = this.empresaService.getEmpresasSospechosos(cuentasSospechosas);

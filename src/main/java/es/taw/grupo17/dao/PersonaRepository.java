@@ -1,10 +1,6 @@
 package es.taw.grupo17.dao;
 
-import es.taw.grupo17.dto.Cuenta;
-import es.taw.grupo17.entity.CuentaEntity;
-import es.taw.grupo17.entity.EmpleadoEntity;
 import es.taw.grupo17.entity.PersonaEntity;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -43,8 +39,9 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
     public List<PersonaEntity> buscarPorNombreYEstado(@Param("texto") String texto, @Param("estados") List<String> estados);
 
     @Query("select c from PersonaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id)" +
-            "where o.personaByBeneficiario.cuentaByCuenta in :sospechosos")
-    public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<Cuenta> sospechosos);
+            "where o.cuentaByCuenta.estadocuentaByEstado.id = 5" +
+            "and o.personaByBeneficiario.cuentaByCuenta.id in :sospechosos")
+    public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<Integer> sospechosos);
 
     @Query("select p from PersonaEntity p where (p.primerNombre like " +
             "CONCAT('%', :texto, '%' ) or p.primerApellido like " +

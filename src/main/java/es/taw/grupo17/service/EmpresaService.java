@@ -1,10 +1,8 @@
 package es.taw.grupo17.service;
 
 import es.taw.grupo17.dao.*;
-import es.taw.grupo17.dto.Cuenta;
 import es.taw.grupo17.dto.Empresa;
 import es.taw.grupo17.dto.Persona;
-import es.taw.grupo17.entity.CuentaEntity;
 import es.taw.grupo17.entity.EmpresaEntity;
 import es.taw.grupo17.entity.EstadocuentaEntity;
 import es.taw.grupo17.entity.PersonaEntity;
@@ -72,7 +70,7 @@ public class EmpresaService {
         return  empresasInactivos;
     }
 
-    public List<Empresa> getEmpresasSospechosos(List<Cuenta> sospechosos) {
+    public List<Empresa> getEmpresasSospechosos(List<Integer> sospechosos) {
         List<EmpresaEntity> listaEmpresas = this.empresaRepository.getSospechosos(sospechosos);
         List<Empresa> listaEmpresasDTO = listaEmpresasADTO(listaEmpresas);
         return  listaEmpresasDTO;

@@ -78,7 +78,7 @@ public class PersonaService {
         return  personasInactivos;
     }
 
-    public List<Persona> getClientesSospechosos(List<Cuenta> sospechosos) {
+    public List<Persona> getClientesSospechosos(List<Integer> sospechosos) {
         List<PersonaEntity> listaPersonas = this.personaRepository.getSospechosos(sospechosos);
         List<Persona> listaPersonasDTO = listaClientesADTO(listaPersonas);
         return  listaPersonasDTO;

@@ -98,6 +98,14 @@ public class CuentaService {
         return listaCuentasADTO(sospechosos);
     }
 
+    public List<Integer> getIdSospechosos(List<Cuenta> cuentas) {
+        List<Integer> ids = new ArrayList<>();
+        for(Cuenta c : cuentas) {
+            ids.add(c.getId());
+        }
+        return ids;
+    }
+
     protected List<Cuenta> listaCuentasADTO (List<CuentaEntity> lista) {
         ArrayList dtos = new ArrayList<Cuenta>();
 
