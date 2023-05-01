@@ -1,13 +1,16 @@
 package es.taw.grupo17.entity;
 
+import es.taw.grupo17.dto.*;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "empleado", schema = "grupo17", catalog = "")
-public class EmpleadoEntity {
+public class EmpleadoEntity implements DTO<Empleado> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -75,5 +78,23 @@ public class EmpleadoEntity {
 
     public void setTipoempleadoByTipo(TipoempleadoEntity tipoempleadoByTipo) {
         this.tipoempleadoByTipo = tipoempleadoByTipo;
+    }
+
+    @Override
+    public Empleado toDTO() {
+        Empleado dto = new Empleado();
+
+        dto.setId(this.getId());
+        dto.setUsuario(this.getUsuario());
+        dto.setContraseña(this.getContraseña());
+
+        List<Integer> conversaciones = new ArrayList<>();
+        for(ConversacionEntity conversacionEntity : this.getConversacionsById()){
+            conversaciones.add(conversacionEntity.getId());
+        }
+        dto.setConversacionsById(conversaciones);
+
+        dto.setTipoempleadoByTipo(this.getTipoempleadoByTipo().getId());
+        return dto;
     }
 }

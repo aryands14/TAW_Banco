@@ -1,8 +1,7 @@
 package es.taw.grupo17.entity;
 
 import es.taw.grupo17.dto.DTO;
-import es.taw.grupo17.dto.Empleado;
-import es.taw.grupo17.dto.Tipoempleado;
+import es.taw.grupo17.dto.Sospechoso;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -11,17 +10,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tipoempleado", schema = "grupo17", catalog = "")
-public class TipoempleadoEntity implements DTO<Tipoempleado> {
+@Table(name = "sospechoso", schema = "grupo17", catalog = "")
+public class SospechosoEntity implements DTO<Sospechoso> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     private Integer id;
     @Basic
-    @Column(name = "DESCRIPCION")
+    @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "tipoempleadoByTipo")
-    private Collection<EmpleadoEntity> empleadosById;
+    @OneToMany(mappedBy = "sospechosoBySospechoso")
+    private Collection<CuentaEntity> cuentasById;
 
     public Integer getId() {
         return id;
@@ -43,7 +42,7 @@ public class TipoempleadoEntity implements DTO<Tipoempleado> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TipoempleadoEntity that = (TipoempleadoEntity) o;
+        SospechosoEntity that = (SospechosoEntity) o;
         return Objects.equals(id, that.id) && Objects.equals(descripcion, that.descripcion);
     }
 
@@ -52,26 +51,26 @@ public class TipoempleadoEntity implements DTO<Tipoempleado> {
         return Objects.hash(id, descripcion);
     }
 
-    public Collection<EmpleadoEntity> getEmpleadosById() {
-        return empleadosById;
+    public Collection<CuentaEntity> getCuentasById() {
+        return cuentasById;
     }
 
-    public void setEmpleadosById(Collection<EmpleadoEntity> empleadosById) {
-        this.empleadosById = empleadosById;
+    public void setCuentasById(Collection<CuentaEntity> cuentasById) {
+        this.cuentasById = cuentasById;
     }
 
     @Override
-    public Tipoempleado toDTO() {
-        Tipoempleado dto = new Tipoempleado();
+    public Sospechoso toDTO() {
+        Sospechoso dto = new Sospechoso();
+
         dto.setId(this.getId());
         dto.setDescripcion(this.getDescripcion());
 
-        List<Integer> empleados = new ArrayList<>();
-        for (EmpleadoEntity empleadoEntity : this.getEmpleadosById()){
-            empleados.add(empleadoEntity.getId());
+        List<Integer> cuentas = new ArrayList<>();
+        for (CuentaEntity cuentaEntity : this.getCuentasById()){
+            cuentas.add(cuentaEntity.getId());
         }
-        dto.setEmpleadosById(empleados);
-
+        dto.setCuentasById(cuentas);
         return dto;
     }
 }

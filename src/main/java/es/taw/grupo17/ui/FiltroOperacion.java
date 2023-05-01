@@ -1,32 +1,42 @@
 package es.taw.grupo17.ui;
 
-import es.taw.grupo17.entity.TipooperacionEntity;
-
-import java.sql.Date;
-
+import java.util.List;
 
 public class FiltroOperacion {
 
-    private Date fecha;
-    private Integer tipo;
+    private List<Integer> tipos;
 
-    public Date getFecha()
-    {
+    private boolean cantidad;
+
+    private boolean fecha;
+
+    public boolean isCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(boolean cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public boolean isFecha() {
         return fecha;
     }
 
-    public Integer getTipo()
-    {
-        return tipo;
+    public void setFecha(boolean fecha) {
+        this.fecha = fecha;
     }
 
-    public void setFecha(Date aux)
-    {
-        fecha = aux;
+    public List<Integer> getTipos() {
+        return tipos;
     }
 
-    public void setTipo(Integer aux)
-    {
-        tipo = aux;
+    public void setTipos(List<Integer> tipos) {
+        this.tipos = tipos;
     }
+
+    public FiltroOperacion() {
+        this.fecha = false;
+        this.cantidad = false;
+    }
+
 }

@@ -1,5 +1,6 @@
 package es.taw.grupo17.entity;
 
+import es.taw.grupo17.dto.*;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -7,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "operacion", schema = "grupo17", catalog = "")
-public class OperacionEntity {
+public class OperacionEntity  implements DTO<Operacion> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -132,4 +133,22 @@ public class OperacionEntity {
     public void setCuentaByCuenta(CuentaEntity cuentaByCuenta) {
         this.cuentaByCuenta = cuentaByCuenta;
     }
+
+    public Operacion toDTO() {
+        Operacion dto = new Operacion();
+
+        dto.setId(this.getId());
+        dto.setFechaInstruccion(this.getFechaInstruccion());
+        dto.setFechaEjecucion(this.getFechaEjecucion());
+        dto.setMoneda(this.getMoneda());
+        dto.setMonedaCambio(this.getMonedaCambio());
+        dto.setCantidadCambio(this.getCantidadCambio());
+        dto.setCantidad(this.getCantidad());
+        dto.setTipooperacionByTipo(this.getTipooperacionByTipo().getId());
+        dto.setPersonaByBeneficiario(this.getPersonaByBeneficiario()==null ? null : this.getPersonaByBeneficiario().getId());
+        dto.setCuentaByCuenta(this.getCuentaByCuenta().getId());
+        return dto;
+    }
+
+
 }

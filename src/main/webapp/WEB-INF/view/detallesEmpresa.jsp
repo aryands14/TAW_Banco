@@ -1,6 +1,7 @@
-<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
-<%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
-<%@ page import="java.util.List" %><%--
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.taw.grupo17.dto.Empresa" %>
+<%@ page import="es.taw.grupo17.dto.Operacion" %><%--
   Created by IntelliJ IDEA.
   User: aryan
   Date: 01/04/2023
@@ -9,8 +10,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    EmpresaEntity e = (EmpresaEntity) request.getAttribute("empresa");
-    List<OperacionEntity> operaciones = (List<OperacionEntity>) request.getAttribute("operaciones");
+    Empresa e = (Empresa) request.getAttribute("empresa");
+    List<Operacion> operaciones = (List<Operacion>) request.getAttribute("operaciones");
+    String url = "/operaciones/filtrar?id="+e.getId();
 
 %>
 <html>
@@ -49,6 +51,16 @@
 
 <h1>Operaciones de la Empresa:</h1>
 
+<form:form action="<%=url%>" modelAttribute="filtro" method="post">
+    Tipo Operacion:<form:select multiple="true" path="tipos"
+                                items="${tiposOperacion}" itemValue="id" itemLabel="descripcion"></form:select><br>
+    Ordenar por: Cantidad<form:checkbox path="cantidad" value="cantidad"/>
+    Fecha<form:checkbox path="fecha" value="fecha"/>
+    <form:button>Filtrar</form:button>
+</form:form>
+
+<a href="/gestor/visualizarempresa?id=<%=e.getId()%>">Quitar filtro</a>
+
 <table border="2">
     <tr>
         <th>ID</th>
@@ -63,15 +75,15 @@
 
         <%
   if(operaciones != null) {
-  for(OperacionEntity op : operaciones) {
+  for(Operacion op : operaciones) {
 %>
 
     <tr>
         <td><%=op.getId()%></td>
-        <td><%=op.getCuentaByCuenta().getId()%></td>
+        <td><%=op.getCuentaByCuenta()%></td>
         <td><%=op.getCantidad()%></td>
         <td><%=op.getCantidadCambio()%></td>
-        <td><%=op.getTipooperacionByTipo().getDescripcion()%></td>
+        <td><%=op.getTipooperacionByTipo()%></td>
         <td><%=op.getMoneda()%></td>
         <td><%=op.getFechaInstruccion()%></td>
     </tr>

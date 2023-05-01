@@ -1,14 +1,17 @@
 package es.taw.grupo17.entity;
 
+import es.taw.grupo17.dto.*;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "cuenta", schema = "grupo17", catalog = "")
-public class CuentaEntity {
+public class CuentaEntity implements DTO<Cuenta> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID")
@@ -34,6 +37,9 @@ public class CuentaEntity {
     private Collection<OperacionEntity> operacionsById;
     @OneToMany(mappedBy = "cuentaByCuenta")
     private Collection<PersonaEntity> personasById;
+    @ManyToOne
+    @JoinColumn(name = "SOSPECHOSO", referencedColumnName = "id")
+    private SospechosoEntity sospechosoBySospechoso;
 
     public Integer getId() {
         return id;
@@ -118,5 +124,45 @@ public class CuentaEntity {
 
     public void setPersonasById(Collection<PersonaEntity> personasById) {
         this.personasById = personasById;
+    }
+
+    public SospechosoEntity getSospechosoBySospechoso() {
+        return sospechosoBySospechoso;
+    }
+
+    public void setSospechosoBySospechoso(SospechosoEntity sospechosoBySospechoso) {
+        this.sospechosoBySospechoso = sospechosoBySospechoso;
+    }
+
+    public Cuenta toDTO() {
+        Cuenta dto = new Cuenta();
+        dto.setId(this.getId());
+        dto.setNumero(this.getNumero());
+        dto.setFechaApertura(this.getFechaApertura());
+        dto.setFechaCierre(this.getFechaCierre());
+        dto.setSaldo(this.getSaldo());
+        dto.setEstadocuentaByEstado(this.getEstadocuentaByEstado().getId());
+
+        List<Integer> empresas = new ArrayList<>();
+        for (EmpresaEntity empresaEntity : this.getEmpresasById()){
+            empresas.add(empresaEntity.getId());
+        }
+        dto.setEmpresasById(empresas);
+
+        List<Integer> operaciones = new ArrayList<>();
+        for (OperacionEntity operacionEntity : this.getOperacionsById()){
+            operaciones.add(operacionEntity.getId());
+        }
+        dto.setOperacionsById(operaciones);
+
+        List<Integer> personas = new ArrayList<>();
+        for (PersonaEntity personaEntity : this.getPersonasById()){
+            personas.add(personaEntity.getId());
+        }
+        dto.setPersonasById(personas);
+
+        dto.setSospechosoBySospechoso(this.getSospechosoBySospechoso()==null ? null : this.getSospechosoBySospechoso().getId());
+
+        return dto;
     }
 }

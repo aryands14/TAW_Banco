@@ -20,7 +20,6 @@
 <form:form method="post" modelAttribute="empresa" action="/empresa/añadir">
     <legend>Datos de la empresa</legend>
     <form:hidden path="id"/>
-    <form:hidden path="personasById"/>
     <form:hidden path="estadopersonaByEstado"/>
     <form:hidden path="cuentaByCuenta"/>
     CIF(*) <form:input path="cif" required="true"/><br/>
