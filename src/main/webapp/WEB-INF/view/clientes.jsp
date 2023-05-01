@@ -1,10 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
 <%@ page import="es.taw.grupo17.dto.Persona" %>
 <%@ page import="es.taw.grupo17.dto.Empresa" %>
-<%@ page import="es.taw.grupo17.dto.Estadocuenta" %>
 <%@ page import="es.taw.grupo17.service.CuentaService" %><%--
   Created by IntelliJ IDEA.
   User: aryan
@@ -31,6 +28,8 @@
                items="${estadosPersona}" itemValue="descripcion" itemLabel="descripcion"></form:select>
   <form:button>Filtrar</form:button>
 </form:form>
+
+<a href="/gestor/">Quitar filtro</a>
 
 <h1>Listado de clientes </h1>
 

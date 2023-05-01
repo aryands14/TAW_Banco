@@ -1,8 +1,6 @@
 package es.taw.grupo17.controller;
 
 import es.taw.grupo17.dao.EmpleadoRepository;
-import es.taw.grupo17.dao.EmpresaRepository;
-import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.dto.Empleado;
 import es.taw.grupo17.dto.Empresa;
 import es.taw.grupo17.dto.Persona;

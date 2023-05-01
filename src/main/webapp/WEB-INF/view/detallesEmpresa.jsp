@@ -1,5 +1,4 @@
-<%@ page import="es.taw.grupo17.entity.EmpresaEntity" %>
-<%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.taw.grupo17.dto.Empresa" %>
 <%@ page import="es.taw.grupo17.dto.Operacion" %><%--
@@ -13,6 +12,7 @@
 <%
     Empresa e = (Empresa) request.getAttribute("empresa");
     List<Operacion> operaciones = (List<Operacion>) request.getAttribute("operaciones");
+    String url = "/operaciones/filtrar?id="+e.getId();
 
 %>
 <html>
@@ -51,13 +51,15 @@
 
 <h1>Operaciones de la Empresa:</h1>
 
-<form:form action="/gestor/filtrar" modelAttribute="filtro" method="post">
-    Ordenar por: <form:input path="texto"></form:input><br/>
-    <form:select multiple="true" path="estados"
-                 items="${estadosPersona}" itemValue="descripcion" itemLabel="descripcion"></form:select>
+<form:form action="<%=url%>" modelAttribute="filtro" method="post">
+    Tipo Operacion:<form:select multiple="true" path="tipos"
+                                items="${tiposOperacion}" itemValue="id" itemLabel="descripcion"></form:select><br>
+    Ordenar por: Cantidad<form:checkbox path="cantidad" value="cantidad"/>
+    Fecha<form:checkbox path="fecha" value="fecha"/>
     <form:button>Filtrar</form:button>
 </form:form>
 
+<a href="/gestor/visualizarempresa?id=<%=e.getId()%>">Quitar filtro</a>
 
 <table border="2">
     <tr>

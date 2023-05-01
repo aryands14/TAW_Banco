@@ -19,8 +19,9 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Listado de clientes inactivos</h1>
+<h1>Listado de clientes que han hecho transferencias a cuentas sospechosas.</h1>
 
+<h2>Clientes</h2>
 <table border="2">
   <tr>
     <th>ID</th>
@@ -46,7 +47,7 @@
   %>
 </table>
 
-<h1>Listado de empresas inactivos</h1>
+<h2>Empresas</h2>
 
 <table border="2">
   <tr>

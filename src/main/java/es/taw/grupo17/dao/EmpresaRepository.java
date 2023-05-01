@@ -35,7 +35,7 @@ public interface EmpresaRepository  extends JpaRepository<EmpresaEntity, Integer
     public List<EmpresaEntity> buscarPorNombreYEstado(@Param("texto") String texto, @Param("estados") List<String> estados);
 
     @Query("select c from EmpresaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id)" +
-            "where o.cuentaByCuenta.estadocuentaByEstado.id = 5" +
+            "where o.cuentaByCuenta.estadocuentaByEstado.id = 1" +
             "and o.personaByBeneficiario.cuentaByCuenta.id in :sospechosos")
     public List<EmpresaEntity> getSospechosos(@Param("sospechosos") List<Integer> sospechosos);
 

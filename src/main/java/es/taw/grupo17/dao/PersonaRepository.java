@@ -39,7 +39,7 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
     public List<PersonaEntity> buscarPorNombreYEstado(@Param("texto") String texto, @Param("estados") List<String> estados);
 
     @Query("select c from PersonaEntity c join OperacionEntity o on (o.cuentaByCuenta.id = c.cuentaByCuenta.id)" +
-            "where o.cuentaByCuenta.estadocuentaByEstado.id = 5" +
+            "where o.cuentaByCuenta.estadocuentaByEstado.id = 1" +
             "and o.personaByBeneficiario.cuentaByCuenta.id in :sospechosos")
     public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<Integer> sospechosos);
 
@@ -55,8 +55,5 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
             "CONCAT('%', :texto, '%' ) or p.primerApellido like " +
             "CONCAT('%', :texto, '%')) and p.tipopersonaByTipo.id in :tipos and p.empresaByEmpresa.id = :empresa")
     public List<PersonaEntity> buscarPorNombreYTipoYEmpresa(@Param("texto") String texto, @Param("tipos") List<Integer> estados, @Param("empresa") Integer empresa);
-
-    //   @Query("select c from PersonaEntity c where c.cuentaByCuenta.id in sospechosos")
-    //   public List<PersonaEntity> getSospechosos(@Param("sospechosos") List<CuentaEntity> sospechosos);
 
 }

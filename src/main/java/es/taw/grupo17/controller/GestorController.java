@@ -69,8 +69,8 @@ public class GestorController {
     @GetMapping("/solicitados")
     public String doListarSolicitados(Model model) {
         String urlTo = "clientesAlta";
-        List<Persona> listaClientes = this.personaService.getClientesPendientes(10);
-        List<Empresa> listaEmpresas = this.empresaService.getEmpresasPendientes(10);
+        List<Persona> listaClientes = this.personaService.getClientesPendientes(5);
+        List<Empresa> listaEmpresas = this.empresaService.getEmpresasPendientes(5);
         model.addAttribute("clientes", listaClientes);
         model.addAttribute("empresas", listaEmpresas);
         return urlTo;
@@ -125,8 +125,8 @@ public class GestorController {
     public String doAltaPersona(@RequestParam("id") Integer cid) {
         Persona p = this.personaService.buscarPersona(cid);
         Cuenta c = new Cuenta();
-        Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(6);
-        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(5);
+        Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(1);
+        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(1);
         c.setFechaApertura(java.sql.Date.valueOf(LocalDate.now()));
         c.setSaldo(0.0);
         c.setEstadocuentaByEstado(estadoCuenta.getId());
@@ -141,8 +141,8 @@ public class GestorController {
     public String doAltaEmpresa(@RequestParam("id") Integer cid) {
         Empresa e = this.empresaService.buscarEmpresa(cid);
         Cuenta c = new Cuenta();
-        Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(6);
-        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(5);
+        Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(1);
+        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(1);
         e.setEstadopersonaByEstado(estadoPersona.getId());
         c.setEstadocuentaByEstado(estadoCuenta.getId());
         e.setCuentaByCuenta(c.getId());
@@ -156,7 +156,7 @@ public class GestorController {
     @GetMapping("/inactivos")
     public String doListarInactivos(Model model) {
         String urlTo = "clientesInactivos";
-        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(5);
+        Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(1);
         List<Persona> listaClientes = this.personaService.getClientesInactivos(estadoCuenta.getDescripcion());
         List<Empresa> listaEmpresas = this.empresaService.getEmpresasInactivos(estadoCuenta.getDescripcion());
         model.addAttribute("clientes", listaClientes);
@@ -168,7 +168,7 @@ public class GestorController {
     public String doDesactivarCuenta(@RequestParam("id") Integer id, Model model, HttpSession session) {
         Persona p = this.personaService.buscarPersona(id);
         Cuenta c = this.cuentaService.buscarCuenta(p.getCuentaByCuenta());
-        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(6);
+        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(2);
         c.setEstadocuentaByEstado(estado.getId());
         c.setFechaCierre(java.sql.Date.valueOf(LocalDate.now()));
         this.cuentaService.guardarCuenta(c);
@@ -179,7 +179,7 @@ public class GestorController {
     public String doDesactivarCuentaEmpresa(@RequestParam("id") Integer id, Model model, HttpSession session) {
         Empresa e = this.empresaService.buscarEmpresa(id);
         Cuenta c = this.cuentaService.buscarCuenta(e.getCuentaByCuenta());
-        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(6);
+        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(2);
         c.setEstadocuentaByEstado(estado.getId());
         c.setFechaCierre(java.sql.Date.valueOf(LocalDate.now()));
         this.cuentaService.guardarCuenta(c);
@@ -190,7 +190,7 @@ public class GestorController {
     public String doBloquearCuenta(@RequestParam("id") Integer id, Model model) {
         Persona p = this.personaService.buscarPersona(id);
         Cuenta c = this.cuentaService.buscarCuenta(p.getCuentaByCuenta());
-        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(7);
+        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(3);
         c.setEstadocuentaByEstado(estado.getId());
         this.cuentaService.guardarCuenta(c);
         return "redirect:/gestor/sospechosos";

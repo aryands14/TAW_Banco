@@ -4,6 +4,7 @@ import es.taw.grupo17.dao.OperacionRepository;
 import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.dao.TipoOperacionRepository;
 import es.taw.grupo17.entity.*;
+import es.taw.grupo17.service.OperacionService;
 import es.taw.grupo17.ui.FiltroOperacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,10 @@ public class OperacionController {
 
     @Autowired
     protected OperacionRepository operacionRepository;
-
+    @Autowired
+    protected OperacionService operacionService;
     @Autowired
     protected TipoOperacionRepository tipoOperacionRepository;
-
     @Autowired
     protected PersonaRepository personaRepository;
 
@@ -57,4 +58,6 @@ public class OperacionController {
 
         return "detallesCliente";
     }
+
+
 }
