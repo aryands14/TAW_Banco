@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Conversacion implements Serializable {
     private Integer id;
     private Byte cerrada;

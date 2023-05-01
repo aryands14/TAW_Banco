@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Empleado implements Serializable {
 
     private Integer id;

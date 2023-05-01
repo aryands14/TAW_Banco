@@ -8,6 +8,9 @@ import jakarta.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.Collection;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Sospechoso implements Serializable {
     private Integer id;
     private String descripcion;

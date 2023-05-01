@@ -13,6 +13,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    /*
+@author: Álvaro Bermúdez Gámez
+ */
     Empresa empresa = (Empresa) request.getAttribute("empresa");
     String repContraseña = (String) request.getAttribute("repContraseña");
     List<Tipopersona> listaTipos = (List<Tipopersona>) request.getAttribute("listaTipos");

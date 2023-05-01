@@ -13,6 +13,9 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Mensaje implements Serializable {
     private Integer id;
 

@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-
+/*
+@author: Álvaro Bermúdez Gámez 50%
+@author: Sadhwani Sadhwani Aryan Dilip 50%
+ */
 @Entity
 @Table(name = "tipoempleado", schema = "grupo17", catalog = "")
 public class TipoempleadoEntity implements DTO<Tipoempleado> {

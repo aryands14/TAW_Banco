@@ -9,6 +9,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    /*
+@author: Álvaro Bermúdez Gámez
+ */
     String repContraseña = (String) request.getAttribute("repContraseña");
 %>
 <html>

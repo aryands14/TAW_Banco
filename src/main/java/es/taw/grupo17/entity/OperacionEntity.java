@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.util.Objects;
-
+/*
+@author: Álvaro Bermúdez Gámez 50%
+@author: Sadhwani Sadhwani Aryan Dilip 50%
+ */
 @Entity
 @Table(name = "operacion", schema = "grupo17", catalog = "")
 public class OperacionEntity  implements DTO<Operacion> {

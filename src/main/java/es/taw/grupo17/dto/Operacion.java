@@ -13,6 +13,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Operacion implements Serializable {
     private Integer id;
 

@@ -13,6 +13,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    /*
+@author: Álvaro Bermúdez Gámez
+ */
     EstadopersonaService estadopersonaService = (EstadopersonaService) request.getAttribute("estadoPersonaService");
     TipopersonaService tipopersonaService = (TipopersonaService) request.getAttribute("tipopersonaService");
     CuentaService cuentaService = (CuentaService) request.getAttribute("cuentaService");
@@ -144,6 +147,22 @@
     if(personaEmpresa==null){
 %>
 <a href="/empresa/nuevo?id=<%=empresa.getId()%>" >Dar de alta</a>
+<%
+    }
+%>
+
+<%
+    if(personaEmpresa==null){
+%>
+
+<a href="/empresa/nuevo?operaciones=<%=empresa.getId()%>" >Menu de operaciones</a>
+
+<%
+    }else{
+%>
+
+<a href="/empresa/nuevo?operaciones=<%=personaEmpresa.getId()%>" >Menu de operaciones</a>
+
 <%
     }
 %>

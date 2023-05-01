@@ -7,6 +7,9 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.Objects;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Persona implements Serializable {
 
     private Integer id;

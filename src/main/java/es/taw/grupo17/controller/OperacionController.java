@@ -25,7 +25,7 @@ public class OperacionController {
     @Autowired
     protected OperacionService operacionService;
     @Autowired
-    protected TipooperacionRepository tipoOperacionRepository;
+    protected TipooperacionRepository tipooperacionRepository;
     @Autowired
     protected PersonaRepository personaRepository;
 
@@ -52,7 +52,7 @@ public class OperacionController {
             lista = this.operacionRepository.getOperacionesByPersona(id);
         }
         model.addAttribute("filtro", filtro);
-        List<TipooperacionEntity> tipos = this.tipoOperacionRepository.findAll();
+        List<TipooperacionEntity> tipos = this.tipooperacionRepository.findAll();
         model.addAttribute("tiposOperacion", tipos);
         model.addAttribute("operaciones", lista);
 

@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Estadopersona implements Serializable {
     private Integer id;
 

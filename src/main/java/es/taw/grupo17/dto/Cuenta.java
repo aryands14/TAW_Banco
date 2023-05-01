@@ -8,6 +8,9 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.Objects;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 public class Cuenta implements Serializable {
     private Integer id;
 

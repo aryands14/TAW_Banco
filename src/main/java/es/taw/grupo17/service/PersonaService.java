@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+@author: Álvaro Bermúdez Gámez 50%
+@author: Sadhwani Sadhwani Aryan Dilip 50%
+ */
 @Service
 public class PersonaService {
 

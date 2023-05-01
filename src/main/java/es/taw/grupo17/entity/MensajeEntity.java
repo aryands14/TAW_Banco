@@ -9,7 +9,10 @@ import jakarta.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
-
+/*
+@author: Álvaro Bermúdez Gámez 50%
+@author: Sadhwani Sadhwani Aryan Dilip 50%
+ */
 @Entity
 @Table(name = "mensaje", schema = "grupo17", catalog = "")
 public class MensajeEntity implements DTO<Mensaje> {

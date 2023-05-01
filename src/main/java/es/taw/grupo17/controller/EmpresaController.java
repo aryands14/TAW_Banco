@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 @Controller
 @RequestMapping("/empresa")
 public class EmpresaController {
@@ -223,6 +227,12 @@ public class EmpresaController {
         this.cuentaService.guardarCuenta(cuenta);
         this.personaService.guardarPersona(persona);
         return "redirect:/empresa/";
+    }
+
+    @GetMapping("/operaciones")
+    public String doMostrarMenuOperaciones(@RequestParam("id") Integer idPersona){
+
+        return "";
     }
 
 
