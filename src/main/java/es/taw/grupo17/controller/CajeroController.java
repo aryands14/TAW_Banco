@@ -4,11 +4,9 @@ import es.taw.grupo17.dao.CuentaRepository;
 import es.taw.grupo17.dao.OperacionRepository;
 import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.dao.TipooperacionRepository;
-import es.taw.grupo17.entity.CuentaEntity;
 import es.taw.grupo17.entity.OperacionEntity;
 import es.taw.grupo17.entity.PersonaEntity;
-import es.taw.grupo17.entity.TipooperacionEntity;
-import es.taw.grupo17.ui.FiltroOperacion;
+import es.taw.grupo17.ui.FiltroOperacion2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -241,7 +239,7 @@ public class CajeroController {
     }
 
     @GetMapping("/operaciones")
-    String verOperaciones(@RequestParam("id") Integer idcliente, @ModelAttribute("filtro") FiltroOperacion filtro, Model model)
+    String verOperaciones(@RequestParam("id") Integer idcliente, @ModelAttribute("filtro") FiltroOperacion2 filtro, Model model)
     {
         PersonaEntity persona = this.personaRepository.findById(idcliente).orElse(null);
         model.addAttribute("persona", persona);

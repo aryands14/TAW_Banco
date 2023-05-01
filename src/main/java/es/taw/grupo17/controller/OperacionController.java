@@ -2,7 +2,7 @@ package es.taw.grupo17.controller;
 
 import es.taw.grupo17.dao.OperacionRepository;
 import es.taw.grupo17.dao.PersonaRepository;
-import es.taw.grupo17.dao.TipoOperacionRepository;
+import es.taw.grupo17.dao.TipooperacionRepository;
 import es.taw.grupo17.entity.*;
 import es.taw.grupo17.service.OperacionService;
 import es.taw.grupo17.ui.FiltroOperacion;
@@ -25,7 +25,7 @@ public class OperacionController {
     @Autowired
     protected OperacionService operacionService;
     @Autowired
-    protected TipoOperacionRepository tipoOperacionRepository;
+    protected TipooperacionRepository tipoOperacionRepository;
     @Autowired
     protected PersonaRepository personaRepository;
 

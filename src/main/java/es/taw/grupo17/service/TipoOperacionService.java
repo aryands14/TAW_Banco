@@ -1,11 +1,8 @@
 package es.taw.grupo17.service;
 
-import es.taw.grupo17.dao.TipoOperacionRepository;
-import es.taw.grupo17.dao.TipoPersonaRepository;
+import es.taw.grupo17.dao.TipooperacionRepository;
 import es.taw.grupo17.dto.Tipooperacion;
-import es.taw.grupo17.dto.Tipopersona;
 import es.taw.grupo17.entity.TipooperacionEntity;
-import es.taw.grupo17.entity.TipopersonaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +14,7 @@ public class TipoOperacionService {
 
 
     @Autowired
-    protected TipoOperacionRepository tipoOperacionRepository;
+    protected TipooperacionRepository tipoOperacionRepository;
 
     public List<Tipooperacion> listarTiposOperaciones() {
         List<TipooperacionEntity> lista = this.tipoOperacionRepository.findAll();
