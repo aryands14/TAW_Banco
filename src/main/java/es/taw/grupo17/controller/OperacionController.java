@@ -1,5 +1,6 @@
 package es.taw.grupo17.controller;
 
+import es.taw.grupo17.dao.EmpresaRepository;
 import es.taw.grupo17.dao.OperacionRepository;
 import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.dao.TipooperacionRepository;
@@ -30,8 +31,11 @@ public class OperacionController {
     @Autowired
     protected PersonaRepository personaRepository;
 
-    @PostMapping("/filtrar")
-    public String doFiltrar(@ModelAttribute("filtro") FiltroOperacion filtro, @RequestParam("id") Integer id, Model model) {
+    @Autowired
+    protected EmpresaRepository empresaRepository;
+
+    @PostMapping("/filtrarCliente")
+    public String doFiltrarCliente(@ModelAttribute("filtro") FiltroOperacion filtro, @RequestParam("id") Integer id, Model model) {
         PersonaEntity persona = this.personaRepository.findById(id).orElse(null);
         List<OperacionEntity> lista;
         model.addAttribute("cliente", persona);
@@ -58,6 +62,35 @@ public class OperacionController {
         model.addAttribute("operaciones", lista);
 
         return "detallesCliente";
+    }
+
+    @PostMapping("/filtraEmpresa")
+    public String doFiltrarEmpresa(@ModelAttribute("filtro") FiltroOperacion filtro, @RequestParam("id") Integer id, Model model){
+        EmpresaEntity empresa = this.empresaRepository.findById(id).orElse(null);
+        List<OperacionEntity> lista;
+        model.addAttribute("empresa", empresa);
+        if(!filtro.getTipos().isEmpty() && !filtro.isCantidad() && !filtro.isFecha()) {
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresa(filtro.getTipos(), id);
+        } else if (!filtro.getTipos().isEmpty() && !filtro.isCantidad() && filtro.isFecha()){
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresaOrdenadoFecha(filtro.getTipos(), id);
+        } else if (!filtro.getTipos().isEmpty() && filtro.isCantidad() && !filtro.isFecha()){
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresaOrdenadoCantidad(filtro.getTipos(), id);
+        } else if (!filtro.getTipos().isEmpty() && filtro.isCantidad() && filtro.isFecha()){
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresaOrdenadoCantidad(filtro.getTipos(), id);
+        } else if (filtro.getTipos().isEmpty() && filtro.isCantidad() && filtro.isFecha()){
+            lista = this.operacionRepository.getOperacionesOrdenadoFechaYCantidad(id);
+        } else if (filtro.getTipos().isEmpty() && filtro.isCantidad() && !filtro.isFecha()){
+            lista = this.operacionRepository.getOperacionesOrdenadoCantidad(id);
+        } else if (filtro.getTipos().isEmpty() && !filtro.isCantidad() && filtro.isFecha()){
+            lista = this.operacionRepository.getOperacionesOrdenadoFecha(id);
+        } else {
+            lista = this.operacionRepository.getOperacionesByEmpresa(id);
+        }
+        model.addAttribute("filtro", filtro);
+        List<TipooperacionEntity> tipos = this.tipooperacionRepository.findAll();
+        model.addAttribute("tiposOperacion", tipos);
+        model.addAttribute("operaciones", lista);
+        return "detallesEmpresa";
     }
 
 
