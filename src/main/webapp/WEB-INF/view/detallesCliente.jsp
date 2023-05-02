@@ -31,18 +31,24 @@
 <table border="2">
   <tr>
     <th>ID</th>
+    <th>NIF</th>
     <th>Nombre</th>
     <th>Apellido</th>
     <th>Fecha Nacimiento </th>
-    <th>CP </th>
+    <th>CP</th>
+    <th>Estado</th>
+    <th>Número Cuenta</th>
   </tr>
 
   <tr>
     <td><%=c.getId()%></td>
+    <td><%=c.getNif()%></td>
     <td><%=c.getPrimerNombre()%></td>
     <td><%=c.getPrimerApellido()%></td>
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
+    <td><%=c.getEstadopersonaByEstado()%></td>
+    <td><%=c.getCuentaByCuenta()%></td>
   </tr>
 </table>
 

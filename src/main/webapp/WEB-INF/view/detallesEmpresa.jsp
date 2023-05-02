@@ -30,17 +30,28 @@
     <tr>
         <th>ID</th>
         <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Fecha Nacimiento </th>
-        <th>CP </th>
+        <th>CIF</th>
+        <th>CP</th>
+        <th>Numero</th>
+        <th>Ciudad</th>
+        <th>Planta/Puerta/Oficina</th>
+        <th>CIF</th>
+        <th>Calle</th>
+        <th>Estado</th>
+        <th>Número Cuenta</th>
     </tr>
 
     <tr>
         <td><%=e.getId()%></td>
         <td><%=e.getNombre()%></td>
+        <td><%=e.getCif()%></td>
         <td><%=e.getCp()%></td>
         <td><%=e.getNumero()%></td>
         <td><%=e.getCiudad()%></td>
+        <td><%=e.getPlantaPuertaOficina()%></td>
+        <td><%=e.getCalle()%></td>
+        <td><%=e.getEstadopersonaByEstado()%></td>
+        <td><%=e.getCuentaByCuenta()%></td>
     </tr>
 </table>
 
