@@ -1,9 +1,8 @@
 package es.taw.grupo17.controller;
 
-import es.taw.grupo17.dao.CuentaRepository;
-import es.taw.grupo17.dao.OperacionRepository;
-import es.taw.grupo17.dao.PersonaRepository;
-import es.taw.grupo17.dao.TipooperacionRepository;
+import es.taw.grupo17.dao.*;
+import es.taw.grupo17.dto.Estadocuenta;
+import es.taw.grupo17.entity.EstadocuentaEntity;
 import es.taw.grupo17.entity.OperacionEntity;
 import es.taw.grupo17.entity.PersonaEntity;
 import es.taw.grupo17.ui.FiltroOperacion2;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.util.Collection;
 
-
+// Hecho al 100% por Francisco Javier Tejada Martín
 @Controller
 @RequestMapping("/cajero")
 public class CajeroController {
@@ -31,6 +30,9 @@ public class CajeroController {
 
     @Autowired
     protected TipooperacionRepository tipooperacionRepository;
+
+    @Autowired
+    protected EstadoCuentaRepository estadoCuentaRepository;
 
     @GetMapping("/")
     String menuVista(@RequestParam("id") Integer idcliente, Model model){
@@ -127,6 +129,7 @@ public class CajeroController {
             Collection<OperacionEntity> aux = persona.getOperacionsById();
             aux.add(operacion);
             persona.setOperacionsById(aux);
+            System.out.println(operacion.getPersonaByBeneficiario().getId());
             this.personaRepository.save(persona);
             this.operacionRepository.save(operacion);
             this.cuentaRepository.save(persona.getCuentaByCuenta());
@@ -244,12 +247,12 @@ public class CajeroController {
         PersonaEntity persona = this.personaRepository.findById(idcliente).orElse(null);
         model.addAttribute("persona", persona);
         if (filtro.getFecha() == null && filtro.getTipo() == null) {
-           model.addAttribute("operaciones", persona.getOperacionsById());
+           model.addAttribute("operaciones", this.operacionRepository.getOperacionesFiltro(persona.getCuentaByCuenta().getId()));
            model.addAttribute("filtro", filtro);
        }
         else if (filtro.getFecha().equals(new Date(1970,1,1)) && filtro.getTipo().equals(0))
         {
-            model.addAttribute("operaciones", persona.getOperacionsById());
+            model.addAttribute("operaciones", this.operacionRepository.getOperacionesFiltro(persona.getCuentaByCuenta().getId()));
             model.addAttribute("filtro", filtro);
         }
         else if (filtro.getTipo().equals(0))
@@ -268,6 +271,17 @@ public class CajeroController {
             model.addAttribute("filtro", filtro);
         }
         return("cajerooperaciones");
+    }
+
+    @GetMapping("/desbloqueo")
+    String solicitarDesbloqueo(@RequestParam("id") Integer id, Model model)
+    {
+        PersonaEntity persona = this.personaRepository.findById(id).orElse(null);
+        EstadocuentaEntity estado = this.estadoCuentaRepository.findById(4).orElse(null);
+        persona.getCuentaByCuenta().setEstadocuentaByEstado(estado); //La pasamos a pendiente para que la aprueben
+        this.cuentaRepository.save(persona.getCuentaByCuenta());
+        String noticia = "Se ha solicitado el desbloqueo de la cuenta";
+        return menuVista(persona.getId(), model, noticia);
     }
 
 }

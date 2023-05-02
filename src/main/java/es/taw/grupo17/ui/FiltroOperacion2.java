@@ -2,6 +2,7 @@ package es.taw.grupo17.ui;
 
 import java.sql.Date;
 
+// Hecho al 100% por Francisco Javier Tejada Martín
 public class FiltroOperacion2 {
 
         private Date fecha;

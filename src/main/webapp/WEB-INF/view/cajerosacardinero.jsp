@@ -2,11 +2,7 @@
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.sql.Date" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: frantejada
-  Date: 20/03/2023
-  Time: 14:05
-  To change this template use File | Settings | File Templates.
+  Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%  PersonaEntity persona = (PersonaEntity) request.getAttribute("persona");
@@ -24,6 +20,7 @@
             <form:hidden path="id"/>
             <form:hidden path="fechaInstruccion" value="<%=date%>"/>
             <form:hidden path="tipooperacionByTipo" value="1"/>
+            <form:hidden path="personaByBeneficiario" value="<%=persona.getId()%>"/>
             <input type="hidden" name="persona" value="<%= persona.getId()%>"></input>
             <form:hidden path="moneda" value="euros"/>
             <form:hidden path="cuentaByCuenta" value="<%=persona.getCuentaByCuenta().getId()%>"/>
