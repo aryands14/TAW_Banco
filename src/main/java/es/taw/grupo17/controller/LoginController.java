@@ -5,6 +5,7 @@ import es.taw.grupo17.dto.Empleado;
 import es.taw.grupo17.dto.Empresa;
 import es.taw.grupo17.dto.Persona;
 import es.taw.grupo17.entity.EmpleadoEntity;
+import es.taw.grupo17.service.EmpleadoService;
 import es.taw.grupo17.service.EmpresaService;
 import es.taw.grupo17.service.PersonaService;
 import jakarta.servlet.http.HttpSession;
@@ -22,12 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-    @Autowired
-    protected EmpleadoRepository empleadoRepository;
 
     @Autowired
     protected EmpresaService empresaService;
-
+    @Autowired
+    protected EmpleadoService empleadoService;
     @Autowired
     protected PersonaService personaService;
 
@@ -40,15 +40,14 @@ public class LoginController {
     public String doAutenticar(@RequestParam("usuario") String user,
                                @RequestParam("clave") String clave, Model model, HttpSession session) {
         String urlTo = "redirect:/clientes/";
-        EmpleadoEntity empleado = this.empleadoRepository.autenticar(user, clave);
-        Empleado empleadoDTO = empleado.toDTO();
+        Empleado empleado = this.empleadoService.autenticar(user, clave);
         Empresa empresa = this.empresaService.autenticar(user,clave);
         Persona personaEmpresa = this.personaService.autenticarPersonaEmpresa(user,clave);
         if(empleado == null && empresa==null && personaEmpresa==null) {
             model.addAttribute("error", "Credenciales incorrectas");
             urlTo = "login";
-        } else if(empleadoDTO!=null){
-            session.setAttribute("gestor", empleadoDTO);
+        } else if(empleado!=null){
+            session.setAttribute("gestor", empleado);
             urlTo = "redirect:/gestor/";
         } else if (empresa!=null) {
             if(empresa.getEstadopersonaByEstado()==5){

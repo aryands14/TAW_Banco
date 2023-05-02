@@ -17,8 +17,6 @@ import java.util.List;
 public class GestorController {
 
     @Autowired
-    protected GestorService gestorService;
-    @Autowired
     protected CuentaService cuentaService;
     @Autowired
     protected PersonaService personaService;

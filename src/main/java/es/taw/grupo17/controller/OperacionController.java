@@ -7,6 +7,7 @@ import es.taw.grupo17.entity.*;
 import es.taw.grupo17.service.OperacionService;
 import es.taw.grupo17.ui.FiltroOperacion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
