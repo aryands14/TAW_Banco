@@ -12,7 +12,7 @@
 <%
     Empresa e = (Empresa) request.getAttribute("empresa");
     List<Operacion> operaciones = (List<Operacion>) request.getAttribute("operaciones");
-    String url = "/operaciones/filtrar?id="+e.getId();
+    String url = "/operaciones/filtrarEmpresa?id="+e.getId();
 
 %>
 <html>

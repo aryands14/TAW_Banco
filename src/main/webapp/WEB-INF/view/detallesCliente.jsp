@@ -15,7 +15,7 @@
 <%
   Persona c = (Persona) request.getAttribute("cliente");
   List<Operacion> operaciones = (List<Operacion>) request.getAttribute("operaciones");
-  String url = "/operaciones/filtrar?id="+c.getId();
+  String url = "/operaciones/filtrarCliente?id="+c.getId();
 %>
 <html>
 <head>
