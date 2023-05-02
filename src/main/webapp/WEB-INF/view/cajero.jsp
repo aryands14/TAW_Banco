@@ -1,10 +1,6 @@
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: frantejada
-  Date: 20/03/2023
-  Time: 13:58
-  To change this template use File | Settings | File Templates.
+  Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% PersonaEntity persona = (PersonaEntity) request.getAttribute("persona");
@@ -17,7 +13,12 @@
         <h1>Funciones del cajero</h1>
         <% if ( operacion != null) { %>
         <p style="color: blue;"><%=operacion%></p>
-        <% } %>
+        <% }
+        else if (persona.getCuentaByCuenta().getEstadocuentaByEstado().getId() != 1){ %>
+            <p style="color: red;">El estado de la cuenta es <%=persona.getCuentaByCuenta().getEstadocuentaByEstado().getDescripcion()%></p>
+            <a href="/cajero/desbloqueo?id=<%= persona.getId() %>"> Realizar desbloqueo de la cuenta </a>
+        <% }%>
+        <% if (persona.getCuentaByCuenta().getEstadocuentaByEstado().getId() == 1){ %>
         <ul>
             <li><a href="/cajero/modificarcliente?id=<%= persona.getId() %>"> Modificar mis datos </a></li>
             <li><a href="/cajero/transferencia?id=<%= persona.getId() %>"> Realizar Transferencia </a></li>
@@ -26,5 +27,6 @@
             <li><a href="/cajero/operaciones?id=<%= persona.getId() %>"> Ver operaciones realizadas </a></li>
             <li><a href="/cajero/desbloqueo?id=<%= persona.getId() %>"> Realizar desbloqueo de la cuenta </a></li>
         </ul>
+        <% } %>
     </body>
 </html>

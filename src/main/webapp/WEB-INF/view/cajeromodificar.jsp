@@ -1,11 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: frantejada
-  Date: 20/03/2023
-  Time: 14:05
-  To change this template use File | Settings | File Templates.
+  Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% PersonaEntity persona = (PersonaEntity) request.getAttribute("cliente");
