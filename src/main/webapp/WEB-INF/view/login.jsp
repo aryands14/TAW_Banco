@@ -12,11 +12,25 @@
 @author: Sadhwani Sadhwani Aryan Dilip 50%
  */
 %>
+<%
+    String error = (String) request.getAttribute("error");
+%>
 <html>
 <head>
     <title>Login</title>
 </head>
 <body>
+
+<%
+    if(error != null) {
+%>
+    <p style="color:red;">
+            <%=error.toString()%>
+    </p>
+<%
+    }
+%>
+
 <form action="/" method="post">
     <table>
         <tr>

@@ -147,16 +147,7 @@
     if(personaEmpresa==null){
 %>
 <a href="/empresa/nuevo?id=<%=empresa.getId()%>" >Dar de alta</a>
-<%
-    }
-%>
-
-<%
-    if(personaEmpresa==null){
-%>
-
 <a href="/empresa/nuevo?operaciones=<%=empresa.getId()%>" >Menu de operaciones</a>
-
 <%
     }else{
 %>
@@ -166,5 +157,6 @@
 <%
     }
 %>
+
 </body>
 </html>

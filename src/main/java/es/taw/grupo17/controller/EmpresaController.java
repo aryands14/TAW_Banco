@@ -231,8 +231,7 @@ public class EmpresaController {
 
     @GetMapping("/operaciones")
     public String doMostrarMenuOperaciones(@RequestParam("id") Integer idPersona){
-
-        return "";
+        return "redirect:/cajero/?id=" + idPersona;
     }
 
 

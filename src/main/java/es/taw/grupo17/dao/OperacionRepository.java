@@ -51,4 +51,12 @@ public interface OperacionRepository extends JpaRepository<OperacionEntity, Inte
     @Query("select o from OperacionEntity o join EmpresaEntity e on e.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and e.id = :id")
     public List<OperacionEntity> buscarPorTipoOperacionYEmpresa(@Param("tipos") List<Integer> tipos, @Param("id") Integer id);
 
+    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.fechaInstruccion desc")
+    List<OperacionEntity> buscarPorTipoOperacionYEmpresaOrdenadoFecha(List<Integer> tipos, Integer id);
+
+    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad")
+    List<OperacionEntity> buscarPorTipoOperacionYEmpresaOrdenadoCantidad(List<Integer> tipos, Integer id);
+
+    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id")
+    List<OperacionEntity> getOperacionesByEmpresa(Integer id);
 }
