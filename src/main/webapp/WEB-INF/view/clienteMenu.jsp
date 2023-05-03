@@ -75,7 +75,7 @@
                     }
         %>
         <a href="/gestor/visualizarcliente?id=<%=cliente.getId()%>" >Ver operaciones</a><br/>
-        <a href="/cliente/transferencia/?id=<%=cliente.getId()%>" >Transferencia</a><br/>
+        <a href="/cajero/transferencia?id=<%=cliente.getId()%>" >Transferencia</a><br/>
         <a href="/cajero/cambiodivisas?id=<%=cliente.getId()%>" >Cambio de divisas</a><br/>
     <%
         }

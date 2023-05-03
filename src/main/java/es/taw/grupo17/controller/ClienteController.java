@@ -30,14 +30,6 @@ import java.util.List;
 @RequestMapping("/cliente")
 public class ClienteController {
     @Autowired
-    protected PersonaRepository personaRepository;
-
-    @Autowired
-    protected OperacionRepository operacionRepository;
-
-    @Autowired
-    protected CuentaRepository cuentaRepository;
-    @Autowired
     protected EstadopersonaService estadopersonaService;
 
     @Autowired
@@ -145,64 +137,6 @@ public class ClienteController {
     public String doMostrarMenuOperaciones(@RequestParam("id") Integer idPersona){
         return "redirect:/cajero/?id=" + idPersona;
         }
-
-    @GetMapping("/transferencia")
-    String realizarTransferencia(@RequestParam("id") Integer idPersona, Model model)
-    {
-        PersonaEntity cliente = this.personaRepository.findById(idPersona).orElse(null);
-
-        Date date = new Date(System.currentTimeMillis());
-        model.addAttribute("fecha", date);
-        model.addAttribute("cliente", cliente);
-        model.addAttribute("transferencia", new OperacionEntity());
-        return("cajerotransferencia");
-    }
-
-    @PostMapping("/guardartransferencia")
-    String guardarTransferencia(@ModelAttribute("transferencia") OperacionEntity operacion, @RequestParam("persona") Integer idpersona, Model model)
-    {
-        PersonaEntity cliente = this.personaRepository.findById(idpersona).orElse(null);
-
-        model.addAttribute("persona", cliente);
-        if (operacion.getCantidad() > cliente.getCuentaByCuenta().getSaldo())
-        {
-            model.addAttribute("transferencia", operacion);
-            model.addAttribute("fecha", new Date(System.currentTimeMillis()));
-            model.addAttribute("error", "No tienes disponible esta cantidad de dinero en la cuenta");
-            return ("cajerotransferencia");
-        }
-        else if (operacion.getCantidad() < 5)
-        {
-            model.addAttribute("transferencia", operacion);
-            model.addAttribute("fecha", new Date(System.currentTimeMillis()));
-            model.addAttribute("error", "La transferencia minima debe ser de 5 euros");
-            return ("cajerotransferencia");
-        }
-        else
-        {
-            cliente.getCuentaByCuenta().setSaldo(cliente.getCuentaByCuenta().getSaldo() - operacion.getCantidad());
-            operacion.getPersonaByBeneficiario().getCuentaByCuenta().setSaldo(operacion.getCuentaByCuenta().getSaldo() + operacion.getCantidad());
-            Collection<OperacionEntity> aux = cliente.getOperacionsById();
-            aux.add(operacion);
-            cliente.setOperacionsById(aux);
-            System.out.println(operacion.getPersonaByBeneficiario().getId());
-            this.personaRepository.save(cliente);
-            this.operacionRepository.save(operacion);
-            this.cuentaRepository.save(cliente.getCuentaByCuenta());
-            this.cuentaRepository.save(operacion.getPersonaByBeneficiario().getCuentaByCuenta());
-        }
-        String noticia = "Se ha realizado la transferencia a la cuenta " + operacion.getPersonaByBeneficiario().getCuentaByCuenta().getId() + " con la cantidad de " + operacion.getCantidad() + " euros";
-        return menuVista(idpersona, model);
-    }
-
-    @PostMapping("/")
-    String menuVista(@RequestParam("id") Integer idcliente, Model model)
-    {
-        PersonaEntity cliente = this.personaRepository.findById(idcliente).orElse(null);
-
-        model.addAttribute("cliente", cliente);
-        return ("cliente");
-    }
 
 
     }
