@@ -147,12 +147,11 @@
     if(personaEmpresa==null){
 %>
 <a href="/empresa/nuevo?id=<%=empresa.getId()%>" >Dar de alta</a>
-<a href="/empresa/nuevo?operaciones=<%=empresa.getId()%>" >Menu de operaciones</a>
 <%
     }else{
 %>
 
-<a href="/empresa/nuevo?operaciones=<%=personaEmpresa.getId()%>" >Menu de operaciones</a>
+<a href="/empresa/operaciones?id=<%=personaEmpresa.getId()%>" >Menu de operaciones</a>
 
 <%
     }
