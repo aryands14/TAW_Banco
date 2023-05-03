@@ -40,6 +40,10 @@ public class PersonaService {
         PersonaEntity persona = this.personaRepository.autenticarPersonaEmpresa(user, clave);
         return (persona == null? null : persona.toDTO());
     }
+    public Persona autenticarCliente(String user, String clave) {
+        PersonaEntity persona = this.personaRepository.autenticarCliente(user, clave);
+        return (persona == null? null : persona.toDTO());
+    }
 
     public List<Persona> listarClientes (String texto, List<String> estados) {
         List<PersonaEntity> lista;

@@ -38,9 +38,8 @@
     <th>ID</th>
     <th>Nombre</th>
     <th>Apellido</th>
-    <th>Fecha Nacimiento </th>
-    <th>CP </th>
-    <th>Estado cuenta </th>
+    <th>Fecha Nacimiento</th>
+    <th>Estado cuenta</th>
   </tr>
   <%
     for(Persona c : listaClientes) {
@@ -50,7 +49,6 @@
     <td><%=c.getPrimerNombre()%></td>
     <td><%=c.getPrimerApellido()%></td>
     <td><%=c.getFechaNacimiento()%></td>
-    <td><%=c.getCp()%></td>
     <td><%=c.getCuentaByCuenta()==null?"No tiene cuenta":cuentaService.getEstadoByCuenta(c.getCuentaByCuenta()).getDescripcion()%></td>
     <td><a href="/gestor/visualizarcliente?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>
@@ -65,9 +63,7 @@
   <tr>
     <th>ID</th>
     <th>Nombre</th>
-    <th>CP</th>
-    <th>Numero </th>
-    <th>Ciudad </th>
+    <th>Numero</th>
     <th>Estado Cuenta </th>
   </tr>
   <%
@@ -76,9 +72,7 @@
   <tr>
     <td><%=c.getId()%></td>
     <td><%=c.getNombre()%></td>
-    <td><%=c.getCp()%></td>
     <td><%=c.getNumero()%></td>
-    <td><%=c.getCiudad()%></td>
     <td><%=c.getCuentaByCuenta()==null?"No tiene cuenta":cuentaService.getEstadoByCuenta(c.getCuentaByCuenta()).getDescripcion()%></td>
     <td><a href="/gestor/visualizarempresa?id=<%=c.getId()%>"/>Ver Detalles</td>
   </tr>

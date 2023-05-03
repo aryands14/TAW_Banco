@@ -3,18 +3,14 @@
 <%@ page import="java.sql.Date" %>
 <%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
 <%@ page import="java.util.Collection" %>
-<%@ page import="es.taw.grupo17.ui.FiltroOperacion" %>
+<%@ page import="es.taw.grupo17.ui.FiltroOperacion2" %>
 <%--
-  Created by IntelliJ IDEA.
-  User: frantejada
-  Date: 20/03/2023
-  Time: 14:05
-  To change this template use File | Settings | File Templates.
+  Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% PersonaEntity persona = (PersonaEntity) request.getAttribute("persona");
     Collection<OperacionEntity> operaciones = (Collection<OperacionEntity>) request.getAttribute("operaciones");
-    FiltroOperacion filtro = (FiltroOperacion) request.getAttribute("filtro");%>
+    FiltroOperacion2 filtro = (FiltroOperacion2) request.getAttribute("filtro");%>
             <html>
     <head>
         <title>Ver operaciones</title>
@@ -23,7 +19,7 @@
     <h1>Operaciones de la Persona:</h1>
 
     <form:form action="/cajero/operaciones" method="get" modelAttribute="filtro">
-        Filtra por fecha: <form:input type="date" path="fecha" value="1970-01-01"/>
+        Filtra por fecha: <form:input type="date" path="fecha" value="<%=filtro.getFecha() != null ? filtro.getFecha() : &quot;1970-01-01&quot; %>"/>
         <input type="hidden" name="id" value="<%=persona.getId()%>">
         <form:select path="tipo">
             <form:option label="----" selected="true" value="0"/>
@@ -57,7 +53,7 @@
         <tr>
             <td><%=op.getId()%></td>
             <td><%=op.getCuentaByCuenta() != null? op.getCuentaByCuenta().getId() : ""%></td>
-            <td><%=op.getPersonaByBeneficiario() != null ? op.getCuentaByCuenta().getId() : ""%></td>
+            <td><%=op.getPersonaByBeneficiario() != null ? op.getPersonaByBeneficiario().getId() : ""%></td>
             <td><%=op.getCantidad()%></td>
             <td><%=op.getCantidadCambio() != null ? op.getCantidadCambio() : ""%></td>
             <td><%=op.getTipooperacionByTipo().getDescripcion()%></td>
