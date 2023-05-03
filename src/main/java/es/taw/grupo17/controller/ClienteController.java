@@ -45,7 +45,7 @@ public class ClienteController {
     protected EstadoCuentaService estadoCuentaService;
 
     @GetMapping("/")
-    public String empresaHome(Model model, HttpSession session){
+    public String clienteMenu(Model model, HttpSession session){
         return this.procesarFiltrado(model,session);
     }
 
@@ -131,12 +131,5 @@ public class ClienteController {
         this.cuentaService.guardarCuenta(cuenta);
         this.clienteService.guardarPersona(cliente);
         return "redirect:/cliente/";
-    }
-
-    @GetMapping("/operaciones")
-    public String doMostrarMenuOperaciones(@RequestParam("id") Integer idPersona){
-        return "redirect:/cajero/?id=" + idPersona;
         }
-
-
     }
