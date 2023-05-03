@@ -44,9 +44,13 @@
     <button>Login</button>
 </form>
 
+<form action="/registrarCliente" method="post">
+    <button>Registar Cliente</button>
+</form>
 <form action="/registrarEmpresa" method="post">
     <button>Registar Empresa</button>
 </form>
+
 
 </body>
 </html>

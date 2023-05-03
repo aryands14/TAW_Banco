@@ -41,39 +41,53 @@ public class LoginController {
                                @RequestParam("clave") String clave, Model model, HttpSession session) {
         String urlTo = "redirect:/clientes/";
         Empleado empleado = this.empleadoService.autenticar(user, clave);
-        Empresa empresa = this.empresaService.autenticar(user,clave);
-        Persona personaEmpresa = this.personaService.autenticarPersonaEmpresa(user,clave);
-        if(empleado == null && empresa==null && personaEmpresa==null) {
+        Empresa empresa = this.empresaService.autenticar(user, clave);
+        Persona personaEmpresa = this.personaService.autenticarPersonaEmpresa(user, clave);
+        Persona cliente = this.personaService.autenticarCliente(user, clave);
+        if (empleado == null && empresa == null && personaEmpresa == null && cliente == null) {
             model.addAttribute("error", "Credenciales incorrectas");
             urlTo = "login";
-        } else if(empleado!=null){
+        } else if (empleado != null) {
             session.setAttribute("gestor", empleado);
             urlTo = "redirect:/gestor/";
-        } else if (empresa!=null) {
-            if(empresa.getEstadopersonaByEstado()==5){
+        }  else if (cliente != null) {
+            if (cliente.getEstadopersonaByEstado() == 5) {
                 model.addAttribute("error", "Esta pendiente de aprovación");
                 urlTo = "login";
-            }else{
+            } else {
+                session.setAttribute("cliente", cliente);
+                urlTo = "redirect:/cliente/";
+            }
+        }else if (empresa != null) {
+            if (empresa.getEstadopersonaByEstado() == 5) {
+                model.addAttribute("error", "Esta pendiente de aprovación");
+                urlTo = "login";
+            } else {
                 session.setAttribute("empresa", empresa);
-                session.setAttribute("personaEmpresa",null);
+                session.setAttribute("personaEmpresa", null);
                 urlTo = "redirect:/empresa/";
             }
-        } else if (personaEmpresa!=null){
-            if(personaEmpresa.getEstadopersonaByEstado()==5){
+        } else if (personaEmpresa != null) {
+            if (personaEmpresa.getEstadopersonaByEstado() == 5) {
                 model.addAttribute("error", "Esta pendiente de aprovación");
                 urlTo = "login";
-            }else{
+            } else {
                 session.setAttribute("personaEmpresa", personaEmpresa);
                 session.setAttribute("empresa", null);
                 urlTo = "redirect:/empresa/";
             }
         }
-        return urlTo;
-    }
+            return urlTo;
+        }
 
     @PostMapping("/registrarEmpresa")
     public String doRegistrarEmpresa(){
         return "redirect:/empresa/registrar";
+    }
+
+    @PostMapping("/registrarCliente")
+    public String doRegistrarEm(){
+        return "redirect:/cliente/registrar";
     }
 
 }

@@ -30,6 +30,9 @@ public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer>
     @Query("select p from PersonaEntity p where p.nif = :username and p.contraseña = :password")
     public PersonaEntity autenticarPersonaEmpresa(@Param("username")String user, @Param("password") String password);
 
+    @Query("select p from PersonaEntity p where p.nif = :username and p.contraseña = :password and p.empresaByEmpresa is null" )
+    public PersonaEntity autenticarCliente(@Param("username")String user, @Param("password") String password);
+
     @Query("select p from PersonaEntity p where p.estadopersonaByEstado.descripcion in :estados")
     public List<PersonaEntity> buscarPorEstado(@Param("estados") List<String> estados);
 
