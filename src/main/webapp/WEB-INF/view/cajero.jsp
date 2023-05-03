@@ -1,9 +1,11 @@
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
+<%@ page import="es.taw.grupo17.dto.Estadocuenta" %>
 <%--
   Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% PersonaEntity persona = (PersonaEntity) request.getAttribute("persona");
+<% Persona persona = (Persona) request.getAttribute("persona");
+    Estadocuenta estado = (Estadocuenta) request.getAttribute("estado");
     String operacion = (String) request.getAttribute("operacion");%>
 <html>
     <head>
@@ -14,18 +16,19 @@
         <% if ( operacion != null) { %>
         <p style="color: blue;"><%=operacion%></p>
         <% }
-        else if (persona.getCuentaByCuenta().getEstadocuentaByEstado().getId() != 1){ %>
-            <p style="color: red;">El estado de la cuenta es <%=persona.getCuentaByCuenta().getEstadocuentaByEstado().getDescripcion()%></p>
+        else if (estado.getId() == 3){ %>
+            <p style="color: red;">El estado de la cuenta es <%=estado.getDescripcion()%></p>
             <a href="/cajero/desbloqueo?id=<%= persona.getId() %>"> Realizar desbloqueo de la cuenta </a>
-        <% }%>
-        <% if (persona.getCuentaByCuenta().getEstadocuentaByEstado().getId() == 1){ %>
+        <% } else if (estado.getId() != 1){%>
+            <p style="color: red;">El estado de la cuenta es <%=estado.getDescripcion()%></p>
+        <% } %>
+        <% if (estado.getId() == 1){ %>
         <ul>
             <li><a href="/cajero/modificarcliente?id=<%= persona.getId() %>"> Modificar mis datos </a></li>
             <li><a href="/cajero/transferencia?id=<%= persona.getId() %>"> Realizar Transferencia </a></li>
             <li><a href="/cajero/sacardinero?id=<%= persona.getId() %>"> Sacar dinero </a></li>
             <li><a href="/cajero/cambiodivisas?id=<%= persona.getId() %>"> Realizar cambio de divisas y sacar dinero en esa divisa </a></li>
             <li><a href="/cajero/operaciones?id=<%= persona.getId() %>"> Ver operaciones realizadas </a></li>
-            <li><a href="/cajero/desbloqueo?id=<%= persona.getId() %>"> Realizar desbloqueo de la cuenta </a></li>
         </ul>
         <% } %>
     </body>

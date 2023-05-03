@@ -1,11 +1,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.sql.Date" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
 <%--
   Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% PersonaEntity persona = (PersonaEntity) request.getAttribute("persona");
+<% Persona persona = (Persona) request.getAttribute("persona");
     Date date = (Date) request.getAttribute("fecha");
     String error = (String) request.getAttribute("error");%>
 <html>
@@ -20,14 +20,14 @@
         <form:hidden path="id"/>
         <form:hidden path="fechaInstruccion" value="<%=date%>"/>
         <form:hidden path="tipooperacionByTipo" value="4"/>
-        <input type="hidden" name="persona" value="<%= persona.getId()%>"></input>
+        <input type="hidden" name="persona" value="<%= persona.getId()%>">
         <form:hidden path="moneda" value="euros"/>
         <form:hidden path="personaByBeneficiario" value="<%=persona.getId()%>"/>
         <form:select path="monedaCambio">
             <form:option value="libras" label="libras"/>
             <form:option value="dolares" label="dolares"/>
         </form:select> <br>
-        <form:hidden path="cuentaByCuenta" value="<%=persona.getCuentaByCuenta().getId()%>"/>
+        <form:hidden path="cuentaByCuenta" value="<%=persona.getCuentaByCuenta()%>"/>
         Cantidad: <form:input path="cantidad" required="true"/> <br>
         <form:button>Guardar</form:button>
     </form:form>

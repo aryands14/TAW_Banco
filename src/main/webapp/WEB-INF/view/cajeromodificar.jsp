@@ -1,10 +1,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
 <%--
   Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% PersonaEntity persona = (PersonaEntity) request.getAttribute("cliente");
+<% Persona persona = (Persona) request.getAttribute("cliente");
     Boolean guardar = (Boolean) request.getAttribute("guardar");
     int error = (int) request.getAttribute("error");
     String passwordant = persona.getContraseña();%>
@@ -47,7 +47,7 @@
           CP(*): <form:input path="cp" required="true"/> <br>
           <input type="hidden" value="<%=passwordant%>" name="ant">
           Contraseña Anterior para poder cambiarla: <input name="anterior2" type="password"/> <br>
-          Contraseña(*): <form:password path="contraseña" name="password" value="<%=persona.getContraseña()%>"/> <br>
+          Nueva Contraseña(*): <form:password path="contraseña" name="password" value="<%=persona.getContraseña()%>"/> <br>
           Repetir Contraseña(*): <input type="password" name="repetircontraseña"> <br>
           <form:button>Guardar</form:button>
         </form:form>

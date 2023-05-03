@@ -1,15 +1,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
-<%@ page import="java.sql.Date" %>
-<%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
-<%@ page import="java.util.Collection" %>
 <%@ page import="es.taw.grupo17.ui.FiltroOperacion2" %>
+<%@ page import="es.taw.grupo17.dto.Persona" %>
+<%@ page import="es.taw.grupo17.dto.Operacion" %>
+<%@ page import="java.util.List" %>
 <%--
   Hecho al 100% por Francisco Javier Tejada Martín
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% PersonaEntity persona = (PersonaEntity) request.getAttribute("persona");
-    Collection<OperacionEntity> operaciones = (Collection<OperacionEntity>) request.getAttribute("operaciones");
+<% Persona persona = (Persona) request.getAttribute("persona");
+    List<Operacion> operaciones = (List<Operacion>) request.getAttribute("operaciones");
     FiltroOperacion2 filtro = (FiltroOperacion2) request.getAttribute("filtro");%>
             <html>
     <head>
@@ -47,16 +46,26 @@
 
             <%
   if(operaciones != null) {
-    for(OperacionEntity op : operaciones) {
+    for(Operacion op : operaciones) {
 %>
 
         <tr>
             <td><%=op.getId()%></td>
-            <td><%=op.getCuentaByCuenta() != null? op.getCuentaByCuenta().getId() : ""%></td>
-            <td><%=op.getPersonaByBeneficiario() != null ? op.getPersonaByBeneficiario().getId() : ""%></td>
+            <td><%=op.getCuentaByCuenta() != null? op.getCuentaByCuenta() : ""%></td>
+            <td><%=op.getPersonaByBeneficiario() != null ? op.getPersonaByBeneficiario() : ""%></td>
             <td><%=op.getCantidad()%></td>
             <td><%=op.getCantidadCambio() != null ? op.getCantidadCambio() : ""%></td>
-            <td><%=op.getTipooperacionByTipo().getDescripcion()%></td>
+            <td>
+                <% if (op.getTipooperacionByTipo() == 1){ %>
+                    Retirada
+                <% } else if (op.getTipooperacionByTipo() == 2){ %>
+                    Ingreso
+                <% } else if (op.getTipooperacionByTipo() == 3){ %>
+                    Pago
+                <% } else{ %>
+                    Cambio divisa
+                <% } %>
+            </td>
             <td><%=op.getMoneda()%></td>
             <td><%=op.getMonedaCambio() != null ? op.getMonedaCambio() : ""%></td>
             <td><%=op.getFechaInstruccion()%></td>
