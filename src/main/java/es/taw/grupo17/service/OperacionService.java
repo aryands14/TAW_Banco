@@ -5,7 +5,9 @@ import es.taw.grupo17.dao.OperacionRepository;
 import es.taw.grupo17.dao.PersonaRepository;
 import es.taw.grupo17.dao.TipooperacionRepository;
 import es.taw.grupo17.dto.Operacion;
+import es.taw.grupo17.dto.Persona;
 import es.taw.grupo17.entity.OperacionEntity;
+import es.taw.grupo17.entity.PersonaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +32,48 @@ public class OperacionService {
     TipooperacionRepository tipooperacionRepository;
 
 
-    public List<Operacion> filtrar() {
-        List<OperacionEntity> operaciones = null;
-        return listaOperacionesADTO(operaciones);
+    public List<Operacion> listarOperaciones (boolean cantidad, boolean fecha, List<Integer> tipos, Integer id) {
+        List<OperacionEntity> lista;
+        if(!tipos.isEmpty() && !cantidad && !fecha) {
+            lista = this.operacionRepository.buscarPorTipoOperacionYPersona(tipos, id);
+        } else if (!tipos.isEmpty() && !cantidad && fecha){
+            lista = this.operacionRepository.buscarPorTipoOperacionYPersonaOrdenadoFecha(tipos, id);
+        } else if (!tipos.isEmpty() && cantidad && !fecha){
+            lista = this.operacionRepository.buscarPorTipoOperacionYPersonaOrdenadoCantidad(tipos, id);
+        } else if (!tipos.isEmpty() && cantidad && fecha){
+            lista = this.operacionRepository.buscarPorTipoOperacionYPersonaOrdenadoCantidadYFecha(tipos, id);
+        } else if (tipos.isEmpty() && cantidad && fecha){
+            lista = this.operacionRepository.getOperacionesOrdenadoFechaYCantidad(id);
+        } else if (tipos.isEmpty() && cantidad && !fecha){
+            lista = this.operacionRepository.getOperacionesOrdenadoCantidad(id);
+        } else if (tipos.isEmpty() && !cantidad && fecha){
+            lista = this.operacionRepository.getOperacionesOrdenadoFecha(id);
+        } else {
+            lista = this.operacionRepository.getOperacionesByPersona(id);
+        }
+        return this.listaOperacionesADTO(lista);
+    }
+
+    public List<Operacion> listarOperacionesEmpresa (boolean cantidad, boolean fecha, List<Integer> tipos, Integer id) {
+        List<OperacionEntity> lista;
+        if(!tipos.isEmpty() && !cantidad && !fecha) {
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresa(tipos, id);
+        } else if (!tipos.isEmpty() && !cantidad && fecha){
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresaOrdenadoFecha(tipos, id);
+        } else if (!tipos.isEmpty() && cantidad && !fecha){
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresaOrdenadoCantidad(tipos, id);
+        } else if (!tipos.isEmpty() && cantidad && fecha){
+            lista = this.operacionRepository.buscarPorTipoOperacionYPersonaOrdenadoCantidad(tipos, id);
+        } else if (tipos.isEmpty() && cantidad && fecha){
+            lista = this.operacionRepository.buscarPorEmpresaOrdenadoCantidadYFecha(id);
+        } else if (tipos.isEmpty() && cantidad && !fecha){
+            lista = this.operacionRepository.getOperacionesOrdenadoCantidad(id);
+        } else if (tipos.isEmpty() && !cantidad && fecha){
+            lista = this.operacionRepository.buscarPorEmpresaOrdenadoFecha(id);
+        } else {
+            lista = this.operacionRepository.getOperacionesByPersona(id);
+        }
+        return this.listaOperacionesADTO(lista);
     }
 
     public List<Operacion> getOperaciones(Integer idCuenta) {
