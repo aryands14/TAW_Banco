@@ -1,12 +1,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.taw.grupo17.entity.PersonaEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.taw.grupo17.entity.OperacionEntity" %>
 <%@ page import="es.taw.grupo17.dto.Operacion" %>
 <%@ page import="es.taw.grupo17.dto.Persona" %>
 <%--
   Created by IntelliJ IDEA.
-  User: aryan
+
+  @author: Aryan Dilip Sadhwani Sadhwani
+
   Date: 27/03/2023
   Time: 13:56
   To change this template use File | Settings | File Templates.
@@ -100,7 +100,16 @@
    }
   }
 %>
-
 </table>
+<br><br>
+
+<%
+  if(c.getEstadopersonaByEstado() == 5) {
+%>
+<a href="/gestor/altaPersona?id=<%=c.getId()%>"/>Dar Alta</a>
+
+<%
+  }
+%>
 </body>
 </html>

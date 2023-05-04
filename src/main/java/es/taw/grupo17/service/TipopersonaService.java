@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
+
 @Service
 public class TipopersonaService {
 

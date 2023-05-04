@@ -4,8 +4,10 @@
 <%@ page import="es.taw.grupo17.dto.Empresa" %>
 <%@ page import="es.taw.grupo17.service.CuentaService" %><%--
   Created by IntelliJ IDEA.
-  User: aryan
-  Date: 20/03/2023
+
+  @author: Aryan Dilip Sadhwani Sadhwani
+
+   Date: 20/03/2023
   Time: 13:58
   To change this template use File | Settings | File Templates.
 --%>

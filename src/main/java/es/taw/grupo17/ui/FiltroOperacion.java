@@ -2,6 +2,10 @@ package es.taw.grupo17.ui;
 
 import java.util.List;
 
+/*
+@author: Aryan Dilip Sadhwani Sadhwani
+ */
+
 public class FiltroOperacion {
 
     private List<Integer> tipos;

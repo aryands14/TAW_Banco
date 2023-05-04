@@ -25,6 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/*
+@author: Álvaro Bermúdez Gámez 50%
+@author: Aryan Dilip Sadhwani Sadhwani 50%
+ */
+
 @Controller
 @RequestMapping("/operaciones")
 public class OperacionController {

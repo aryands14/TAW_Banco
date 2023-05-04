@@ -5,7 +5,9 @@
 <%@ page import="es.taw.grupo17.dto.Empresa" %>
 <%@ page import="es.taw.grupo17.service.CuentaService" %><%--
   Created by IntelliJ IDEA.
-  User: aryan
+
+  @author: Aryan Dilip Sadhwani Sadhwani
+
   Date: 27/03/2023
   Time: 14:08
   To change this template use File | Settings | File Templates.

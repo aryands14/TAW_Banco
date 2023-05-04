@@ -16,6 +16,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+@author: Álvaro Bermúdez Gámez 50%
+@author: Aryan Dilip Sadhwani Sadhwani 50%
+ */
+
 @Service
 public class EstadopersonaService {
 

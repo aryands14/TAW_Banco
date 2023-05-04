@@ -15,7 +15,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-//Hecho getOperacionesFiltro* y guardarOperacion por Francisco Javier Tejada Martín
+/*
+@author: Francisco Javier Tejada Martín 50%
+@author: Aryan Dilip Sadhwani Sadhwani 50%
+ */
+
 @Service
 public class OperacionService {
 

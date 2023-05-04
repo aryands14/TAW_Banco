@@ -2,6 +2,10 @@ package es.taw.grupo17.ui;
 
 import java.util.List;
 
+/*
+@author: Aryan Dilip Sadhwani Sadhwani
+ */
+
 public class FiltroClientes {
 
     private String texto;

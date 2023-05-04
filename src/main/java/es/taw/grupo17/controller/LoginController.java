@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /*
 @author: Álvaro Bermúdez Gámez 50%
-@author: Sadhwani Sadhwani Aryan Dilip 50%
+@author: Aryan Dilip Sadhwani Sadhwani 50%
  */
+
 @Controller
 public class LoginController {
 

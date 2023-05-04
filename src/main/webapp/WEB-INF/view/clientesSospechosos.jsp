@@ -4,7 +4,9 @@
 <%@ page import="es.taw.grupo17.dto.Persona" %>
 <%@ page import="es.taw.grupo17.dto.Empresa" %><%--
   Created by IntelliJ IDEA.
-  User: aryan
+
+  @author: Aryan Dilip Sadhwani Sadhwani
+
   Date: 11/04/2023
   Time: 20:18
   To change this template use File | Settings | File Templates.
