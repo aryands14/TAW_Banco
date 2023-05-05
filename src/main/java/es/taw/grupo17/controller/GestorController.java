@@ -132,6 +132,7 @@ public class GestorController {
         c.setFechaApertura(java.sql.Date.valueOf(LocalDate.now()));
         c.setSaldo(0.0);
         c.setEstadocuentaByEstado(estadoCuenta.getId());
+        c.setNumero(c.getId());
         this.cuentaService.guardarCuenta(c);
         p.setEstadopersonaByEstado(estadoPersona.getId());
         p.setCuentaByCuenta(c.getId());
@@ -145,12 +146,13 @@ public class GestorController {
         Cuenta c = new Cuenta();
         Estadopersona estadoPersona = this.estadopersonaService.buscarEstado(1);
         Estadocuenta estadoCuenta = this.estadoCuentaService.buscarEstadoCuenta(1);
-        e.setEstadopersonaByEstado(estadoPersona.getId());
-        c.setEstadocuentaByEstado(estadoCuenta.getId());
-        e.setCuentaByCuenta(c.getId());
         c.setFechaApertura(java.sql.Date.valueOf(LocalDate.now()));
         c.setSaldo(0.0);
+        c.setEstadocuentaByEstado(estadoCuenta.getId());
+        c.setNumero(c.getId());
         this.cuentaService.guardarCuenta(c);
+        e.setEstadopersonaByEstado(estadoPersona.getId());
+        e.setCuentaByCuenta(c.getId());
         this.empresaService.guardarEmpresa(e);
         return "redirect:/gestor/solicitados";
     }
