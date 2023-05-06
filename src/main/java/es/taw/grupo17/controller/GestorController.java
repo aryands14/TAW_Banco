@@ -173,9 +173,12 @@ public class GestorController {
         Persona p = this.personaService.buscarPersona(id);
         Cuenta c = this.cuentaService.buscarCuenta(p.getCuentaByCuenta());
         Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(2);
+        Estadopersona estadoP = this.estadopersonaService.buscarEstado(2);
+        p.setEstadopersonaByEstado(estadoP.getId());
         c.setEstadocuentaByEstado(estado.getId());
         c.setFechaCierre(java.sql.Date.valueOf(LocalDate.now()));
         this.cuentaService.guardarCuenta(c);
+        this.personaService.guardarPersona(p);
         return "redirect:/gestor/inactivos";
     }
 
@@ -184,9 +187,12 @@ public class GestorController {
         Empresa e = this.empresaService.buscarEmpresa(id);
         Cuenta c = this.cuentaService.buscarCuenta(e.getCuentaByCuenta());
         Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(2);
+        Estadopersona estadoP = this.estadopersonaService.buscarEstado(2);
+        e.setEstadopersonaByEstado(estadoP.getId());
         c.setEstadocuentaByEstado(estado.getId());
         c.setFechaCierre(java.sql.Date.valueOf(LocalDate.now()));
         this.cuentaService.guardarCuenta(c);
+        this.empresaService.guardarEmpresa(e);
         return "redirect:/gestor/inactivos";
     }
 
@@ -195,8 +201,24 @@ public class GestorController {
         Persona p = this.personaService.buscarPersona(id);
         Cuenta c = this.cuentaService.buscarCuenta(p.getCuentaByCuenta());
         Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(3);
+        Estadopersona estadoP = this.estadopersonaService.buscarEstado(3);
+        p.setEstadopersonaByEstado(estadoP.getId());
         c.setEstadocuentaByEstado(estado.getId());
         this.cuentaService.guardarCuenta(c);
+        this.personaService.guardarPersona(p);
+        return "redirect:/gestor/sospechosos";
+    }
+
+    @GetMapping ("/bloquearCuentaEmpresa")
+    public String doBloquearCuentaEmpresa(@RequestParam("id") Integer id, Model model) {
+        Empresa e = this.empresaService.buscarEmpresa(id);
+        Cuenta c = this.cuentaService.buscarCuenta(e.getCuentaByCuenta());
+        Estadocuenta estado = this.estadoCuentaService.buscarEstadoCuenta(3);
+        Estadopersona estadoP = this.estadopersonaService.buscarEstado(3);
+        e.setEstadopersonaByEstado(estadoP.getId());
+        c.setEstadocuentaByEstado(estado.getId());
+        this.cuentaService.guardarCuenta(c);
+        this.empresaService.guardarEmpresa(e);
         return "redirect:/gestor/sospechosos";
     }
 

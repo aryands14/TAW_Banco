@@ -59,15 +59,16 @@
 
 <h1>Operaciones del Cliente:</h1>
 
+Filtrar por:
 <form:form action="<%=url%>" modelAttribute="filtro" method="post">
   Tipo Operacion:<form:select multiple="true" path="tipos"
-               items="${tiposOperacion}" itemValue="id" itemLabel="descripcion"></form:select><br>
+               items="${tiposOperacion}" itemValue="id" itemLabel="descripcion"></form:select><br><br>
   Ordenar por: Cantidad<form:checkbox path="cantidad" value="cantidad"/>
-               Fecha<form:checkbox path="fecha" value="fecha"/>
+               Fecha<form:checkbox path="fecha" value="fecha"/><br><br>
   <form:button>Filtrar</form:button>
 </form:form>
 
-<a href="/gestor/visualizarcliente?id=<%=c.getId()%>">Quitar filtro</a>
+<a href="/gestor/visualizarcliente?id=<%=c.getId()%>">Quitar filtro</a><br><br>
 
 <table border="2">
   <tr>
