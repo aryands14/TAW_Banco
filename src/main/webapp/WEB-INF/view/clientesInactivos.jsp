@@ -78,8 +78,9 @@
   %>
 </table>
 
+<br><br>
 
-</body>
+<a href="/gestor/"/>Volver</a>
 
 </body>
 </html>

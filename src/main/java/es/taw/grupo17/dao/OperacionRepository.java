@@ -31,19 +31,19 @@ public interface OperacionRepository extends JpaRepository<OperacionEntity, Inte
     @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id")
     public List<OperacionEntity> buscarPorTipoOperacionYPersona(@Param("tipos") List<Integer> tipos, @Param("id") Integer id);
 
-    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.cantidad")
+    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.cantidad desc")
     public List<OperacionEntity> getOperacionesOrdenadoCantidad(@Param("id") Integer id);
 
     @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.fechaInstruccion desc ")
     public List<OperacionEntity> getOperacionesOrdenadoFecha(@Param("id") Integer id);
 
-    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.fechaInstruccion desc, o.cantidad")
+    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.fechaInstruccion desc, o.cantidad desc")
     public List<OperacionEntity> getOperacionesOrdenadoFechaYCantidad(@Param("id") Integer id);
 
-    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad")
+    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad desc")
     public List<OperacionEntity> buscarPorTipoOperacionYPersonaOrdenadoCantidad(@Param("tipos") List<Integer> tipos, @Param("id") Integer id);
 
-    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad, o.fechaInstruccion desc")
+    @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad desc, o.fechaInstruccion desc")
     public List<OperacionEntity> buscarPorTipoOperacionYPersonaOrdenadoCantidadYFecha(@Param("tipos") List<Integer> tipos, @Param("id") Integer id);
 
     @Query("select o from OperacionEntity o join PersonaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.fechaInstruccion desc")

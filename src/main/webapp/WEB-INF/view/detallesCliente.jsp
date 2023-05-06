@@ -51,7 +51,7 @@
     <td><%=c.getFechaNacimiento()%></td>
     <td><%=c.getCp()%></td>
     <td><%=c.getEstadopersonaByEstado()%></td>
-    <td><%=c.getCuentaByCuenta()%></td>
+    <td><%=c.getCuentaByCuenta()==null?"No tiene cuenta":c.getCuentaByCuenta()%></td>
   </tr>
 </table>
 
@@ -110,10 +110,13 @@ Filtrar por:
 <%
   if(c.getEstadopersonaByEstado() == 5) {
 %>
-<a href="/gestor/altaPersona?id=<%=c.getId()%>"/>Dar Alta</a>
+<a href="/gestor/altaPersona?id=<%=c.getId()%>"/>Dar Alta</a><br><br>
 
 <%
   }
 %>
+
+<a href="/gestor/"/>Volver</a>
+
 </body>
 </html>

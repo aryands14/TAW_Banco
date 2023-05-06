@@ -29,7 +29,7 @@
 
 <form:form action="/gestor/filtrar" modelAttribute="filtro" method="post">
   Filtrar por: <br>
-  Nombre/apellidos: <form:input path="texto"></form:input><br><br>
+  Nombre/apellidos: <form:input path="texto"></form:input><br>
   Estado Persona: <form:select multiple="true" path="estados"
                items="${estadosPersona}" itemValue="descripcion" itemLabel="descripcion"></form:select><br><br>
   <form:button>Filtrar</form:button>

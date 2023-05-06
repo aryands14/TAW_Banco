@@ -40,7 +40,6 @@
         <th>Numero</th>
         <th>Ciudad</th>
         <th>Planta/Puerta/Oficina</th>
-        <th>CIF</th>
         <th>Calle</th>
         <th>Estado</th>
         <th>Número Cuenta</th>
@@ -56,7 +55,7 @@
         <td><%=e.getPlantaPuertaOficina()%></td>
         <td><%=e.getCalle()%></td>
         <td><%=e.getEstadopersonaByEstado()%></td>
-        <td><%=e.getCuentaByCuenta()%></td>
+        <td><%=e.getCuentaByCuenta()==null?"No tiene cuenta":e.getCuentaByCuenta()%></td>
     </tr>
 </table>
 
@@ -108,5 +107,19 @@
    }
   }
 %>
+</table>
+<br><br>
+
+<%
+    if(e.getEstadopersonaByEstado() == 5) {
+%>
+<a href="/gestor/altaEmpresa?id=<%=e.getId()%>"/>Dar Alta</a><br><br>
+
+<%
+    }
+%>
+
+<a href="/gestor/"/>Volver</a>
+
 </body>
 </html>

@@ -137,7 +137,7 @@ public class GestorController {
         p.setEstadopersonaByEstado(estadoPersona.getId());
         p.setCuentaByCuenta(c.getId());
         this.personaService.guardarPersona(p);
-        return "redirect:/gestor/solicitados";
+        return "redirect:/gestor/";
     }
 
     @GetMapping("/altaEmpresa")
@@ -154,7 +154,7 @@ public class GestorController {
         e.setEstadopersonaByEstado(estadoPersona.getId());
         e.setCuentaByCuenta(c.getId());
         this.empresaService.guardarEmpresa(e);
-        return "redirect:/gestor/solicitados";
+        return "redirect:/gestor/";
     }
 
     @GetMapping("/inactivos")
