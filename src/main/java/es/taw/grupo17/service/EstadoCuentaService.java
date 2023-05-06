@@ -6,6 +6,9 @@ import es.taw.grupo17.entity.EstadocuentaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/*
+@author: Álvaro Bermúdez Gámez
+ */
 @Service
 public class EstadoCuentaService {
 

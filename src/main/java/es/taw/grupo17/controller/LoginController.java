@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /*
-@author: Álvaro Bermúdez Gámez 50%
-@author: Aryan Dilip Sadhwani Sadhwani 50%
+@author: Álvaro Bermúdez Gámez 33%
+@author: Aryan Dilip Sadhwani Sadhwani 33%
+@author: Jaime Rodrigo Roldán Corcelles 33%
  */
 
 @Controller

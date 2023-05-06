@@ -7,8 +7,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
 import java.util.List;
-
-// Las getOperacionesFiltro son realizadas por Francisco Javier Tejada Martín
+/*
+@author: Aryan Dilip Sadhwani Sadhwani 50%
+@author: Francisco Javier Tejada Martín 50&
+ */
 
 public interface OperacionRepository extends JpaRepository<OperacionEntity, Integer> {
     @Query("select o from OperacionEntity o where o.cuentaByCuenta.id = :id")

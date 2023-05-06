@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
+/*
+@author: Aryan Dilip Sadhwani Sadhwani
+@author: Álvaro Bermúdez Gámez
+ */
 public interface EmpresaRepository  extends JpaRepository<EmpresaEntity, Integer> {
     @Query("select e from EmpresaEntity e where e.estadopersonaByEstado.id = :id")
     public List<EmpresaEntity> getPendientes(@Param("id") Integer id);

@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-@author: Álvaro Bermúdez Gámez 50%
-@author: Aryan Dilip Sadhwani Sadhwani 50%
+@author: Álvaro Bermúdez Gámez 33%
+@author: Aryan Dilip Sadhwani Sadhwani 33%
+@author: Jaime Rodrigo Roldán Corcelles 33%
  */
 @Service
 public class PersonaService {

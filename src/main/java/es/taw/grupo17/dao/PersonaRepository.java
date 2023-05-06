@@ -7,6 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/*
+@author: Álvaro Bermúdez Gámez 33%
+@author: Aryan Dilip Sadhwani Sadhwani 33%
+@author: Jaime Rodrigo Roldán Corcelles 33%
+ */
 public interface PersonaRepository extends JpaRepository<PersonaEntity, Integer> {
 
     @Query("select c from PersonaEntity c where c.estadopersonaByEstado.id = :id")
