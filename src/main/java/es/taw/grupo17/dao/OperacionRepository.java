@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.util.List;
 /*
 @author: Aryan Dilip Sadhwani Sadhwani 50%
-@author: Francisco Javier Tejada Martín 50&
+@author: Francisco Javier Tejada Martín 50%
  */
 
 public interface OperacionRepository extends JpaRepository<OperacionEntity, Integer> {
@@ -56,14 +56,17 @@ public interface OperacionRepository extends JpaRepository<OperacionEntity, Inte
     @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.fechaInstruccion desc")
     List<OperacionEntity> buscarPorTipoOperacionYEmpresaOrdenadoFecha(List<Integer> tipos, Integer id);
 
-    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad")
+    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad desc")
     List<OperacionEntity> buscarPorTipoOperacionYEmpresaOrdenadoCantidad(List<Integer> tipos, Integer id);
+
+    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where o.tipooperacionByTipo.id in :tipos and p.id = :id order by o.cantidad desc, o.fechaInstruccion desc")
+    List<OperacionEntity> buscarPorTipoOperacionYEmpresaOrdenadoCantidadYFecha(List<Integer> tipos, Integer id);
 
     @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.cantidad, o.fechaInstruccion desc")
     List<OperacionEntity> buscarPorEmpresaOrdenadoCantidadYFecha(Integer id);
     @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.fechaInstruccion desc")
     List<OperacionEntity> buscarPorEmpresaOrdenadoFecha(Integer id);
-    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.cantidad")
+    @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id order by o.cantidad desc")
     List<OperacionEntity> buscarPorEmpresaOrdenadoCantidad(Integer id);
 
     @Query("select o from OperacionEntity o join EmpresaEntity p on p.cuentaByCuenta = o.cuentaByCuenta where p.id = :id")

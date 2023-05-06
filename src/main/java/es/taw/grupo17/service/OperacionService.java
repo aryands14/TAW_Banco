@@ -67,15 +67,15 @@ public class OperacionService {
         } else if (!tipos.isEmpty() && cantidad && !fecha){
             lista = this.operacionRepository.buscarPorTipoOperacionYEmpresaOrdenadoCantidad(tipos, id);
         } else if (!tipos.isEmpty() && cantidad && fecha){
-            lista = this.operacionRepository.buscarPorTipoOperacionYPersonaOrdenadoCantidad(tipos, id);
+            lista = this.operacionRepository.buscarPorTipoOperacionYEmpresaOrdenadoCantidadYFecha(tipos, id);
         } else if (tipos.isEmpty() && cantidad && fecha){
             lista = this.operacionRepository.buscarPorEmpresaOrdenadoCantidadYFecha(id);
         } else if (tipos.isEmpty() && cantidad && !fecha){
-            lista = this.operacionRepository.getOperacionesOrdenadoCantidad(id);
+            lista = this.operacionRepository.buscarPorEmpresaOrdenadoCantidad(id);
         } else if (tipos.isEmpty() && !cantidad && fecha){
             lista = this.operacionRepository.buscarPorEmpresaOrdenadoFecha(id);
         } else {
-            lista = this.operacionRepository.getOperacionesByPersona(id);
+            lista = this.operacionRepository.getOperacionesByEmpresa(id);
         }
         return this.listaOperacionesADTO(lista);
     }
