@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     /*
-@author: Álvaro Bermúdez Gámez 50%
-@author: Sadhwani Sadhwani Aryan Dilip 50%
- */
+   @author: Álvaro Bermúdez Gámez 33%
+   @author: Aryan Dilip Sadhwani Sadhwani 33%
+   @author: Jaime Rodrigo Roldán Corcelles 33%
+    */
 %>
 <%
     String error = (String) request.getAttribute("error");

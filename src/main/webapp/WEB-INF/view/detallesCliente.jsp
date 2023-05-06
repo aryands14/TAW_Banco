@@ -13,6 +13,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+  /*
+@author: Aryan Dilip Sadhwani Sadhwani
+*/
   Persona c = (Persona) request.getAttribute("cliente");
   List<Operacion> operaciones = (List<Operacion>) request.getAttribute("operaciones");
   String url = "/operaciones/filtrarCliente?id="+c.getId();

@@ -14,6 +14,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+  /*
+@author: Aryan Dilip Sadhwani Sadhwani
+*/
   List<Persona> listaClientes = (List<Persona>) request.getAttribute("clientes");
   List<Empresa> listaEmpresas = (List<Empresa>) request.getAttribute("empresas");
   CuentaService cuentaService = (CuentaService) request.getAttribute("cuentaService");
