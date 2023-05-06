@@ -60,6 +60,16 @@
 %>
 
 
+<%
+  if(c.getEstadopersonaByEstado() == 5) {
+%>
+<br>
+<a href="/gestor/altaPersona?id=<%=c.getId()%>"/>Dar Alta</a><br><br>
+
+<%
+  } else {
+%>
+
 <h1>Operaciones del Cliente:</h1>
 
 Filtrar por:
@@ -105,16 +115,14 @@ Filtrar por:
   }
 %>
 </table>
-<br><br>
-
-<%
-  if(c.getEstadopersonaByEstado() == 5) {
-%>
-<a href="/gestor/altaPersona?id=<%=c.getId()%>"/>Dar Alta</a><br><br>
 
 <%
   }
 %>
+
+<br><br>
+
+
 
 <a href="/gestor/"/>Volver</a>
 

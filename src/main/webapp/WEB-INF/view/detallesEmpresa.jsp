@@ -63,6 +63,15 @@
     }
 %>
 
+<%
+    if(e.getEstadopersonaByEstado() == 5) {
+%>
+<br>
+<a href="/gestor/altaEmpresa?id=<%=e.getId()%>"/>Dar Alta</a><br><br>
+
+<%
+    } else {
+%>
 
 <h1>Operaciones de la Empresa:</h1>
 
@@ -108,16 +117,12 @@
   }
 %>
 </table>
-<br><br>
-
-<%
-    if(e.getEstadopersonaByEstado() == 5) {
-%>
-<a href="/gestor/altaEmpresa?id=<%=e.getId()%>"/>Dar Alta</a><br><br>
 
 <%
     }
 %>
+
+<br><br>
 
 <a href="/gestor/"/>Volver</a>
 
